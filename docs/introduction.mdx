@@ -1,30 +1,27 @@
 ---
-title: Introduction
+title: 简介
 ---
 
-## What is alphaTab?
+## 什么是 alphaTab？
 
-**alphaTab** is a JavaScript, .net and Android library for building music notation software and websites. It allows you to take any of 
-various supported input files, and embed good looking and feature rich music sheets into your website.
+**alphaTab** 是一个 JavaScript、.net 和 Android 库，用于构建乐谱软件和网站。它允许您使用各种支持的输入文件，将美观且功能丰富的乐谱嵌入到您的网站中。
 
-As of today alphaTab is **not** a drop-in component that provides all functionality out of the box. You should rather consider it as 
-an **SDK** or **Library** to build components in the way you need it in your website. The needs to music sheets vary from application to application 
-and website to website. You will need a certain development skillset to integrate alphaTab into solution.
+截至目前，alphaTab **不是**一个开箱即用、提供所有功能的即插即用组件。您应该将其视为一个 **SDK** 或 **库**，以您需要的方式在网站中构建组件。对乐谱的需求因应用程序和网站而异。您需要一定的开发技能才能将 alphaTab 集成到解决方案中。
 
-On high level alphaTab can be structured into the following submodules: 
+从高层次来看，alphaTab 可以分为以下子模块：
 
-1. The data model
-2. The file importers
-3. The render engine
-4. The audio engine
+1. 数据模型
+2. 文件导入器
+3. 渲染引擎
+4. 音频引擎
 
-All these 4 modules together make up alphaTab and allows you to provide modern and interactive music notation into your website or application. 
+这 4 个模块共同构成了 alphaTab，使您能够在网站或应用程序中提供现代且交互式的乐谱功能。
 
-## Compatibility
+## 兼容性
 
-The different flavours version of alphaTab are sharing the same source code. 
-We take our TypeScript code and compile it to C# and other languages using a special toolchain.
-This way all platforms benefit from the same new features we add. For the future we plan to extend alphaTab to more platforms like Native Android and iOS.
+不同版本的 alphaTab 共享相同的源代码。
+我们使用特殊的工具链将 TypeScript 代码编译为 C# 和其他语言。
+这样所有平台都能受益于我们添加的新功能。未来我们计划将 alphaTab 扩展到更多平台，如原生 Android 和 iOS。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -39,13 +36,12 @@ import TabItem from '@theme/TabItem';
 }>
 <TabItem value="js">
 
-alphaTab follows a "web first" approach and the related package is provided as [NPM package](https://www.npmjs.com/package/@coderline/alphatab). Most development and testing happens on this web version.
-alphaTab runs on all major and modern browsers supporting ES6. We do not maintain a full list
-of browsers as most of modern browsers are auto-updating anyhow. 
+alphaTab 遵循"Web 优先"的方法，相关包以 [NPM 包](https://www.npmjs.com/package/@coderline/alphatab) 的形式提供。大部分开发和测试都是在这个 Web 版本上进行的。
+alphaTab 可以在所有支持 ES6 的主流现代浏览器上运行。我们不维护完整的浏览器列表，因为大多数现代浏览器都会自动更新。
 
 
 
-**ES6 compatible browsers**
+**兼容 ES6 的浏览器**
 
 * Google Chrome 58+
 * Microsoft Edge 79+
@@ -53,9 +49,9 @@ of browsers as most of modern browsers are auto-updating anyhow.
 * Safari 10
 * Opera 55
 
-Source: https://www.w3schools.com/js/js_es6.asp
+来源：https://www.w3schools.com/js/js_es6.asp
 
-**Main Web Technologies we use**
+**我们使用的主要 Web 技术**
 
 * Typed Arrays (https://caniuse.com/typedarrays)
 * Map/Set
@@ -67,73 +63,64 @@ Source: https://www.w3schools.com/js/js_es6.asp
 * Resize Observer API (https://caniuse.com/resizeobserver)
 * TextEncoder/TextDecoder (https://caniuse.com/textencoder)
 
-alphaTab brings everything you need to get it running in modern browsers, no 3rd party dependencies are needed.
+alphaTab 提供了在现代浏览器中运行所需的一切，不需要第三方依赖。
 
 :::note
-Internet Explorer support was dropped in version 1.2. If you still need to 
-support the Internet Explorer on your website (I hope you don't 😅) I recommend
-to use version 1.1 where we still had basic IE support. We also do not officially support test against the
-old Microsoft Edge before it was based on Chromium.
+Internet Explorer 支持在 1.2 版本中已被移除。如果您仍然需要在网站上支持 Internet Explorer（希望您不需要 😅），建议您使用 1.1 版本，该版本仍提供基本的 IE 支持。我们也不正式支持或测试基于 Chromium 之前的旧版 Microsoft Edge。
 :::
 
 </TabItem>
 <TabItem value="net">
 
-The .net version of alphaTab comes as NuGet packages. 
+alphaTab 的 .net 版本以 NuGet 包的形式提供。
 
-- The [base package](https://central.sonatype.com/artifact/net.alphatab/alphaSkia) targets the .net standard 2.0 and can be used in almost all environments using the low level APIs.
-- The [windows package](https://www.nuget.org/packages/AlphaTab.Window) targets .net 8.0 and provides WinForms and WPF UI controls.
+- [基础包](https://central.sonatype.com/artifact/net.alphatab/alphaSkia) 面向 .net standard 2.0，可以在几乎所有环境中使用低级 API。
+- [Windows 包](https://www.nuget.org/packages/AlphaTab.Window) 面向 .net 8.0，提供 WinForms 和 WPF UI 控件。
 
-The .net version of alphaTab has some 3rd party dependencies for drawing and audio APIs but we try to keep them at a minimum. 
+alphaTab 的 .net 版本对于绘图和音频 API 有一些第三方依赖，但我们尽量将其保持在最低限度。
 
 </TabItem>
 
 <TabItem value="android">
 
-The Kotlin for Android version of alphaTab comes as Maven package on Maven Central and the Sonatype OSS Index. 
+alphaTab 的 Kotlin for Android 版本以 Maven 包的形式发布在 Maven Central 和 Sonatype OSS Index 上。
 
-* Group: `net.alphatab`
-* Package Name: `alphaTab`
+* 组：`net.alphatab`
+* 包名：`alphaTab`
 
 
-- Pre-Release Snapshots: https://central.sonatype.com/repository/maven-snapshots/
-- Release Versions: https://central.sonatype.com/artifact/net.alphatab/alphaTab
+- 预发布快照：https://central.sonatype.com/repository/maven-snapshots/
+- 发布版本：https://central.sonatype.com/artifact/net.alphatab/alphaTab
 
-The Kotlin for Android version of alphaTab has some 3rd party dependencies for drawing and coroutines but we try to keep them at a minimum. 
+alphaTab 的 Kotlin for Android 版本对于绘图和协程有一些第三方依赖，但我们尽量将其保持在最低限度。
 
 </TabItem>
 </Tabs>
 
-## The data model
-The data model holds all information about a piece of music. This includes general information like
-song title and artist but goes down to individual note level. Everything alphaTab needs to render or play music sheets
-is stored in this data model.
+## 数据模型
+数据模型保存了关于一首音乐的所有信息。这包括一般信息，如歌曲标题和艺术家，但也深入到单个音符级别。alphaTab 渲染或播放乐谱所需的一切都存储在这个数据模型中。
 
-## The file importers
-To fill the data model alphaTab uses so called `Importers`. There exist various file formats in the market which can hold
-the information about music sheets. alphaTab has importers for:
+## 文件导入器
+为了填充数据模型，alphaTab 使用所谓的`导入器`。市场上有各种可以保存乐谱信息的文件格式。alphaTab 的导入器支持：
 
-* Guitar Pro 3-5 files `.gp3`, `.gp4`, `.gp5` which are a proprietary binary format from [Arobas Music](https://www.guitar-pro.com/en/index.php?pg=about)
-* Guitar Pro 6 files `.gpx` which are a proprietary archive format storing the music information as XML
-* Guitar Pro 7 files `.gp` which are a zip archive storing the music information as XML
-* [MusicXML](https://www.musicxml.com/) files `.xml` which is an open XML based standard by an open consortium
-* [CapXML](https://www.capella.de/CapXML/) files `.cap` which is an open XML based standard by Capella Software
-* [alphaTex](/docs/alphatex/introduction) which is a text based format optimized for writing music notation in a textual format
+* Guitar Pro 3-5 文件 `.gp3`、`.gp4`、`.gp5`，这是 [Arobas Music](https://www.guitar-pro.com/en/index.php?pg=about) 的专有二进制格式
+* Guitar Pro 6 文件 `.gpx`，这是一种专有存档格式，将音乐信息存储为 XML
+* Guitar Pro 7 文件 `.gp`，这是一种 zip 存档，将音乐信息存储为 XML
+* [MusicXML](https://www.musicxml.com/) 文件 `.xml`，这是一个开放联盟制定的基于 XML 的开放标准
+* [CapXML](https://www.capella.de/CapXML/) 文件 `.cap`，这是 Capella Software 制定的基于 XML 的开放标准
+* [alphaTex](/docs/alphatex/introduction) 是一种基于文本的格式，优化了以文本格式编写乐谱的功能
 
-## The render engine
-This engine is what makes the music sheet visible. alphaTab takes all the information stored in the data model 
-and does a visual layouting and rendering which is called music engraving.
+## 渲染引擎
+这个引擎使乐谱可见。alphaTab 获取存储在数据模型中的所有信息，并进行视觉布局和渲染，这被称为音乐雕版。
 
-For this, alphaTab builds up a visual tree represntation of all the symbols following the rules of music notation. 
-Using this model alphaTab can very efficiently provide dynamic resizing and relayouting. 
+为此，alphaTab 构建了一个遵循音乐符号规则的所有符号的视觉树表示。
+使用这个模型，alphaTab 可以非常高效地提供动态调整大小和重新布局。
 
-The symbols alphaTab is using the [SMuFL](https://www.smufl.org/) music font [Bravura](https://github.com/steinbergmedia/bravura).
+alphaTab 使用的符号采用 [SMuFL](https://www.smufl.org/) 音乐字体 [Bravura](https://github.com/steinbergmedia/bravura)。
 
-## The player
-To bring the music to life, alphaTab comes with a MIDI synthesizer embedded. To play the music sheet, alphaTab will convert the data model
-into MIDI commands, which are then played by a MIDI synthesizer based on [TinySoundFont](https://github.com/schellingb/TinySoundFont).
+## 播放器
+为了让音乐栩栩如生，alphaTab 内置了一个 MIDI 合成器。要播放乐谱，alphaTab 会将数据模型转换为 MIDI 命令，然后由基于 [TinySoundFont](https://github.com/schellingb/TinySoundFont) 的 MIDI 合成器播放。
 
-We take the data model, convert it to MIDI, put this midi together with a SoundFont2 into the audio engine and violà, we have the 
-song being played for human ears. 
+我们获取数据模型，将其转换为 MIDI，将这个 MIDI 与 SoundFont2 一起放入音频引擎中，瞧，我们就能听到歌曲的演奏了。
 
-alphaTab can provide user interactivity and a visual cursor out of the box.
+alphaTab 可以提供用户交互和开箱即用的视觉光标。

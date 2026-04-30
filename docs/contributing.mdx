@@ -1,100 +1,90 @@
 ---
-title: Contributing
+title: 贡献指南
 ---
 
-We're happy to hear that you want to contribute to alphaTab. There are many ways to contribute to alphaTab.
-You can report bugs, request features or actually start contributing to the alphaTab source code. 
+我们很高兴听到您想要为 alphaTab 做出贡献。有多种方式可以为 alphaTab 做出贡献。
+您可以报告错误、请求功能，或者实际开始为 alphaTab 源代码做出贡献。
 
-## Get Involved
+## 参与其中
 
-If you are using alphaTab in your project, you might encounter easter eggs (aka. bugs) or have the need for 
-new features that do not exist yet in alphaTab. 
+如果您正在项目中使用 alphaTab，您可能会遇到彩蛋（也就是 bug），或者需要 alphaTab 中尚不存在的新功能。
 
-For bugs, create an issue on our repository at [GitHub](https://github.com/CoderLine/alphaTab/issues/new/choose).
-In case you want to request a feature, improvement or need general assistance, [GitHub Discussions](https://github.com/CoderLine/alphaTab/discussions) can be used as forum to reach out to the community.
+对于错误，请在我们的仓库 [GitHub](https://github.com/CoderLine/alphaTab/issues/new/choose) 上创建 issue。
+如果您想请求功能、改进或需要一般帮助，可以使用 [GitHub Discussions](https://github.com/CoderLine/alphaTab/discussions) 作为论坛与社区联系。
 
 :::important
-Please follow the templates and do not just delete all information and drop in a 1 liner question. It is very important
-to get all the information asked in the template to judge the importance and content of the request. 2 minutes effort
-on your side, reduces heavily the effort on our side. We will close any issue not following the templates. 
+请遵循模板，不要删除所有信息并只写一行问题。获取模板中要求的所有信息对于判断请求的重要性和内容非常重要。您花 2 分钟的努力，可以大大减少我们这边的工作量。我们将关闭任何不遵循模板的 issue。
 :::
 
 
-## Join the Code
+## 加入代码开发
 
-You're a developer? You want to contribute code to alphaTab? Awesome! alphaTab is developed on GitHub using a GitFlow alike branching strategy. 
+您是开发者？您想为 alphaTab 贡献代码？太棒了！alphaTab 在 GitHub 上使用类似 GitFlow 的分支策略进行开发。
 
-The main new development happens on `develop` and new features are usually developed on `feature/{feature or issue name}`. To get started 
-you can fork alphaTab into your account, and start preparing a fix/feature there in the style you prefer. Then just open a pull request. 
-If you're experienced with Git and GitHub you know the drill ;)
+主要的新开发发生在 `develop` 分支上，新功能通常在 `feature/{功能或 issue 名称}` 分支上开发。要开始使用，您可以将 alphaTab 分叉到您的账户中，并以您喜欢的方式开始准备修复/功能。然后只需发起一个拉取请求。
+如果您熟悉 Git 和 GitHub，您就知道该怎么做 ;)
 
-### License
+### 许可证
 
-alphaTab is developed under MPL-2.0 and any source code you contribute you agree that you transfer the ownership of your change to alphaTab. 
-By this we do not want to "take away" your change, but we want to keep the freedom to potentially change the license to something more open or different (e.g. MIT)
-without the need of checking with hundreds of people if this change is possible. Of course we also would not make such a change without discussing it publicly before. 
+alphaTab 在 MPL-2.0 下开发，您贡献的任何源代码都同意将您更改的所有权转让给 alphaTab。
+我们这样做并不是想"夺走"您的更改，而是希望保持将来可能将许可证更改为更开放或不同的许可证（例如 MIT）的自由，而无需与数百人确认此更改是否可行。当然，我们也不会在没有公开讨论的情况下做出这样的更改。
 
-A primary goal is to keep alphaTab a free an open source library for anyone to integrate. 
+一个主要目标是让 alphaTab 成为一个免费且开源的库，供任何人集成。
 
-### Toolchain
+### 工具链
 
-You're still here? That sounds very promising. You have made your fork, you cloned the repo and now you would be ready to start developing. 
-But how is the big question. Before we actually touch the code it is helpful to understand the toolchain we have in alphaTab.
+您还在这里？这听起来很有希望。您已经分叉了，克隆了仓库，现在您准备好开始开发了。
+但如何开发是个大问题。在我们实际接触代码之前，了解 alphaTab 的工具链是很有帮助的。
 
-AlphaTab has a long history on the language it uses for developing. After all these years alphaTab ended up using TypeScript as the main language
-it is developed in. This change happened in April 2020. Before that AlphaTab was developed in C# with a special toolchain that ended up with JavaScript code via Haxe. 
+AlphaTab 在开发语言上有着悠久的历史。经过这么多年，alphaTab 最终使用 TypeScript 作为主要开发语言。这一变更发生在 2020 年 4 月。在此之前，AlphaTab 是用 C# 开发的，使用了一个特殊的工具链，通过 Haxe 生成 JavaScript 代码。
 
-The .net and Kotlin for Android version of alphaTab is still provided via a special Compiler based on the TypeScript compiler. It translates the TypeScript source code to C# 
-from where it is compiled further. 
+alphaTab 的 .net 和 Kotlin for Android 版本仍然通过基于 TypeScript 编译器的特殊编译器提供。它将 TypeScript 源代码翻译成 C#，然后从那里进一步编译。
 
 <img src="/img/toolchain.svg" />
 
-Which brings me to the next aspect of alphaTab development. It aims for zero dependency and cross platform / language usage. 
-The main modules of alphaTab are written as standalone source code without 3rd party dependencies and with a style that allows 
-execution on any potential platform with a garbage collector built in (.net, JavaScript, Kotlin for Android,...). It is an active strategy
-to provide a platform native solution to any major platform on the market. 
+这就引出了 alphaTab 开发的下一个方面。它的目标是零依赖和跨平台/语言使用。
+alphaTab 的主要模块编写为独立的源代码，没有第三方依赖，并且采用可以在任何具有垃圾回收器的潜在平台上执行的样式（.net、JavaScript、Kotlin for Android 等）。提供平台原生解决方案给市场上的任何主要平台是一项积极的策略。
 
-### Development Environment
+### 开发环境
 
-The main development can happen with any Web focused IDE or Editor. It is up to you to decide which one you would like to use. 
-We recommend Visual Studio Code. 
+主要开发可以使用任何以 Web 为中心的 IDE 或编辑器进行。由您决定使用哪一个。
+我们推荐 Visual Studio Code。
 
-Beside the IDE you will need following tools: 
+除了 IDE 之外，您还需要以下工具：
 
 * [Node.js](https://nodejs.org/)
 * [.net SDK](https://dotnet.microsoft.com/download)
-* [Java and Android SDK](https://developer.android.com/studio)
+* [Java 和 Android SDK](https://developer.android.com/studio)
 
-After that you can run the following commands to get a compiled version of alphaTab in the output folder:
+之后，您可以运行以下命令在输出文件夹中获取编译版本的 alphaTab：
 
 ```
 > npm install
 > npm start
 ```
 
-### NPM Scripts
+### NPM 脚本
 
-The repository has a set of NPM scripts that take over actions like compiling and testing. Execute them via 
-`npm run <script name>`. Refer to the [npm documentation](https://docs.npmjs.com/cli/run-script) for more details. 
+仓库有一组 NPM 脚本，负责编译和测试等操作。通过 `npm run <脚本名称>` 执行它们。有关更多详细信息，请参阅 [npm 文档](https://docs.npmjs.com/cli/run-script)。
 
-* `clean` - cleans all output
-* `lint` - checks the source code for style violations
-* `generate-typescript` - Generates some TypeScript sources (e.g. version info and serializers).
+* `clean` - 清理所有输出
+* `lint` - 检查源代码的样式违规
+* `generate-typescript` - 生成一些 TypeScript 源文件（例如版本信息和序列化器）。
 
 #### Web
 
-* `build` - compiles a web version of alphaTab using the current code state
-* `dev` - used during development time to build alphaTab quickly via watchers and incremental compilation
-* `test` - Runs the unit test suite in Chrome
+* `build` - 使用当前代码状态编译 alphaTab 的 Web 版本
+* `dev` - 在开发期间使用，通过监视器和增量编译快速构建 alphaTab
+* `test` - 在 Chrome 中运行单元测试套件
 
 #### C#/.net
 
-* `generate-csharp` - Translates the TypeScript codebase to C#
-* `build-csharp` - compiles a C#/.net version of alphaTab using the current code state
-* `test-csharp` - runs the unit test suite for C#
+* `generate-csharp` - 将 TypeScript 代码库翻译成 C#
+* `build-csharp` - 使用当前代码状态编译 C#/.net 版本的 alphaTab
+* `test-csharp` - 运行 C# 的单元测试套件
 
 #### Kotlin for Android
 
-* `generate-kotlin` - Translates the TypeScript codebase to Kotlin
-* `build-kotlin` - compiles a Kotlin version of alphaTab using the current code state
-* `test-kotlin` - runs the unit test suite for Kotlin
+* `generate-kotlin` - 将 TypeScript 代码库翻译成 Kotlin
+* `build-kotlin` - 使用当前代码状态编译 Kotlin 版本的 alphaTab
+* `test-kotlin` - 运行 Kotlin 的单元测试套件
