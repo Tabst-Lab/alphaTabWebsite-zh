@@ -1,39 +1,39 @@
 ---
-title: Introduction
+title: 简介
 ---
 
-# What are we building?
+# 我们要构建什么？
 
-We will build a component which connects all main aspects of alphaTab together. 
-The result will look similar to what you might have already seen on the homepage: 
+我们将构建一个将 alphaTab 的所有主要方面连接在一起的组件。
+结果将类似于您可能在主页上已经看到的内容：
 
 <img src="/img/tutorial-net/result.png" height="400" />
 
-The overall outline of the tutorial can be seen in the menu and we will step by step
-add each feature until we have a full player component which displays music sheets.
-After this tutorial you should have all knowledge needed to use alphaTab in your own 
-project. 
+教程的整体大纲可以在菜单中看到，我们将逐步
+添加每个功能，直到我们拥有一个显示乐谱的完整播放器组件。
+完成本教程后，您应该拥有在自己的
+项目中使用 alphaTab 所需的所有知识。
 
-This tutorial will leave out some features which are provided on the control of the homepage
-but you will learn all required steps to build the remaining parts.
+本教程将省略主页控件上提供的一些功能，
+但您将学习构建其余部分所需的所有步骤。
 
-# Prerequisites
+# 先决条件
 
-As a pre-requisite you should be already familiar at least with the basics of .net WPF development.
-As alphaTab is a **library** (or **SDK** if you like) for building apps/websites that
-want to show music sheets basic knowledge about software development is needed. 
+作为先决条件，您应该已经熟悉 .NET WPF 开发的基础知识。
+由于 alphaTab 是一个用于构建想要显示乐谱的应用程序/网站的**库**（或者如果您喜欢，可以称为 **SDK**），
+因此需要基本的软件开发知识。
 
-We will be using WPF as UI framework. For simplicity we will rather leave out aspects like following a clean MVVM pattern 
-which you would likely follow in a proper solution. Goal of this tutorial is to show you the usage and inteaction with alphaTab 
-and not teach WPF development. 
+我们将使用 WPF 作为 UI 框架。为简单起见，我们将省略遵循干净的 MVVM 模式等方面，
+这在正确的解决方案中您可能会遵循。本教程的目标是向您展示 alphaTab 的使用和交互，
+而不是教授 WPF 开发。
 
-Most aspects of the tutorial can be directly mapped to the usage in WinForms as the provided components/controls are very similar. 
-The WinForms version suffers of some restrictions due to it's nature of mapping native OS controls to .net. WPF provides a lot of
-nice features like hardware accelleration on the rendering and very flexible layouting mechanisms. 
+教程的大多数方面可以直接映射到 WinForms 中的使用，因为提供的组件/控件非常相似。
+WinForms 版本由于其将原生 OS 控件映射到 .NET 的特性而存在一些限制。WPF 提供了许多
+出色的功能，如渲染时的硬件加速和非常灵活的布局机制。
 
-We will target the .net 8.0 runtime in this tutorial.
+在本教程中，我们将以 .NET 8.0 运行时为目标。
 
-To follow this tutorial you will need to have a .net IDE installed. We will use Visual Studio 2019 Community edition
-but beside the project setup anyhow most of things will happen on code level so feel free to use any IDE you are familiar with. 
+要跟随本教程，您需要安装一个 .NET IDE。我们将使用 Visual Studio 2019 社区版，
+但除了项目设置之外，大多数事情都将在代码层面发生，因此请随意使用您熟悉的任何 IDE。
 
-So, let's get started! :wink:
+那么，让我们开始吧！:wink:

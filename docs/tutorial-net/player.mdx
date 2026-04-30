@@ -1,42 +1,41 @@
 ---
-title: Player
+title: 播放器
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-## Basic setup
+## 基本设置
 
-Now as we have the basic component ready, it is time to add some sound. 
-AlphaTab comes with an audio synthesis engine named AlphaSynth to play the songs
-via Midi and a SoundFont2 file. 
+现在我们已经准备好了基本组件，是时候添加一些声音了。
+AlphaTab 带有一个名为 AlphaSynth 的音频合成引擎，用于通过 Midi 和 SoundFont2 文件播放歌曲。
 
-To get the player configured is also quite easy as it is enabled by default in the main control. 
-alphaTab ships a free SoundFont2 file for usage on your website and it is already loaded by default.
-You can choose to load a different one using the [`LoadSoundFont`](/docs/reference/api/loadsoundfont) method.
+配置播放器也非常简单，因为它在主控件中默认启用。
+alphaTab 附带了一个免费的 SoundFont2 文件供您在网站上使用，并且默认已经加载。
+您可以选择使用 [`LoadSoundFont`](/docs/reference/api/loadsoundfont) 方法加载不同的文件。
 
-We just need to add some UI elements for the user to start/pause the playback and show the current position.
- ## Main player controls
+我们只需要添加一些 UI 元素，让用户可以开始/暂停播放并显示当前位置。
+ ## 主播放器控件
 
-Now we need to add the required controls for the users to play and pause the audio. 
-We will add one button for play/pause which will change the icon depending on the current playback state. 
-And we will also add one button which stops the playback and moves the cursor back to start.
+现在我们需要为用户添加播放和暂停音频所需的控件。
+我们将添加一个播放/暂停按钮，该按钮会根据当前播放状态更改图标。
+我们还将添加一个停止播放并将光标移回开头的按钮。
 
-We will use the [`PlayPause()`](/docs/reference/api/playpause) and [`Stop()`](/docs/reference/api/stop) to send the right signals to alphaTab and we use the 
-[`PlayerStateChanged`](/docs/reference/api/playerstatechanged) event to update the button icon. To ensure that the user does not interact with the player
-before it is ready, we will keep the buttons disabled until the player is ready. 
+我们将使用 [`PlayPause()`](/docs/reference/api/playpause) 和 [`Stop()`](/docs/reference/api/stop) 向 alphaTab 发送正确的信号，并使用
+[`PlayerStateChanged`](/docs/reference/api/playerstatechanged) 事件来更新按钮图标。为了确保用户在播放器准备好之前不会与其交互，
+我们将保持按钮禁用状态，直到播放器准备就绪。
 
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
 
-We add the buttons right between the open button and the song info.
+我们在打开按钮和歌曲信息之间添加按钮。
 
 ```xml
 <Button Click="OnStopClicked" IsEnabled="{Binding IsPlayerReady}">
@@ -80,29 +79,29 @@ private void OnAlphaTabLoaded(object sender, RoutedEventArgs e)
 </TabItem>
 </Tabs>
 
-The result looks like this: 
+结果如下所示：
 
 <img src="/img/tutorial-net/main-player-controls.png" height="400" />
 
 
-## Showing the current time
+## 显示当前时间
 
-In this step we will add a textual indicator the current position of the playback. 
-You might use the provided information to also build a progress bar indicator for the users
-which could be even interactive with seeking. This tutorial will skip this part. 
+在这一步中，我们将添加一个文本指示器来显示播放的当前位置。
+您可以使用提供的信息为用户构建一个进度条指示器，
+甚至可以支持交互式拖动。本教程将跳过这一部分。
 
-As in most other steps we will add some new XAML elements, corresponding properties and then
-hook it up with some the alphaTab event `PlayerPositionChanged` fill the necessary data.
+与大多数其他步骤一样，我们将添加一些新的 XAML 元素、相应的属性，然后
+使用 alphaTab 事件 `PlayerPositionChanged` 来填充必要的数据。
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
 
-We add the new TextBlocks after the song artist.
+我们在歌曲艺术家之后添加新的 TextBlock。
 
 ```xml
 <TextBlock Text="{Binding CurrentTimePosition, StringFormat=mm\\:ss}" />
@@ -157,12 +156,12 @@ private void OnAlphaTabLoaded(object sender, RoutedEventArgs e)
 }
 ```
 
-To reduce the number of UI updates we debounce the frequency to updates per second. 
+为了减少 UI 更新次数，我们将频率降低到每秒更新一次。
 
 </TabItem>
 </Tabs>
 
-## Final Files
+## 最终文件
 
 <img src="/img/tutorial-net/player.png" height="400" />
 
@@ -480,7 +479,7 @@ To reduce the number of UI updates we debounce the frequency to updates per seco
                         Opacity="0.3" />
                 </Border.Effect>
                 <TextBlock>
-                    Music sheet is loading
+                    乐谱正在加载
                 </TextBlock>
             </Border>
         </Grid>

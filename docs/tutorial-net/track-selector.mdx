@@ -1,18 +1,18 @@
 ---
-title: Track Selector
+title: 音轨选择器
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-## Build the track selector
+## 构建音轨选择器
 
-In many files that alphaTab supports, there might be more than just one instrument contained. 
-There can be vocals, guitars, drums or other instruments where the notation is available. 
-Users would like to switch between the individual tracks. 
+在 alphaTab 支持的许多文件中，可能不仅仅包含一种乐器。
+可能有人声、吉他、鼓或其他有可用记谱的乐器。
+用户希望在不同音轨之间切换。
 
-The track selector will go into the sidebar, so we will add a new ListBox with some styles. 
-The ListBox we will bind to to some of our existing properties. 
+音轨选择器将放入侧边栏，因此我们将添加一个带有某些样式的新 ListBox。
+ListBox 将绑定到我们的一些现有属性。
 ```xml
 <Border
     Canvas.Left="0"
@@ -88,12 +88,12 @@ The ListBox we will bind to to some of our existing properties.
 </Border>
 ```
 
-We bind to the `Score.Tracks` for the ItemsSource to show all tracks of the current score, the `SelectedItem` binding will make the ListBox
-interactive to update the currently shown track upons user inteaction. Most of the code is just for styling.
+我们将 `Score.Tracks` 绑定到 ItemsSource 以显示当前乐谱的所有音轨，`SelectedItem` 绑定将使 ListBox
+具有交互性，以便在用户交互时更新当前显示的音轨。大部分代码仅用于样式设置。
 
 <img src="/img/tutorial-net/track-selector.png" height="400" />
 
-## Final File
+## 最终文件
 
 ```xml
 <Window
@@ -293,7 +293,7 @@ interactive to update the currently shown track upons user inteaction. Most of t
                         Opacity="0.3" />
                 </Border.Effect>
                 <TextBlock>
-                    Music sheet is loading
+                    乐谱正在加载
                 </TextBlock>
             </Border>
         </Grid>

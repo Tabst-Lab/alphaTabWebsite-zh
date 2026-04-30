@@ -1,24 +1,24 @@
 ---
-title: More Controls
+title: 更多控件
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-In the following steps of the tutorial we will add some basic controls for the end users which 
-will allow them to:
+在教程的以下步骤中，我们将为最终用户添加一些基本控件，
+使他们能够：
 
-* See the song title and artist
-* Enable/Disable the count-in
-* Enable/Disable the metronome
-* Enable/Disable the looping
-* Change the zoom level 
-* Change the layout of the music sheet
+* 查看歌曲标题和艺术家
+* 启用/禁用预备拍
+* 启用/禁用节拍器
+* 启用/禁用循环播放
+* 更改缩放级别
+* 更改乐谱的布局
 
-## Song Info
+## 歌曲信息
 
-To show the song info we just bind some TextBlocks to the already existing `Score` property. 
-The items we add to the left StackPanel in the toolbar where we have the open file button. 
+要显示歌曲信息，我们只需将一些 TextBlock 绑定到已存在的 `Score` 属性。
+我们将这些项目添加到工具栏的左侧 StackPanel 中，那里已经有打开文件按钮。
 
 ```js
 <TextBlock FontWeight="Bold" Text="{Binding Score.Title}" />
@@ -26,17 +26,17 @@ The items we add to the left StackPanel in the toolbar where we have the open fi
 <TextBlock Text="{Binding Score.Artist}" />
 ```
 
-## Count-In
+## 预备拍
 
-The count-in will become relevant when we activate the player in the next step, but we
-can already create the control which will set the count-in volume based on the toggle button state. 
-This button we add to the right StackPanel in the toolbar. 
+预备拍将在下一步激活播放器时变得相关，但我们
+已经可以创建控件，该控件将根据切换按钮状态设置预备拍音量。
+这个按钮我们添加到工具栏的右侧 StackPanel 中。
 
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
@@ -72,17 +72,17 @@ public bool IsCountInActive
 </TabItem>
 </Tabs>
 
-## Metronome
+## 节拍器
 
-The metronome will become relevant when we activate the player in the next step, but we
-can already create the control which will set the metronome volume based on the toggle button state. 
-This button we add to the right StackPanel in the toolbar. 
+节拍器将在下一步激活播放器时变得相关，但我们
+已经可以创建控件，该控件将根据切换按钮状态设置节拍器音量。
+这个按钮我们添加到工具栏的右侧 StackPanel 中。
 
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
@@ -118,21 +118,21 @@ public bool IsMetronomeActive
 </TabItem>
 </Tabs>
 
-## Looping
+## 循环播放
 
-The looping is similar to the metronome. We will set the [`IsLooping`](/docs/reference/api/islooping) option on the API. 
-It also will only be relevant once we have the player feature enabled:
+循环播放与节拍器类似。我们将在 API 上设置 [`IsLooping`](/docs/reference/api/islooping) 选项。
+它也只有在启用播放器功能后才会相关：
 
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
 
-The button goes right beside the metronome button.
+按钮就放在节拍器按钮旁边。
 
 ```xml
 <ToggleButton IsChecked="{Binding IsLooping}">
@@ -164,18 +164,18 @@ public bool IsLooping
 </TabItem>
 </Tabs>
 
-## Zoom
+## 缩放
 
-As alphaTab can change the scale in which the music sheet is rendered, we offer the user
-a ComboBox to change this scale. As the default ComboBox style does not fit our application style, 
-we modify it a bit with a custom style and template. This style can be added to the resources where 
-already adjust the stlyes of the buttons. The combobox and icon we add after the looping button.
+由于 alphaTab 可以更改渲染乐谱的比例，我们为用户
+提供一个 ComboBox 来更改此比例。由于默认的 ComboBox 样式不符合我们的应用程序样式，
+我们使用自定义样式和模板对其进行一些修改。这个样式可以添加到已经
+调整按钮样式的资源中。组合框和图标我们添加到循环播放按钮之后。
 
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
@@ -296,27 +296,26 @@ public double CurrentZoomLevel
 }
 ```
 
-Updating the zoom level is a bit more effort than the previous tasks but still not very complicated:  
-First we fill the settings with the new scale. Then we tell alphaTab to read this updated settings 
-and re-render the music sheet.
+更新缩放级别比之前的任务稍微复杂一些，但仍然不太复杂：
+首先我们用新的比例填充设置。然后我们告诉 alphaTab 读取这个更新的设置
+并重新渲染乐谱。
 
 </TabItem>
 </Tabs>
 
-## Layout
+## 布局
 
-alphaTab can either render the music sheet in a page-like fashion that grows from top to bottom
-along the available width. Or it can show the music sheet in a horizontal scrolling fashion. 
+alphaTab 可以以类似页面的方式渲染乐谱，从上到下
+沿着可用宽度增长。或者它可以以水平滚动的方式显示乐谱。
 
-These options are also offered to the user via another ComboBox. To actually apply the user selection 
-we will again just fill the user input into the settings object and trigger an update just like for 
-the zoom level: 
+这些选项也通过另一个 ComboBox 提供给用户。要实际应用用户选择，
+我们将再次像缩放级别一样，将用户输入填充到设置对象中并触发更新：
 
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
@@ -360,7 +359,7 @@ public LayoutMode CurrentLayoutMode
 </TabItem>
 </Tabs>
 
-## Final Files
+## 最终文件
 
 <img src="/img/tutorial-net/controls.png" height="400" />
 
@@ -668,7 +667,7 @@ public LayoutMode CurrentLayoutMode
                         Opacity="0.3" />
                 </Border.Effect>
                 <TextBlock>
-                    Music sheet is loading
+                    乐谱正在加载
                 </TextBlock>
             </Border>
         </Grid>

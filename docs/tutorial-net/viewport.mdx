@@ -1,14 +1,13 @@
 ---
-title: Main Viewport
+title: 主视口
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-## Basic setup
+## 基本设置
 
-As our application will grow in this tutorial with new UI elements, we already prepare
-the rough structure according to the final solution. 
+随着我们的应用程序在本教程中不断增加新的 UI 元素，我们已经根据最终解决方案准备了大致的结构。
 
 ```xml
 <Window
@@ -36,7 +35,7 @@ the rough structure according to the final solution.
                 Width="{Binding RelativeSource={RelativeSource AncestorType=Canvas}, Path=ActualWidth}"
                 Height="{Binding RelativeSource={RelativeSource AncestorType=Canvas}, Path=ActualHeight}"
                 Padding="70,0,0,0">
-                <TextBlock>Viewport</TextBlock>
+                <TextBlock>视口</TextBlock>
             </Border>
 
             <Border
@@ -49,7 +48,7 @@ the rough structure according to the final solution.
                 BorderBrush="#1f000000"
                 BorderThickness="0,0,1,0"
                 ClipToBounds="False">
-                <TextBlock>Tracks</TextBlock>
+                <TextBlock>音轨</TextBlock>
             </Border>
         </Canvas>
 
@@ -57,52 +56,52 @@ the rough structure according to the final solution.
             Grid.Row="1"
             Grid.Column="0"
             Background="#436d9d">
-            <TextBlock>Controls</TextBlock>
+            <TextBlock>控件</TextBlock>
         </Grid>
     </Grid>
 </Window>
 ```
 
-You can already see a bit the structure of the control. 
-This step is not really specific to alphaTab but important to understand from a structural perspective. 
-We are building a layout with a sidebar, main viewport and a footer. This structure is put together
-with a combination of flexbox and absolute positioning. CSS grid might be more suitable here but for better
-browser support we stick to these technologies. 
+您已经可以稍微看到控件的结构了。
+这一步并不是 alphaTab 特有的，但从结构角度来看很重要。
+我们正在构建一个带有侧边栏、主视口和页脚的布局。这个结构是通过
+flexbox 和绝对定位的组合组合在一起的。CSS 网格可能更适合这里，但为了更好的
+浏览器支持，我们坚持使用这些技术。
 
-The absolute positioning via canvas in the content will allow us later to build a sidebar that expands dynamically 
-as an overlay to the music sheet.
+内容中通过 canvas 进行绝对定位将使我们稍后能够构建一个动态扩展的侧边栏，
+作为乐谱的覆盖层。
 
-For your project your development and design skills will be be needed to structure the elements right. 
+对于您的项目，您需要运用您的开发和设计技能来正确地构建元素。
 
 :::note
 
-From now on the tutorial might only list small code snippets depending on the changes added to the component. 
-The final file with all changes applied, will be added at the bottom of each tutorial section.
+从现在开始，本教程可能只会列出添加到组件的小代码片段。
+每个教程部分的底部将添加应用了所有更改的最终文件。
 
 :::
 
-The result looks like this: 
+结果如下所示：
 
 <img src="/img/tutorial-net/viewport1.png" height="400" />
 
-## Initialize alphaTab
+## 初始化 alphaTab
 
-Now let's finally bring alphaTab into the game. We add an alphaTab control to the 
-viewport and give it a name so we can access it in the code-behind. 
-Then we will allow the user to choose a file from his file system that should be opened. 
+现在让我们终于将 alphaTab 带入游戏中。我们在
+视口中添加一个 alphaTab 控件并给它一个名称，以便我们可以在代码隐藏中访问它。
+然后我们将允许用户从他的文件系统中选择一个应该打开的文件。
 
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
 
-On the viewport we add the main alphaTab WPF control. 
-On the control toolbar we add some left-right separation for controls and 
-on the left-side controls we add an open button. 
+在视口上，我们添加主要的 alphaTab WPF 控件。
+在控件工具栏上，我们为控件添加一些左右分隔，并在
+左侧控件中添加一个打开按钮。
 
 ```xml
 <!-- xmlns:wpf="clr-namespace:AlphaTab.Wpf;assembly=AlphaTab.Windows" -->
@@ -145,10 +144,10 @@ on the left-side controls we add an open button.
 </TabItem>
 <TabItem value="cs">
 
-First we implement the `INotifyPropertyChanged` to utilize some WPF binding features. 
-Then we add some properties for the currently opened score and displayed track and hook them up accordingly. 
-On the button click event we show a file selector and fill in the loaded Score. 
-We use the [`ScoreLoader`](/docs/guides/lowlevel-apis#loading-files-via-scoreloader) to load a score from the file.
+首先我们实现 `INotifyPropertyChanged` 以利用一些 WPF 绑定功能。
+然后我们添加一些属性用于当前打开的乐谱和显示的音轨，并相应地连接它们。
+在按钮点击事件中，我们显示一个文件选择器并填充加载的 Score。
+我们使用 [`ScoreLoader`](/docs/guides/lowlevel-apis#loading-files-via-scoreloader) 从文件中加载乐谱。
 
 ```cs
 using System;
@@ -235,12 +234,12 @@ namespace AlphaTabTutorial
 </TabItem>
 </Tabs>
 
-The result is already able to show some music sheet after selecting a file: 
+结果在选择文件后已经能够显示一些乐谱：
 
 <img src="/img/tutorial-net/viewport2.png" height="400" />
 
-The button doesn't look very nice yet. So we add some styles. 
-We just set some backgrounds, foregrounds to colorize the buttons and icons.
+按钮看起来还不是很好看。所以我们添加一些样式。
+我们只是设置一些背景和前景来为按钮和图标着色。
 
 ```xml
 <Grid
@@ -300,33 +299,32 @@ We just set some backgrounds, foregrounds to colorize the buttons and icons.
 
 <img src="/img/tutorial-net/viewport2-styled.png" height="400" />
 
-As you can see so far, there are not much specific things to alphaTab to know beside
-the interaction with the alphaTab control and APIs. Many things are normal C#/WPF development
-tasks that you just have to plan and execute based on the application you're going to build.
+如您所见，除了与 alphaTab 控件和 API 的交互之外，
+没有太多 alphaTab 特有的东西需要了解。很多事情都是普通的 C#/WPF 开发
+任务，您只需要根据要构建的应用程序来规划和执行。
 
-# Loading indicator
+# 加载指示器
 
-Depending on the size of the music sheet it might take a while until the file is loaded and rendered. 
-We want to show a loading indicator until this is the case. This way the user will visually see 
-that the file is being loaded and rendered.
+根据乐谱的大小，文件加载和渲染可能需要一段时间。
+我们想显示一个加载指示器，直到完成。这样用户将直观地看到
+文件正在加载和渲染。
 
-To do this we will first extend the XAML with an overlay that we will dynamically show/hide depending on 
-some alphaTab events. 
+为此，我们首先将使用一些 alphaTab 事件动态显示/隐藏的覆盖层扩展 XAML。
 
 <Tabs
   defaultValue="xaml"
   values={[
-    { label: 'New XAML', value: 'xaml', },
-    { label: 'New C#', value: 'cs', },
+    { label: '新 XAML', value: 'xaml', },
+    { label: '新 C#', value: 'cs', },
   ]
 }>
 <TabItem value="xaml">
 
-First we hook up to the loaded event of alphaTab. This is a very important: The alphaTab API is only accessible once the control loaded. 
-If we try to access the API object before the alphaTab control is loaded it will be null. 
+首先我们连接到 alphaTab 的加载事件。这非常重要：只有在控件加载后，alphaTab API 才可访问。
+如果我们尝试在 alphaTab 控件加载之前访问 API 对象，它将为 null。
 
-Then we also add a new element to the main grid which will be our loading indicator. We bind it to a `LoadingIndicatorVisibility` property 
-to dynamically show/hide it.
+然后我们还向主网格添加一个新元素，这将是我们的加载指示器。我们将其绑定到一个 `LoadingIndicatorVisibility` 属性
+以动态显示/隐藏它。
 
 ```xml
 <Window>
@@ -351,7 +349,7 @@ to dynamically show/hide it.
                         Opacity="0.3" />
                 </Border.Effect>
                 <TextBlock>
-                    Music sheet is loading
+                    乐谱正在加载
                 </TextBlock>
             </Border>
         </Grid>
@@ -362,12 +360,12 @@ to dynamically show/hide it.
 </TabItem>
 <TabItem value="cs">
 
-We add a new property `LoadingIndicatorVisibility` with change notification which we bind to from the XAML.
-In the constructor we setup the data context and initialize the indiactor to be hidden to allow opening a file. 
-In the `OnAlphaTabLoaded` we register to the required events to show/hide the indicator dynamically. 
+我们添加一个新的属性 `LoadingIndicatorVisibility`，带有更改通知，我们从 XAML 中绑定到它。
+在构造函数中，我们设置数据上下文并将指示器初始化为隐藏状态，以允许打开文件。
+在 `OnAlphaTabLoaded` 中，我们注册到所需的事件以动态显示/隐藏指示器。
 
-[`RenderStarted`](/docs/reference/api/renderstarted) will tell us when the rendering of the music sheet started. 
-[`RenderFinished`](/docs/reference/api/renderfinished) will tell us when the rendering of the music sheet finished.
+[`RenderStarted`](/docs/reference/api/renderstarted) 将告诉我们乐谱的渲染何时开始。
+[`RenderFinished`](/docs/reference/api/renderfinished) 将告诉我们乐谱的渲染何时完成。
 
 
 ```cs
@@ -406,7 +404,7 @@ private void OnAlphaTabLoaded(object sender, RoutedEventArgs e)
 </TabItem>
 </Tabs>
 
-## Final Files
+## 最终文件
 
 <Tabs
   defaultValue="xaml"
@@ -458,7 +456,7 @@ private void OnAlphaTabLoaded(object sender, RoutedEventArgs e)
                 BorderBrush="#1f000000"
                 BorderThickness="0,0,1,0"
                 ClipToBounds="False">
-                <TextBlock>Tracks</TextBlock>
+                <TextBlock>音轨</TextBlock>
             </Border>
         </Canvas>
 
@@ -555,7 +553,7 @@ private void OnAlphaTabLoaded(object sender, RoutedEventArgs e)
                         Opacity="0.3" />
                 </Border.Effect>
                 <TextBlock>
-                    Music sheet is loading
+                    乐谱正在加载
                 </TextBlock>
             </Border>
         </Grid>
