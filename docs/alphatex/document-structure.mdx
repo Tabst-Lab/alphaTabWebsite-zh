@@ -1,12 +1,12 @@
 ---
-title: Document Structure
+title: 文档结构
 ---
 
 import { AlphaTexSample } from '@site/src/components/AlphaTexSample';
 
-An alphaTex file is simply a list of bars and every bar has metadata and contents. For organizational reasons we commend
-that metadata tags describing the general song information are added to the start of the file, and external media synchronization points are 
-added on the end of the file: 
+一个 alphaTex 文件就是一个小节的列表，每个小节都有元数据和内容。出于组织原因，我们建议
+将描述一般歌曲信息的元数据标签添加到文件开头，并将外部媒体同步点
+添加到文件末尾：
 
 ```title=General File Structure
 /* Song Metadata */
@@ -15,7 +15,7 @@ added on the end of the file:
 ```
 
 :::note
-Before alphaTex 1.7 the 3 sections needed to be separated by a `.` This was improved in 1.7 and the separation dots should now be omitted.
+在 alphaTex 1.7 之前，这 3 个部分需要用 `.` 分隔。这在 1.7 中得到了改进，现在应该省略分隔点。
 
 ```title=Pre 1.7 General File Structure
 /* Song Metadata */
@@ -26,12 +26,12 @@ Before alphaTex 1.7 the 3 sections needed to be separated by a `.` This was impr
 ```
 :::
 
-## Bars
+## 小节
 
-Bars (aka. measures) are starting with an optional list of metadata tags followed by the beats contained
-in the bar. See [Bar Metadata](./bar-metadata.mdx) for details on the tags which can be applied here.
+小节（即 measures）以一个可选的元数据标签列表开头，后跟小节中包含的
+节拍。有关可在此处应用的标签的详细信息，请参阅[小节元数据](./bar-metadata.mdx)。
 
-A bar is completed by a pipe `|` symbol
+一个小节以竖线 `|` 符号结束。
 
 <AlphaTexSample>{`
 // bar 1 metadata tags
@@ -45,9 +45,9 @@ A bar is completed by a pipe `|` symbol
     C4 
 `}</AlphaTexSample>
 
-## Beats
+## 节拍
 
-Beats group a number of notes played at the same time. The general parts of a beat are 
+节拍将同时演奏的多个音符分组。节拍的一般组成部分是
 
 * `duration-change content duration effects multiplier`
 
@@ -61,28 +61,28 @@ Beats group a number of notes played at the same time. The general parts of a be
     C4.4 
 `}</AlphaTexSample>
 
-### Duration change (optional)
+### 时值变化（可选）
 
-A duration change allows easy changing of the duration for all following beats. The syntax is:
+时值变化允许轻松更改所有后续节拍的时值。语法是：
 
-`:Duration` where `Duration` is a number describing the new duration:
-* `:-4` a Quadruple Whole Note
-* `:-2` a Double Note 
-* `:1` a Whole Note
-* `:2` a Half Note
-* `:4` a Quarter Note 
-* `:8` a 8th Note 
-* `:16` a 16th Note
-* `:32` a 32th Note
-* `:64` a 64th Note
-* `:128` a 128th Note 
-* `:256` a 256th Note 
+`:Duration`，其中 `Duration` 是一个描述新时值的数字：
+* `:-4` 四倍全音符
+* `:-2` 二倍音符
+* `:1` 全音符
+* `:2` 二分音符
+* `:4` 四分音符
+* `:8` 八分音符
+* `:16` 十六分音符
+* `:32` 三十二分音符
+* `:64` 六十四分音符
+* `:128` 一百二十八分音符
+* `:256` 二百五十六分音符
 
-Optionally you can specify some properties afterwards the duration to specify tuplets.  
+你也可以在时值之后指定一些属性来定义连音。
 
 `:4 {tu 3 2}`
 
-See [Tuplet Effect](./beat-properties.mdx#tu) for more details.
+有关更多详细信息，请参阅[连音效果](./beat-properties.mdx#tu)。
 
 <AlphaTexSample>{`
 :16 // 16th notes from here
@@ -98,22 +98,22 @@ See [Tuplet Effect](./beat-properties.mdx#tu) for more details.
     3.3 * 3
 `}</AlphaTexSample>
 
-### Beat Content (required)
+### 节拍内容（必需）
 
-The most crucial and part is to describe the contents of a beat which can be one of these options:
+最关键的部分是描述节拍的内容，它可以是以下选项之一：
 
-* A rest
-* Multiple notes played (grouped by parenthesis)
-* A single note played
+* 休止符
+* 多个同时演奏的音符（用括号分组）
+* 单个演奏的音符
 
-A rest is simply indicated by specifying an `r`: 
+休止符只需指定一个 `r` 即可表示：
 
 <AlphaTexSample>{`
 :4 r r r r
 `}</AlphaTexSample>
 
-Multiple [Notes](#notes) can be grouped with parenthesis `()`. Similar to the value lists, you can also just specify
-one note and omit the parenthesis. 
+多个[音符](#notes)可以用括号 `()` 分组。与值列表类似，你也可以只指定
+一个音符并省略括号。
 
 <AlphaTexSample>{`
 :4 
@@ -121,10 +121,10 @@ one note and omit the parenthesis.
     (C4 E4) // multiple notes with parenthesis
 `}</AlphaTexSample>
 
-### Beat Duration (optional)
+### 节拍时值（可选）
 
-Another way of specifying beat duration is to append them after the beat content as `. duration`.
-Historically the new duration is also remembered for the next beat. Tuplets specified as beat effects will not be remembered.
+另一种指定节拍时值的方法是在节拍内容后附加 `. duration`。
+历史上，新的时值也会被下一个节拍记住。作为节拍效果指定的连音不会被记住。
 <AlphaTexSample>{`
 C4 .4
 C4 .8
@@ -132,9 +132,9 @@ C4 // .8 remembered
 C4 .2
 `}</AlphaTexSample>
 
-### Beat Effects (optional)
+### 节拍效果（可选）
 
-Beat effects can be applied as properties after the beat. See [Beat Properties](./beat-properties.mdx) to learn about all available effects.
+节拍效果可以作为属性应用于节拍之后。请参阅[节拍属性](./beat-properties.mdx)以了解所有可用的效果。
 
 <AlphaTexSample>{`
 :4
@@ -143,10 +143,10 @@ Beat effects can be applied as properties after the beat. See [Beat Properties](
     r.2 {txt "Pause here"}
 `}</AlphaTexSample>
 
-### Beat Multiplier (optional)
+### 节拍乘数（可选）
 
-This feature allows repeating the same beat multiple times by "multiplying" them. 
-Simply specify `* times` after the beat with `times` being the number of copies you want.
+此功能允许通过“乘”来重复相同的节拍多次。
+只需在节拍后指定 `* times`，其中 `times` 是你想要的副本数。
 
 <AlphaTexSample>{`
 :4
@@ -154,25 +154,25 @@ Simply specify `* times` after the beat with `times` being the number of copies 
     (0.1 2.2 2.3 2.4 0.5) * 4 
 `}</AlphaTexSample>
 
-## Notes
+## 音符
 
-Depending on the instrument played you can have one of 3 kinds of notes in your bars. 
-Mixing is not possible so be sure to specify all notes consistently:
+根据演奏的乐器，你的小节中可以有 3 种音符之一。
+不能混合使用，因此请确保所有音符一致地指定：
 
-* Fretted and Stringed instruments like guitars have their notes as `fret.string`
-* Percussion/Drums have their notes as articulation names. 
-* Other pitched instruments have their notes as note names.
+* 像吉他这样的有品和弦乐器，其音符表示为 `fret.string`
+* 打击乐/鼓的音符表示为发音名称。
+* 其他有音高的乐器的音符表示为音符名称。
 
-After each note the note effects can optionally be specified as properties: `note-value {note-properties}`.
+在每个音符之后，可以可选地将音符效果指定为属性：`note-value {note-properties}`。
 
 :::info
-AlphaTab tries to detect which kind of staff you are writing based on the first note.
+AlphaTab 尝试根据第一个音符检测你正在编写哪种类型的谱表。
 :::
 
-### Fretted Notes
+### 有品音符
 
-If the current staff is a stringed instrument (`\tuning` or `\instrument` specified accordingly), 
-notes are expressed as the fret and string the note is played on. The final note height is calculated. 
+如果当前谱表是弦乐器（相应地指定了 `\tuning` 或 `\instrument`），
+音符表示为按下的品和弦。最终音符高度会被计算出来。
 
 <AlphaTexSample>{`
 :1
@@ -180,12 +180,12 @@ notes are expressed as the fret and string the note is played on. The final note
     12.1 { v }
 `}</AlphaTexSample>
 
-### Percussion / Drum Notes
+### 打击乐 / 鼓音符
 
-On percussion instruments, you specify the articulation which should be played as note. 
-The percussion can be a quoted string or an identifier (name without quotes).
+在打击乐器上，你指定应该作为音符演奏的发音。
+打击乐可以是带引号的字符串或标识符（不带引号的名称）。
 
-More details are described over at the [`\\articulation`](./staff-metadata.mdx#articulation) metadata docs.
+更多详细信息请参阅 [`\articulation`](./staff-metadata.mdx#articulation) 元数据文档。
 
 <AlphaTexSample>{`
 \\instrument percussion
@@ -197,13 +197,13 @@ More details are described over at the [`\\articulation`](./staff-metadata.mdx#a
     KickHit
 `}</AlphaTexSample>
 
-### Pitched notes
+### 有音高音符
 
-Pitched notes are expressed in a combined name containing:
+有音高音符以组合名称表示，包含：
 
-* The tone (`C`,`D`,`E`,`F`,`G`,`A`,`B`,`C`)
-* The accidental (`#`, `b`, `bb`, `x`, `##`,..; see [Accidentals](./note-properties.mdx#acc) for details on accidental handling)
-* The octave (a number)
+* 音名 (`C`,`D`,`E`,`F`,`G`,`A`,`B`,`C`)
+* 变音记号 (`#`, `b`, `bb`, `x`, `##`,..; 有关变音记号处理的详细信息，请参阅[变音记号](./note-properties.mdx#acc))
+* 八度（一个数字）
 
 <AlphaTexSample>{`
 C4
@@ -212,9 +212,9 @@ Ebb4
 Dx5 
 `}</AlphaTexSample>
 
-### Note Effects
+### 音符效果
 
-See [Note Properties](./note-properties.mdx) for a list of all supported effects for notes. 
+有关音符所有支持的效果列表，请参阅[音符属性](./note-properties.mdx)。
 
 
 <AlphaTexSample>{`
@@ -226,7 +226,7 @@ See [Note Properties](./note-properties.mdx) for a list of all supported effects
     )
 `}</AlphaTexSample>
 
-If you only have 1 note in the beat, you can specify both note and beat effects in the same property list.
+如果节拍中只有 1 个音符，你可以在同一个属性列表中指定音符和节拍效果。
 
 <AlphaTexSample>{`
 :2
@@ -241,10 +241,10 @@ If you only have 1 note in the beat, you can specify both note and beat effects 
         { txt "Bend" }  // beat effect
 `}</AlphaTexSample>
 
-## Tracks, Staves and Voices
+## 音轨、谱表和声部
 
-A song might consist of multiple tracks and staves holding the song data. There are special metadata tags which mark the start
-of such new structures. See [Structural Metadata](./structural-metadata.mdx) for more details.
+一首歌曲可能由多个音轨和谱表组成，它们保存着歌曲数据。有一些特殊的元数据标签标记着
+这些新结构的开始。有关更多详细信息，请参阅[结构元数据](./structural-metadata.mdx)。
 
 <AlphaTexSample tracks={"all"}>{`
 \\track "Track 1"
@@ -259,7 +259,7 @@ of such new structures. See [Structural Metadata](./structural-metadata.mdx) for
      1.2 3.2 5.2 6.2
 `}</AlphaTexSample>
 
-You only need to specify these structural tags to start a new element. A first initial element is started implicitly.
+你只需要指定这些结构标签来开始一个新元素。第一个初始元素是隐式开始的。
 
 <AlphaTexSample tracks={"all"}>{`
 // first track

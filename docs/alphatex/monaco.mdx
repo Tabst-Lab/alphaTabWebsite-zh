@@ -1,36 +1,34 @@
 --- 
-title: Monaco Editor Integration
+title: Monaco 编辑器集成
 since: 1.7.0
 ---
 
-[Monaco](https://microsoft.github.io/monaco-editor/) is the code editor that powers Visual Studio Code providing advanced coding capabilities. 
-Unfortunately Monaco has no built-in support for language servers but ships its own APIs. 
+[Monaco](https://microsoft.github.io/monaco-editor/) 是为 Visual Studio Code 提供支持的代码编辑器，提供高级编码功能。
+不幸的是，Monaco 没有内置对语言服务器的支持，但它提供了自己的 API。
 
-You can opt for advanced integrations like https://github.com/TypeFox/monaco-languageclient or rely on this more lightweight integration we ship in [`@coderline/alphatab-monaco`](https://www.npmjs.com/package/@coderline/alphatab-monaco)
+你可以选择像 https://github.com/TypeFox/monaco-languageclient 这样的高级集成，或者依赖我们在 [`@coderline/alphatab-monaco`](https://www.npmjs.com/package/@coderline/alphatab-monaco) 中提供的更轻量级集成
 
-This package allows integrating Monaco with the alphaTab language server running in a Web Worker providing all its capabilities.
+这个包允许将 Monaco 与在 Web Worker 中运行的 alphaTab 语言服务器集成，提供其所有功能。
 
-This guide here focuses on the integration with Monaco in a browser environment. We also assume that the dependencies imported are available 
-through some mechanism like bundlers.
+本指南重点介绍在浏览器环境中与 Monaco 的集成。我们还假设导入的依赖项通过某种机制（如打包工具）可用。
 
 > [!WARNING]
-> This integration is still experimental. It works fine with a single editor on the page but 
-> it has not yet been well integrated into more complex environments with multiple 
-> editors. 
+> 此集成仍处于实验阶段。它在页面上只有一个编辑器时工作正常，但
+> 尚未很好地集成到具有多个编辑器的更复杂环境中。
 
-We also use this module in our development playground. You can check out and test things by cloning alphaTab and opening it in VS Code (it will compile and start the playground). 
-Then open the `alphaTex Editor` in the menu. 
+我们还在开发游乐场中使用这个模块。你可以通过克隆 alphaTab 并在 VS Code 中打开它来查看和测试（它会编译并启动游乐场）。
+然后在菜单中打开 `alphaTex 编辑器`。
 
 <img src="/img/alphatex/monaco/playground.png" />
 
 
-## TextMate grammar
+## TextMate 语法
 
-alphaTab ships a TextMate grammar, but Monaco does not support TextMate grammars out-of-the-box. 
-We use two packages from Microsoft bridge this gap: 
+alphaTab 提供了一个 TextMate 语法，但 Monaco 并不原生支持 TextMate 语法。
+我们使用 Microsoft 的两个包来弥补这一差距：
 
-* `vscode-textmate` Manages the loading of TextMate grammars 
-* `vscode-oniguruma` Is the engine for Oniguruma Regular expressions used in TextMate grammars (via WebAssembly). 
+* `vscode-textmate` 管理 TextMate 语法的加载
+* `vscode-oniguruma` 是用于 TextMate 语法中 Oniguruma 正则表达式的引擎（通过 WebAssembly）。
 
 ```ts
 //
@@ -70,19 +68,19 @@ const editor = monaco.editor.create(element!, {
 });
 ```
 
-At this point you should get an editor with syntax highlighting.
+此时你应该会得到一个带有语法高亮的编辑器。
 
-## Starting the language server 
+## 启动语言服务器
 
-To get the remaining capabilites into Monaco, we first have to launch the alphaTex language server in a web worker. 
+为了将剩余功能引入 Monaco，我们首先必须在 Web Worker 中启动 alphaTex 语言服务器。
 
-The NPM package provides a module which can be spawned as web worker:
+NPM 包提供了一个可以作为 Web Worker 生成的模块：
 
 ```ts
 const lspWorker = new Worker(new URL('@coderline/alphatab-monaco/worker', import.meta.url));
 ```
 
-Alternatively you can also create an own worker file in your project and start the language server: 
+或者，你也可以在项目中创建自己的 worker 文件并启动语言服务器：
 
 ```ts title="lsp.worker.ts"
 // Variant 1
@@ -98,9 +96,9 @@ startWebWorkerLanguageServer(workerGlobalThis, workerGlobalThis);
 const lspWorker = new Worker(new URL('./lsp.worker.ts', import.meta.url));
 ```
 
-## Setup the Monaco LSP Integration
+## 设置 Monaco LSP 集成
 
-Integrating with this LSP worker is quite simple. Simply call `setupLspAlphaTexLanguageSupport`.
+与此 LSP worker 的集成非常简单。只需调用 `setupLspAlphaTexLanguageSupport`。
 
 ```ts
 //
@@ -146,6 +144,6 @@ await setupLspAlphaTexLanguageSupport(editor);
 ```
 
 > [!WARNING]
-> We noticed some strange Vite behaviors when spawning workers in our [development playground](https://github.com/CoderLine/alphaTab/blob/develop/packages/playground/alphatex-editor.ts).
-> Strangely Vite did not actually bundle the dependencies included in the worker leading to problems that the language server is not started.
-> We had to create an additional [wrapper script](https://github.com/CoderLine/alphaTab/blob/develop/packages/playground/alphatexLanguageServerWrap.ts) which then imports the [worker](https://github.com/CoderLine/alphaTab/blob/develop/packages/playground/alphatexLanguageServer.ts).
+> 我们在[开发游乐场](https://github.com/CoderLine/alphaTab/blob/develop/packages/playground/alphatex-editor.ts)中生成 worker 时注意到了一些奇怪的 Vite 行为。
+> 奇怪的是，Vite 实际上并没有打包 worker 中包含的依赖项，导致语言服务器无法启动的问题。
+> 我们不得不创建一个额外的[包装脚本](https://github.com/CoderLine/alphaTab/blob/develop/packages/playground/alphatexLanguageServerWrap.ts)，然后导入[worker](https://github.com/CoderLine/alphaTab/blob/develop/packages/playground/alphatexLanguageServer.ts)。

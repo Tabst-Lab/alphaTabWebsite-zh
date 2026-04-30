@@ -1,27 +1,27 @@
 ---
-title: Structural Metadata
+title: 结构元数据
 ---
 
 import { AlphaTexSample } from '@site/src/components/AlphaTexSample';
 
-For some songs you might want to define that the song has multiple tracks, staves or voices.
+对于某些歌曲，你可能需要定义歌曲包含多个音轨、谱表或声部。
 
-* Multiple tracks are used when multiple instruments are playing together in one song.
-* Multiple staves are typically used to write grand staff piano notation (left hand/right hand) or 
-  splitup voices for readability. 
-* Multiple voices are typically used to write notation where multiple independent timings and pitches are played. 
-  This can be if multiple vocals are singing together (hence the name voices), or special playing techniques (playing a base rhythm and melody on the same instrument). 
+* 多个音轨用于一首歌曲中多种乐器同时演奏的情况。
+* 多个谱表通常用于编写大谱表钢琴记谱（左手/右手）或
+  为了可读性而拆分声部。
+* 多个声部通常用于编写多个独立时值和音高同时演奏的记谱。
+  这可以是多个声乐一起演唱的情况（因此得名声部），或特殊的演奏技巧（在同一乐器上演奏基础节奏和旋律）。
 
-In alphaTex new tracks, staves and voices are started with their respective metadata tags specified at the start of a bar:
+在 alphaTex 中，新的音轨、谱表和声部通过在它们各自的小节开头指定元数据标签来开始：
 
 * `\track`
 * `\staff`
 * `\voice`
 
-alphaTab refers to these kind of metadata tags as "structural" tags as they define the general structure of the song.
+alphaTab 将这类元数据标签称为“结构”标签，因为它们定义了歌曲的整体结构。
 
-The initial track, staff or voice is implicitly started. Only on the "second" item you need to specify the tags. For clarity
-it is encouraged to also specify the initial item if there are multiple tracks, staves or voices.
+初始的音轨、谱表或声部是隐式开始的。只有在“第二个”项目上你才需要指定标签。为了清晰起见，
+如果有多个音轨、谱表或声部，建议也指定初始项目。
 
 import Doc from './_structural-metadata.mdx';
 

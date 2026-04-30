@@ -1,106 +1,106 @@
 ---
-title: Language Syntax
+title: 语言语法
 ---
 
-If you compare alphaTex to programming or scripting languages, you will find similar constructs in this language. alphaTex (as the name implies) has borrowed
-some aspects from LaTeX, a well known language for writing documents. As alphaTex evolved it came up with various own syntax constructs described here. 
+如果你将 alphaTex 与编程或脚本语言进行比较，你会在这个语言中发现类似的结构。alphaTex（顾名思义）借鉴了
+LaTeX 的一些方面，LaTeX 是一种广为人知的文档编写语言。随着 alphaTex 的发展，它形成了各种独特的语法结构，在此进行描述。
 
-When storing alphaTex to files, we recommend using the file extension `.atex`.
+将 alphaTex 保存到文件时，我们建议使用文件扩展名 `.atex`。
 
-## Comments
+## 注释
 
-Comments are supported in C-style comments via `// Single Line` and `/* Multi Line */`. You can use them anywhere within an alphaTex file
-to further annotate your written document for structural or organizational purposes.
+支持 C 风格注释，通过 `// 单行注释` 和 `/* 多行注释 */`。你可以在 alphaTex 文件中的任何地方使用它们，
+以进一步注释你编写的文档，用于结构或组织目的。
 
-## Strings
+## 字符串
 
-Textual values are expressed as quoted strings similar to most programming languages. Both single and double quotes are supported. 
+文本值以带引号的字符串形式表示，类似于大多数编程语言。支持单引号和双引号。
 
-* `"Double Quoted String"`
-* `'Single Quoted String'`
+* `"双引号字符串"`
+* `'单引号字符串'`
 
-Additionally following escape sequences are supported:
+此外，还支持以下转义序列：
 
-* `\n` Newline
-* `\r` Carriage Return
-* `\t` Tab
-* `\uXXXX` Unicode Character where XXXX is a 4 hex-digit number.
-* `\\` A backslash 
-* `\'` or `\"` a quote character 
+* `\n` 换行
+* `\r` 回车
+* `\t` 制表符
+* `\uXXXX` Unicode 字符，其中 XXXX 是一个 4 位十六进制数字。
+* `\\` 反斜杠
+* `\'` 或 `\"` 引号字符
 
-## Numbers
+## 数字
 
-alphaTex supports integer and decimal numbers.  Decimal numbers are only allowed in some dedicated places to avoid overlaps with some other syntax constructs.
+alphaTex 支持整数和小数。小数只允许在某些特定位置使用，以避免与其他语法结构重叠。
 
-Examples:
+示例：
 
 * `10`
 * `-10`
 * `0.5`
 * `-4.5`
 
-## Parameters / Argument Lists
+## 参数 / 参数列表
 
-At various places parameters are used to describe values like time signatures or bend points. 
-Arguments should be wrapped with parenthesis `(values)` if there are multiple values. If there is only a single value, the parenthesis can be omitted. 
+在各个地方使用参数来描述值，如拍号或推弦点。
+如果有多个值，参数应该用括号 `(values)` 包裹。如果只有一个值，可以省略括号。
 
-The individual values can be: 
+单个值可以是：
 
-* Integer numbers: `3`, `-10`
-* Decimal Numbers: `3.3`, `-10.5`
-* Strings: `"Hello"`, `'Hello'`
-* Special identifiers: `true`, `hide`, `x`
+* 整数：`3`, `-10`
+* 小数：`3.3`, `-10.5`
+* 字符串：`"Hello"`, `'Hello'`
+* 特殊标识符：`true`, `hide`, `x`
 
-Basic Examples 
+基本示例
 
-* `( 1 2 3 )`  A list of numbers
-* `("Test" 3 hide)` A list of mixed type values 
+* `( 1 2 3 )`  一个数字列表
+* `("Test" 3 hide)` 一个混合类型值列表
 
-Real examples
+实际示例
 
-* `\ts (3 4)` A 3/4 time signature (specified on bar level)
-* `12.2 { b (0 4 0) }` A note bend describing a full note bend and release
-* `\title ("Song Title" "Title: %TITLE%" left)` A song title shown as `Title: Song Title` left aligned.
+* `\ts (3 4)` 一个 3/4 拍号（在小节级别指定）
+* `12.2 { b (0 4 0) }` 一个音符推弦，描述一个全音符推弦和释放
+* `\title ("Song Title" "Title: %TITLE%" left)` 一个歌曲标题，显示为 `Title: Song Title`，左对齐。
 
-You can compare this syntax construct with calling a function in scripting or programming languages: `myFunction(value1, value2)`. The difference in alphaTex is that the individual arguments
-are separated by simple spaces and single argument calls do not need parentehsis.
+你可以将这个语法结构与在脚本或编程语言中调用函数进行比较：`myFunction(value1, value2)`。alphaTex 的区别在于，各个参数
+通过简单的空格分隔，单个参数调用不需要括号。
 
-## Properties
+## 属性
 
-Properties are a list of key-valuelist pairs describing additional optional aspects of elements.
-They are used to add effects to notes and beats, what notations should be visible in a staff and more. 
+属性是描述元素额外可选方面的键值对列表。
+它们用于为音符和节拍添加效果，指定应在谱表中显示哪些符号等等。
 
-Properties are always wrapped into curly braces. A property starts with an identifier describing the property, optionally followed by its values as value list. 
+属性总是用大括号包裹。属性以一个标识符开头，描述该属性，可选地后跟其值作为值列表。
 
-Examples: 
+示例：
 * `\track "Track Name" { color "#FF0000"}`
 * `\staff {score}`
 * `C4 {b (0 4) v txt "Bend with Vibrato"}`
 
-Property identifiers are case-insensitive.
+属性标识符不区分大小写。
 
-## Metadata Tags
+## 元数据标签
 
-Metadata tags are the most similar construct to LaTeX. Metadata are used to describe various elements within the data model.
+元数据标签是与 LaTeX 最相似的结构。元数据用于描述数据模型中的各种元素。
 
-The main syntax of metadata tags is: `\tag parameters {properties}`.
-Both the `parameters` and `{properties}` are optional from a syntax perspective. Depending on the `tag` values might be expected to be specified.
+元数据标签的主要语法是：`\tag parameters {properties}`。
+从语法角度来看，`parameters` 和 `{properties}` 都是可选的。根据 `tag` 的不同，可能需要指定值。
 
-Examples:
+示例：
 
 * `\title "Song Title"`
 * `\track "Track Name" {color '#FF0000'}`
 * `\ts (3 4)`
 
-Metadata tags identifiers are case-insensitive.
+元数据标签标识符不区分大小写。
 
-### Metadata tag parameters
+### 元数据标签参数
 
-Metadata tags might have one or multiple values passed into them as arguments. The exact values supported (required or optional) depend on the tag.
-See [Arguments](#parameters--argument-lists) above for more details.
+元数据标签可能有一个或多个值作为参数传入。支持的确切值（必需或可选）取决于标签。
+有关更多详细信息，请参阅上面的[参数](#parameters--argument-lists)。
 
-### Metadata tag properties
+### 元数据标签属性
 
-Metadata tags might have one or multiple properties. The exact values supported depend on the tag.
-See [Properties](#properties) above for more details.
+元数据标签可能有一个或多个属性。支持的确切值取决于标签。
+有关更多详细信息，请参阅上面的[属性](#properties)。
 

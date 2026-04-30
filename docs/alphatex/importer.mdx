@@ -1,51 +1,51 @@
 --- 
-title: Importer and Parser
+title: 导入器和解析器
 since: 1.7.0
 ---
 
-When importing alphaTex into alphaTab it directly loads the provided code and, if successful, provides the loaded [data model](/docs/reference/score.mdx).
-Using the alphatex importer and parser more directly, allows access to more detailed information like the abstract syntax tree. 
+将 alphaTex 导入 alphaTab 时，它会直接加载提供的代码，如果成功，则提供加载的[数据模型](/docs/reference/score.mdx)。
+更直接地使用 alphaTex 导入器和解析器，可以访问更详细的信息，如抽象语法树。
 
-This information can be very useful when building certain tooling and integrations. The [alphaTab language server](./lsp.mdx) itself also uses these components.
+这些信息在构建某些工具和集成时非常有用。[alphaTab 语言服务器](./lsp.mdx)本身也使用这些组件。
 
 > [!NOTE]
-> The code samples here are written in TypeScript but the APIs are similar on C# and Kotlin and can easily be mapped by adjusting the naming conventions. 
+> 此处的代码示例使用 TypeScript 编写，但 API 在 C# 和 Kotlin 上也类似，只需调整命名约定即可轻松映射。
 
-## Importer
+## 导入器
 
-The importer is the main component for loading alphaTex into a full [data model](/docs/reference/score.mdx). It is available via `alphaTab.importers.AlphaTexImporter`. 
-The most basic usage of it is:
+导入器是将 alphaTex 加载到完整[数据模型](/docs/reference/score.mdx)的主要组件。它通过 `alphaTab.importers.AlphaTexImporter` 提供。
+其最基本的用法是：
 
 ```js
 import * as alphaTab from '@coderline/alphatab';
 
-// create importer
+// 创建导入器
 const importer = new alphaTab.importer.AlphaTabImporter();
 importer.initFromString(`
 \\title "Hello World"
 C4 * 4
 `, new alphaTab.Settings());
-// load score
+// 加载乐谱
 const score = importer.readScore();
 
-console.log(score.title); // will print "Hello World"
+console.log(score.title); // 将打印 "Hello World"
 ```
 
-### Diagnostics 
+### 诊断
 
-The importer undergoes two phases: 
+导入器经历两个阶段：
 
-1. Parse the AST using `alphaTab.importer.alphaTex.AlphaTexImporter`
-2. Map the AST to the data model.
+1. 使用 `alphaTab.importer.alphaTex.AlphaTexImporter` 解析 AST
+2. 将 AST 映射到数据模型。
 
-If everything goes well the score will be provided and additional non-error diagnostics are available on the importer. 
-If something goes wrong during parsing or mapping, no score will be provided and an exception is thrown. 
+如果一切顺利，将提供乐谱，并且导入器上还可以获得额外的非错误诊断。
+如果在解析或映射过程中出现问题，将不会提供乐谱，并会抛出异常。
 
-The main Error/Exception thrown will always be a `alphaTab.importer.UnsupportedFormatError` with a basic textual description of what went wrong. 
-If the exceptoin was caused by error diagnostics (e.g. parse errors) the inner exception (`cause`) is a `alphaTab.importer.AlphaTexErrorWithDiagnostics`
-providing access to all diagnostics. 
+抛出的主要错误/异常将始终是 `alphaTab.importer.UnsupportedFormatError`，并附带一个关于出错原因的基本文本描述。
+如果异常是由错误诊断（例如解析错误）引起的，则内部异常（`cause`）是 `alphaTab.importer.AlphaTexErrorWithDiagnostics`，
+提供对所有诊断的访问。
 
-These exceptions mainly exist for cases where the importer or parser is not used directly. The diagnostics are also available on the importer directly. 
+这些异常主要存在于导入器或解析器未被直接使用的情况下。诊断信息也可直接在导入器上获取。
 
 ```js
 import * as alphaTab from '@coderline/alphatab';
@@ -70,13 +70,13 @@ function printDiagnostic(a:alphaTab.importer.alphaTex.AlphaTexDiagnostic) {
     }
 }
 
-// create importer
+// 创建导入器
 const importer = new alphaTab.importer.AlphaTabImporter();
 importer.initFromString(`
 \\invalid alphatex
 `, new alphaTab.Settings());
 try {
-    // load score
+    // 加载乐谱
     const score = importer.readScore();
 } catch(e) {
     console.error('Error parsing alphaTex: ', (e as Error).message);
@@ -98,15 +98,14 @@ try {
 }
 ```
 
-Diagnostics give access to a range of information like the location in the code to which it maps,
-the severity, a technical code identifying the error and a textual error message.
+诊断提供了一系列信息，如代码中的映射位置、
+严重程度、标识错误的技术代码以及文本错误消息。
 
 ### AST
 
-The importer also allows access to the abstract syntax tree of the parsed code. The AST might also be available
-for only partially parsed code. 
+导入器还允许访问已解析代码的抽象语法树。对于仅部分解析的代码，AST 也可能可用。
 
-The following code should give an idea on how to access the AST by printing the whole hiearchy of nodes to the console: 
+以下代码应该能让你了解如何通过将整个节点层次结构打印到控制台来访问 AST：
 
 ```js
 import * as alphaTab from '@coderline/alphatab';
@@ -119,7 +118,7 @@ C4 * 4
 const score = importer.readScore();
 const astNode = importer.scoreNode;
 
-// a basic recursive node visitor printing the nodes
+// 一个基本的递归节点访问器，将节点打印出来
 function visitNode(name:string, node:alphaTab.importer.alphaTex.IAlphaTexAstNode | undefined, indent:number) {
     const indentText = '  '.repeat(indent);
     const prefix = name ? `${indentText} ${name}:` : indentText;
@@ -262,7 +261,7 @@ function visitNode(name:string, node:alphaTab.importer.alphaTex.IAlphaTexAstNode
 visitNode('', astNode, 0);
 ```
 
-The output of the above code is: 
+上述代码的输出是：
 
 ```
  Score (Ln 1, Col 1 -> Ln 3, Col 11)
@@ -295,13 +294,13 @@ The output of the above code is:
      pipe: undefined
 ```
 
-From here it is up to you to decide what to do with this information. 
+从这里开始，由你决定如何处理这些信息。
 
-## Parser
+## 解析器
 
-The next lower level below the importer is the parser available via `alphaTab.importer.alphaTex.AlphaTexParser`.
+导入器之下的下一级是解析器，通过 `alphaTab.importer.alphaTex.AlphaTexParser` 提供。
 
-The usage is fairly simple and the output will give you again access to the AST: 
+用法相当简单，输出将再次让你访问 AST：
 
 ```ts
 import * as alphaTab from '@coderline/alphatab';
