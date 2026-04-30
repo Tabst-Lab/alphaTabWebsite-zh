@@ -88,7 +88,7 @@ function getSortValue(
 
 const config: Config = {
   title: "alphaTab",
-  tagline: "Build modern music notation apps for web, desktop and mobile",
+  tagline: "为 Web、桌面和移动端构建现代乐谱应用",
   url: "https://alphatab.net",
   baseUrl: "/",
   favicon: "img/favicon.ico",
@@ -221,13 +221,13 @@ const config: Config = {
           type: "doc",
           docId: "introduction",
           position: "left",
-          label: "Docs",
+          label: "文档",
         },
         {
           type: "doc",
           docId: "tutorials",
           position: "left",
-          label: "Tutorial",
+          label: "教程",
         },
         {
           type: "doc",
@@ -239,13 +239,13 @@ const config: Config = {
           type: "doc",
           docId: "showcase/introduction",
           position: "left",
-          label: "Showcase",
+          label: "展示",
         },
         {
           type: "doc",
           docId: "playground/playground",
           position: "left",
-          label: "Playground",
+          label: "游乐场",
         },
         // Right
         {
@@ -255,11 +255,11 @@ const config: Config = {
           items: [
             {
               href: "https://next.alphatab.net",
-              label: "Next Version 🚧",
+              label: "下一个版本 🚧",
             },
             {
               href: "https://alphatab.net",
-              label: "Stable Version",
+              label: "稳定版本",
             },
           ],
         },
@@ -275,14 +275,14 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
+          title: "文档",
           items: [
             {
-              label: "Introduction",
+              label: "简介",
               to: "docs/introduction",
             },
             {
-              label: "Installation",
+              label: "安装",
               to: "docs/getting-started/installation-web",
             },
             {
@@ -292,7 +292,7 @@ const config: Config = {
           ],
         },
         {
-          title: "Community",
+          title: "社区",
           items: [
             {
               label: "GitHub",
