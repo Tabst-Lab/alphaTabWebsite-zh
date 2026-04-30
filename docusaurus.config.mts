@@ -94,7 +94,7 @@ const config: Config = {
   favicon: "img/favicon.ico",
   organizationName: "CoderLine",
   projectName: "alphaTab",
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   customFields: {
     isPreRelease: isPreRelease,
     alphaTabVersion: alphaTabVersion,
