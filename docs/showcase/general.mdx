@@ -1,51 +1,51 @@
 ---
-title: General
+title: 通用
 ---
 
 import { AlphaTab } from '@site/src/components/AlphaTab';
 import { ScoreDetails } from '@site/src/components/ShowCaseGeneralScoreDetails'
 
-## Score Details
+## 乐谱详情
 
-The full score details are available as object dom. This way you can read and process any like you need. 
+完整的乐谱详情以对象 DOM 的形式提供。这样您就可以根据需要读取和处理任何内容。
 
 <ScoreDetails file="/files/features/Skillet.gp5"  />
 
-## Song Details
-Some of the layout engines can render the song details on top of the music sheet.
+## 歌曲详情
+某些布局引擎可以在乐谱顶部渲染歌曲详情。
 <AlphaTab file="/files/features/SongDetails.gp5" />
 
 ## HTML5 Canvas
 
-Do you prefer an HTML5 canvas output instead of SVG? No problem.
+您更喜欢 HTML5 Canvas 输出而不是 SVG？没问题。
 <AlphaTab file="/files/features/SongDetails.gp5" settings={ {
 	engine: 'html5' 
 } } />
 
-## Repeats
-Need display repeat marks? No problem, single repeats and multiple repeats come out of the box.
+## 反复
+需要显示反复记号？没问题，单反复和多反复都开箱即用。
 <AlphaTab file="/files/features/Repeats.gp5" settings={ {
 	staveProfile: 'score' 
 } } />
 
-## Alternate Endings
-Even alternate repeat endings are no problem. 
+## 替代结尾
+即使是替代反复结尾也没问题。
 <AlphaTab file="/files/features/AlternateEndings.gp5" settings={ {
 	staveProfile: 'score' 
 } } />
 
-## Tunings
-The guitar tuning of the current track is rendered on the top of the music notation.
+## 调弦
+当前音轨的吉他调弦会渲染在乐谱的顶部。
 <AlphaTab file="/files/features/Tuning.gp5" />
 
-## Brackets and Braces
-alphaTab renders brackets and braces across staves which belong together. alphaTab supports the same 3 modes as Guitar Pro:
+## 括号和连谱号
+alphaTab 会在属于同一组的谱表之间渲染括号和连谱号。alphaTab 支持与 Guitar Pro 相同的 3 种模式：
 
-* No Brackets - No brackets will be drawn at all.
-* Group Staves - The staves of the same track will be grouped together. If there are multiple "standard notation" staves a brace will be drawn, otherwise a bracket.
-* Group Same Instruments - Multiple tracks of the same instrument will be grouped together. No grouping happens if the staves of an instrument require a brace. 
+* 无括号 - 完全不绘制括号。
+* 分组谱表 - 同一音轨的谱表将分组在一起。如果有多个"标准记谱法"谱表，则绘制连谱号，否则绘制括号。
+* 分组相同乐器 - 同一乐器的多个音轨将分组在一起。如果乐器的谱表需要连谱号，则不分组。
 
-The mode is loaded from Guitar Pro files, can be [configured via alphaTex](/docs/alphatex/score-metadata.mdx#bracketextendmode) or configured via `score.stylesheet.bracketExtendMode` on the data model.
+该模式从 Guitar Pro 文件中加载，可以通过 [alphaTex 配置](/docs/alphatex/score-metadata.mdx#bracketextendmode) 或在数据模型上通过 `score.stylesheet.bracketExtendMode` 进行配置。
 
 <AlphaTab tex="true" tracks="all">{`
 \\bracketextendmode GroupSimilarInstruments
@@ -74,18 +74,18 @@ The mode is loaded from Guitar Pro files, can be [configured via alphaTex](/docs
 `}</AlphaTab>
 
 
-## Track Names
-alphaTab renders track names at selected systems in the configured format. 
+## 音轨名称
+alphaTab 以配置的格式在选定的谱表系统中渲染音轨名称。
 
-For Guitar Pro files the format is loaded from the files and for alphaTex it can be specified with a range of metadata options.
-The available options on the stylesheet are: 
+对于 Guitar Pro 文件，格式从文件中加载；对于 alphaTex，可以通过一系列元数据选项进行指定。
+样式表上可用的选项有：
 
-* `score.stylesheet.singleTrackTrackNamePolicy` - configuring how track names should be displayed when only a single track is rendered. (hidden, only first system, all systems)
-* `score.stylesheet.multiTrackTrackName` - configuring how track names should be displayed when multiple tracks are rendered.
-* `score.stylesheet.firstSystemTrackNameMode` - configuring what name to show on the first system (full or short track name).
-* `score.stylesheet.otherSystemsTrackNameMode` - configuring what name to show on the first system.
-* `score.stylesheet.firstSystemTrackNameOrientation` - the orientation of the track name on the first system (horizontal or vertical)
-* `score.stylesheet.otherSystemsTrackNameOrientation` - the orientation of the track name on the first system (horizontal or vertical)
+* `score.stylesheet.singleTrackTrackNamePolicy` - 配置仅渲染单个音轨时如何显示音轨名称。（隐藏、仅第一个系统、所有系统）
+* `score.stylesheet.multiTrackTrackName` - 配置渲染多个音轨时如何显示音轨名称。
+* `score.stylesheet.firstSystemTrackNameMode` - 配置在第一个系统上显示什么名称（完整或简短音轨名称）。
+* `score.stylesheet.otherSystemsTrackNameMode` - 配置在其他系统上显示什么名称。
+* `score.stylesheet.firstSystemTrackNameOrientation` - 第一个系统上音轨名称的方向（水平或垂直）
+* `score.stylesheet.otherSystemsTrackNameOrientation` - 其他系统上音轨名称的方向（水平或垂直）
 
 <AlphaTab tex="true" tracks="all">{`
 \\singletracktracknamepolicy AllSystems

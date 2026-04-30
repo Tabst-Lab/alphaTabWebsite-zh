@@ -1,13 +1,13 @@
 ---
-title: Music Notation
+title: 乐谱
 ---
 
 import { AlphaTab } from '@site/src/components/AlphaTab';
 
-Rendering standard music notation is one of the essential features of alphaTab. 
-	   
-## Clefs
-Clefs are important for music notation too.
+渲染标准乐谱是 alphaTab 的核心功能之一。
+
+## 谱号
+谱号对于乐谱来说也很重要。
 <AlphaTab tex="true" settings={ {
 	staveProfile: 'score',
 	display: {
@@ -15,32 +15,32 @@ Clefs are important for music notation too.
 	}
 } }>
 {`
-\\title "Clefs"
+\\title "谱号"
 .
 \\clef G2 | \\clef F4 | \\clef C3 | \\clef C4
 `}
 </AlphaTab>
 
-## Key Signatures
-Want key signatures? No problem, alphaTab will render them for you. 
+## 调号
+需要调号？没问题，alphaTab 会为您渲染。
 <AlphaTab file="/files/features/KeySignatures.gp5" settings={ {
 	staveProfile : 'score'
 } } />
 
-## Time Signatures
-Time signatures are important too.  
+## 拍号
+拍号也很重要。
 <AlphaTab file="/files/features/TimeSignatures.gp5" settings={ {
 	staveProfile : 'score'
 } } />
 
-## Notes, Rests and Beams
-We automatically create beams for notes and ensure they are aligned in the most readable way. 
+## 音符、休止符和符杠
+我们会自动为音符创建符杠，并确保它们以最易读的方式对齐。
 <AlphaTab file="/files/features/Beams.gp" settings={ {
 	staveProfile : 'score'
 } } />
 
-## Accidentals
-Accidentals are an essential element of music notation.
+## 变音记号
+变音记号是乐谱的基本要素。
 <AlphaTab file="/files/features/Accidentals.gp5" settings={ {
 	staveProfile : 'score'
 } } />

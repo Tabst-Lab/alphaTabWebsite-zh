@@ -1,43 +1,197 @@
 ---
-title: Effects and Annotations
+title: 效果与标注
 ---
 
 import { AlphaTab } from '@site/src/components/AlphaTab';
 
-## Markers
-Markers are a nice element to annotate different sections of the song. 
+## 标记
+标记是标注歌曲不同部分的很好的元素。
 <AlphaTab file="/files/features/Markers.gp5" />
 
-## Tempo
-You might already have mentioned them: Tempo markers are supported too. 
+## 速度
+您可能已经提到过：速度标记也受支持。
 <AlphaTab file="/files/features/Tempo.gp5" />
 
-## Text
-Each beat can have a text attached. 
+## 文本
+每个拍子都可以附加文本。
 <AlphaTab file="/files/features/Text.gp5" />
 
-## Chords
-Chord names can be useful to indicate how to play a song. Chord diagrams are also shown if available. 
+## 和弦
+和弦名称有助于指示如何演奏一首歌曲。如果可用，还会显示和弦图。
 <AlphaTab file="/files/features/Chords.gp5" />
 
-## Vibrato
-Beat vibrators and note vibratos are both available.
+## 颤音
+拍子颤音和音符颤音都可用。
 <AlphaTab file="/files/features/Vibrato.gp5" />
 
-## Dynamics
-From piano pianissimo to forte fortissimo, they are all there.
+## 力度
+从极弱到极强，应有尽有。
 <AlphaTab file="/files/features/Dynamics.gp5" />
 
-## Tap/Slap/Pop
-Especially bass guitar players will like this feature.
+## 点弦/勾弦/拍弦
+尤其是贝斯手会喜欢这个功能。
 <AlphaTab file="/files/features/Tap.gp5" />
 
-## Fading Styles
-This annotation is shown if you need to increase or decrease the note volume from silent to normal when
-playing it. Volume Swells indicate to first get louder, then again silent.
+## 渐强/渐弱
+当您需要在演奏时从静音逐渐增加到正常音量或反之，会显示此标注。音量渐强表示先变响，然后再次变静音。
 
 <AlphaTab tex="true" player="true">{`
 :1 3.3{f} | 3.3{fo} | 3.3{vs}
+`}</AlphaTab>
+
+## 延音
+如果将此标注放在音符上，拍子结束后您不会停止琴弦。
+<AlphaTab file="/files/features/LetRing.gp5" />
+
+## 手掌闷音
+您不会错过的功能：手掌闷音标记。
+<AlphaTab file="/files/features/PalmMute.gp5" />
+
+## 推弦
+alphaTab 也可以渲染推弦。
+<AlphaTab file="/files/features/Bends.gp" />
+
+## 摇把
+许多电吉他都配有摇把。alphaTab 显示摇把效果。
+<AlphaTab file="/files/features/Whammy.gp" />
+
+## 震音拨弦
+震音拨弦也会被渲染。
+<AlphaTab file="/files/features/TremoloPicking.gp5" />
+
+## 刷弦
+刷弦在指法谱谱表上显示为箭头。
+<AlphaTab file="/files/features/Brush.gp5" />
+
+## 滑音
+alphaTab 可以渲染多种类型的滑音。
+<AlphaTab file="/files/features/Slides.gp5" />
+
+## 颤音
+颤音效果渲染在指法谱谱表和效果线上。
+<AlphaTab file="/files/features/Trill.gp5" />
+
+## 拨弦方向
+拨弦方向指示如何演奏琴弦。
+<AlphaTab file="/files/features/PickStroke.gp5" />
+
+## 连音符
+连音符用于将拍子分成相等的细分。
+<AlphaTab file="/files/features/Tuplets.gp5" />
+
+## 指法
+手指指示器可用于突出显示应该使用哪些手指来演奏
+乐器上的相应音符。
+<AlphaTab file="/files/features/Fingering.gpx" />
+
+## 三连音感觉
+三连音感觉用于指示一对特定音符的演奏方式与标注所指示的不同。
+<AlphaTab file="/files/features/TripletFeel.gpx" />
+
+## 反复与跳转
+反复（或跳转）是特殊指示，告诉演奏者应在乐谱中的不同位置继续演奏（例如，跳回开头并继续到某个标记）。
+
+<AlphaTab file="/files/features/directions-simple.gp" />
+
+## 轮扫
+
+轮扫是用多个手指以固定模式扫拨同一个和弦。
+它们在 alphaTab 中显示为上方的 `rasg.` 指示器。
+
+<AlphaTab tex="true" tracks="all" player="true">{`
+(1.1 3.2 2.3 0.4) * 4 {rasg amii}
+`}</AlphaTab>
+
+## 斜线拍子
+
+单个拍子可以更改为使用斜线记谱法显示。
+
+<AlphaTab tex="true">{`
+C4.4 {slashed} C4.8 {slashed} C4.8 {slashed} C4.4 {slashed}
+`}</AlphaTab>
+
+
+## 拍弦闷音
+
+拍弦闷音是横跨所有琴弦的闷音，演奏时只需将手放在指板上。
+
+<AlphaTab tex="true">{`
+().4 {ds} ().4 {ds}
+`}</AlphaTab>
+
+## 拍子计时器
+
+拍子计时器可用于指示音符何时演奏（以绝对时间）。目前重复和跳转会被考虑在内。
+
+<AlphaTab tex="true">{`
+:2 C4 { timer } C4  |
+\ro C4 { timer } C4 |
+\ae 1 C4 C4 { timer }  |
+\rc 3 \ae (2 3) C4 { timer } C4 { timer } |
+C4 { timer } C4
+`}</AlphaTab>
+
+## 自由拍
+
+自由拍小节会相应地用小节线和拍号标记。
+它不会影响 alphaTab 中的播放。
+
+<AlphaTab tex="true">{`
+.
+:2 
+C4*2 |
+\ft C4*2 |
+\ft C4*2 |
+C4*2 |
+`}</AlphaTab>
+
+## 重音
+
+重音影响音符相对于其他音符的演奏强度/音量。
+
+<AlphaTab tex="true">{`
+3.3{ac} 3.3{hac} 3.3{ten}
+`}</AlphaTab>
+
+## 弦号
+
+alphaTab 可以在标准记谱法的符干上方显示弦号。
+ 
+<AlphaTab tex="true">{`
+3.3{string} 3.4{string} 3.5{string}
+`}</AlphaTab>
+
+## 延音踏板
+
+alphaTab 可以显示何时踩下延音踏板。此信息目前不影响播放。
+ 
+<AlphaTab tex="true">{`
+3.3{string} 3.3{spd} 3.3 3.3 {spu}
+`}</AlphaTab>
+
+## 敲击面板
+
+alphaTab 可以显示吉他手何时应进行敲击面板。此信息目前不影响播放。
+
+<AlphaTab tex="true">{`
+3.3{glpf} 3.3{glpt}
+`}</AlphaTab>
+
+## 哇音踏板
+
+alphaTab 可以显示何时应打开或关闭哇音踏板。此信息目前不影响播放。
+
+<AlphaTab tex="true">{`
+3.3 3.3{waho} 3.3 3.3 {wahc}
+`}</AlphaTab>
+
+## 横按
+
+alphaTab 可以显示额外的横按和弦记谱法来指导演奏者。
+
+<AlphaTab tex="true">{`
+1.1 {barre 24} 2.1 {barre 24} 3.1 {barre 24} 4.1 |
+1.1 {barre 4 half} 2.1 {barre 4 half} 3.1 {barre 4 half} 4.1 {barre 4 half} |
 `}</AlphaTab>
 
 ## Let Ring

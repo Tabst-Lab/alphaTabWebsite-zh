@@ -1,28 +1,25 @@
 ---
-title: Guitar Tabs
+title: 吉他谱
 ---
 
 import { AlphaTab } from '@site/src/components/AlphaTab';
 
-## Rhythm
-If you only display guitar tablatures, it might be interesting to add
-rhythm stave to show the durations. You can do this either above or below
-tablature.
+## 节奏
+如果您只显示吉他指法谱，添加节奏谱表来显示时值可能会很有用。您可以在指法谱的上方或下方执行此操作。
 <AlphaTab file="/files/features/Rhythm.gp5" settings={ {
 	staveProfile: 'tab', 
 	notation: { rhythmMode: 'showwithbars'}
 } } />
 
-## Rhythm With Beams
-If you prefer beams instead of bars for single notes you can have that too. 
+## 带符杠的节奏
+如果您更喜欢用符杠而不是符杠来表示单个音符，也可以实现。
 <AlphaTab file="/files/features/Rhythm.gp5" settings={ {
 	staveProfile: 'tab', 
 	notation: { rhythmMode: 'showwithbeams'}
 } } />
 
-## String Variations
-alphaTab will render tabs for stringed instruments. It takes care of 
-number of strings and displays the tabs as you would expect.
+## 弦数变化
+alphaTab 将为弦乐器渲染指法谱。它会处理弦数并按您期望的方式显示指法谱。
 <AlphaTab file="/files/features/Tabs.gp5" settings={ {
 	staveProfile: 'tab' 
 } } />

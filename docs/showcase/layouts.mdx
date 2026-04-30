@@ -1,29 +1,29 @@
 ---
-title: Layouts
+title: 布局
 ---
 
 import { AlphaTab } from '@site/src/components/AlphaTab';
 
-alphaTab supports several different layouts which align bars in a various manner. 
+alphaTab 支持多种不同的布局方式，以各种方式对齐小节。
 
-## Page Layout
-All bars are aligned in rows side by side till the row is full. 
+## 页面布局
+所有小节并排对齐成行，直到该行排满。
 <AlphaTab file="/files/features/Skillet.gp5" settings={ {
 	display: { 
 		layoutMode: 'page' 
 	}
 } } />
 
-## Multi Track
-You want to render multiple tracks at once. No Problem
+## 多音轨
+您想同时渲染多个音轨？没问题
 <AlphaTab file="/files/features/Skillet.gp5" tracks={[0,3]} settings={ {
 	display: { 
 		layoutMode: 'page' 
 	}
 } } />
 
-## Page Layout (custom width)
-All bars are aligned in rows side by side till the row is full. 
+## 页面布局（自定义宽度）
+所有小节并排对齐成行，直到该行排满。
 
 <div style={ {width: '600px'} }>
 <AlphaTab file="/files/features/Skillet.gp5" settings={ { 
@@ -33,16 +33,16 @@ All bars are aligned in rows side by side till the row is full.
 } } />
 </div>
 
-## Page Layout (5 bars per row)
-You can configure how many bars should be placed per row
+## 页面布局（每行 5 小节）
+您可以配置每行应放置多少小节
 <AlphaTab file="/files/features/Skillet.gp5" settings={ {
 	display: { 
 		barsPerRow: 5 
 	}
 } } />
 
-## Page Layout (bar 5 to 8)
-It's also possible to only render some of the bars available in a track.
+## 页面布局（第 5 到第 8 小节）
+也可以只渲染音轨中的部分小节。
 <AlphaTab file="/files/features/Skillet.gp5" settings={ {
 	display: { 
 		startBar: 5, 
@@ -50,8 +50,8 @@ It's also possible to only render some of the bars available in a track.
 	}
 } } />
 
-## Horizontal Layout
-This is another layout type available. All bars are aligned horizontally.
+## 水平布局
+这是另一种可用的布局类型。所有小节水平对齐。
 <div style={ { width: '600px', overflow: 'auto' } }>
 <AlphaTab file="/files/features/Skillet.gp5" settings={ {
 	display: { 
@@ -60,8 +60,8 @@ This is another layout type available. All bars are aligned horizontally.
 } } />
 </div>
 
-## Horizontal Layout (bar 5 to 8)
-You can also filter the rendered bars using this layout.
+## 水平布局（第 5 到第 8 小节）
+您也可以使用此布局过滤渲染的小节。
 <AlphaTab file="/files/features/Skillet.gp5" settings={ {
 	display: { 
 		layoutMode: 'horizontal',
@@ -71,13 +71,13 @@ You can also filter the rendered bars using this layout.
 } } />
 
 
-## Multi-Bar Rests
+## 多小节休止
 
-alphaTab can load the information whether Multi-Bar rests should be used from input files and then merge the bars when displaying accordingly. 
-The bars are automatically merged if they are empty or contain only rests. 
+alphaTab 可以从输入文件中加载是否应使用多小节休止的信息，然后在显示时相应地合并小节。
+如果小节为空或仅包含休止符，则会自动合并。
 
-For Guitar Pro files the format is loaded from the files and for alphaTex it can be specified with a range of metadata options.
-The available options on the stylesheet are: 
+对于 Guitar Pro 文件，格式从文件中加载；对于 alphaTex，可以通过一系列元数据选项进行指定。
+样式表上可用的选项有：
 
 
 <AlphaTab tex="true" tracks="all">{`
