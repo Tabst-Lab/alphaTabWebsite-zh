@@ -1,31 +1,31 @@
 ---
-title: More Controls
+title: 更多控件
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-In the following steps of the tutorial we will add some basic controls for the end users which 
-will allow them to:
+在本教程的以下步骤中，我们将添加一些面向最终用户的基本控件，
+允许他们：
 
-* See the song title and artist
-* Enable/Disable the count-in
-* Enable/Disable the metronome
-* Enable/Disable looping
-* Print the music sheet
-* Change the zoom level 
-* Change the layout of the music sheet
+* 查看歌曲标题和艺术家
+* 启用/禁用预备拍
+* 启用/禁用节拍器
+* 启用/禁用循环播放
+* 打印乐谱
+* 更改缩放级别
+* 更改乐谱的布局
 
-## Extend footer
+## 扩展页脚
 
-As a start we will build the DOM of our footer which will act as toolbar.
-This is once again just some regular web development, so we will go through this rather quickly:
+首先，我们将构建页脚的 DOM，它将作为工具栏。
+这再次只是一些常规的 Web 开发，所以我们会快速过一遍：
 
 <Tabs
   defaultValue="dom"
   values={[
-    { label: 'New DOM', value: 'dom', },
-    { label: 'New CSS', value: 'css', },
+    { label: '新增 DOM', value: 'dom', },
+    { label: '新增 CSS', value: 'css', },
   ]
 }>
 <TabItem value="dom">
@@ -67,8 +67,8 @@ This is once again just some regular web development, so we will go through this
     </div>
     <div class="at-layout">
         <select>
-          <option value="horizontal">Horizontal</option>
-          <option value="page" selected>Page</option>
+          <option value="horizontal">水平</option>
+          <option value="page" selected>页面</option>
         </select>
     </div>
   </div>
@@ -79,7 +79,7 @@ This is once again just some regular web development, so we will go through this
 <TabItem value="css">
 
 ```css
-/** Footer **/
+/** 页脚 **/
 .at-controls {
   flex: 0 0 auto;
   display: flex;
@@ -142,17 +142,16 @@ This is once again just some regular web development, so we will go through this
 </TabItem>
 </Tabs>
 
-The code above creates some placeholder elements, buttons and selections
-for the user to interact with. The next step is to add some listeners to the user interaction
-and tell alphaTab what to do. 
+上面的代码创建了一些占位元素、按钮和选择项，
+供用户交互。下一步是添加一些用户交互监听器并告诉 alphaTab 要做什么。
 
 <img src="/img/tutorial-web/controls.png" height="400" />
 
-## Song Info
+## 歌曲信息
 
-To fill the song info we will again subscribe to the [`scoreLoaded`](/docs/reference/api/scoreloaded) event which we used
-to fill the track selector. Then we just select the placeholder elements and fill them with
-the appropriate values from the data model:
+为了填充歌曲信息，我们将再次订阅 [`scoreLoaded`](/docs/reference/api/scoreloaded) 事件，我们之前用它
+来填充音轨选择器。然后我们只需选择占位元素并用
+数据模型中的适当值填充它们：
 
 ```js
 api.scoreLoaded.on((score)=>{
@@ -161,10 +160,10 @@ api.scoreLoaded.on((score)=>{
 });
 ```
 
-## Count-In and Metronome
+## 预备拍和节拍器
 
-The count-in and metronome will become relevant when we activate the player in the next step, but we
-can already create the controls which will set their volumes based on their toggle button states:
+预备拍和节拍器将在下一步激活播放器时变得相关，但我们
+已经可以创建控件，根据它们的切换按钮状态设置音量：
 
 ```js
 const countIn = wrapper.querySelector('.at-controls .at-count-in');
@@ -188,15 +187,15 @@ metronome.onclick = () => {
 };
 ```
 
-We toggle the `active` CSS class as a visual indication whether the feature is active or not.
-We then check the visual state to tell alphaTab whether the feature should be active or not by setting the
-[`countInVolume`](/docs/reference/api/countinvolume) and [`metronomeVolume`](/docs/reference/api/metronomevolume) values respectively.
+我们切换 `active` CSS 类作为功能是否激活的视觉指示。
+然后我们检查视觉状态来告诉 alphaTab 功能是否应该激活，通过分别设置
+[`countInVolume`](/docs/reference/api/countinvolume) 和 [`metronomeVolume`](/docs/reference/api/metronomevolume) 值。
 
-## Looping
+## 循环播放
 
-Similar to the count-in and metronome, we use the `active` class to decide whether
-the looping should be active using the [`isLooping`](/docs/reference/api/islooping) option.
-This will also only be relevant once we have the player feature enabled:
+类似于预备拍和节拍器，我们使用 `active` 类来决定
+是否使用 [`isLooping`](/docs/reference/api/islooping) 选项激活循环播放。
+这也只有在启用播放器功能后才会相关：
 
 ```js
 const loop = wrapper.querySelector('.at-controls .at-loop');
@@ -206,15 +205,15 @@ loop.onclick = () => {
 };
 ```
 
-## Printing
+## 打印
 
-Sometimes users might want to print out the music sheet or save it as a PDF.
-Due to the dynamic rendering that alphaTab performs a simple CTRL+P in the browser might not 
-bring the desired results. The whole music sheet is usually rendered in the background, and
-there are special features that only show the visible portions in the viewport.
+有时用户可能想要打印乐谱或将其保存为 PDF。
+由于 alphaTab 执行的动态渲染，简单的浏览器中按 CTRL+P 可能无法
+获得所需的结果。整个乐谱通常在后台渲染，并且
+有一些特殊功能只显示视口中的可见部分。
 
-When using the default browser printing you might just see an empty space. The alphaTab API provides
-a `print` function which optimizes the rendering for printing and opens it in a popup window.
+使用默认浏览器打印时，您可能只会看到一片空白。alphaTab API 提供了
+一个 `print` 函数，它优化了打印渲染并在弹出窗口中打开它。
 
 ```js
 wrapper.querySelector('.at-controls .at-print').onclick = () => {
@@ -222,10 +221,10 @@ wrapper.querySelector('.at-controls .at-print').onclick = () => {
 };
 ```
 
-## Zoom
+## 缩放
 
-As alphaTab can change the scale in which the music sheet is rendered, we offer the user
-a select box to change this scale. 
+由于 alphaTab 可以更改乐谱渲染的缩放比例，我们为用户提供
+一个选择框来更改此比例。
 
 ```js
 const zoom = wrapper.querySelector('.at-controls .at-zoom select');
@@ -237,18 +236,18 @@ zoom.onchange = ()=>{
 };
 ```
 
-Updating the zoom level is a bit more effort than the previous tasks but still not very complicated:  
-First we fill the settings with the new scale. Then we tell alphaTab to load in these updated settings
-and re-render the music sheet.
+更新缩放级别比之前的任务稍微复杂一些，但仍然不太复杂：
+首先我们用新的缩放比例填充设置。然后我们告诉 alphaTab 加载这些更新后的设置
+并重新渲染乐谱。
 
-## Layout
+## 布局
 
-alphaTab can either render the music sheet in a page-like fashion that grows from top to bottom
-along the available width, or it can show the music sheet in a horizontal scrolling fashion.
+alphaTab 可以以页面样式渲染乐谱，沿着可用宽度从上到下
+增长，也可以以水平滚动方式显示乐谱。
 
-These options are also offered to the user via a select box. To apply the user selection
-we forward the user input to the settings object and trigger an update, just like we did for
-the zoom level: 
+这些选项也通过选择框提供给用户。要应用用户选择，
+我们将用户输入转发到设置对象并触发更新，就像我们对
+缩放级别所做的那样：
 
 ```js
 const layout = wrapper.querySelector('.at-controls .at-layout select');
@@ -266,7 +265,7 @@ layout.onchange = () => {
 };
 ```
 
-## Final File
+## 最终文件
 
 ```html
 <!DOCTYPE html>
@@ -300,7 +299,7 @@ layout.onchange = () => {
       flex: 1 1 auto;
     }
 
-    /** Sidebar **/
+    /** 侧边栏 **/
     .at-sidebar {
       position: absolute;
       top: 0;
@@ -338,10 +337,10 @@ layout.onchange = () => {
       color: #fff;
     }
 
-    /** Overlay **/
+    /** 遮罩层 **/
 
     .at-overlay {
-      /** Fill Parent */
+      /** 填充父元素 */
       position: absolute;
       top: 0;
       left: 0;
@@ -349,25 +348,25 @@ layout.onchange = () => {
       bottom: 0;
       z-index: 1002;
 
-      /* Blurry dark shade */
+      /* 模糊暗色遮罩 */
       backdrop-filter: blur(3px);
       background: rgba(0, 0, 0, 0.5);
 
-      /** center content */
+      /** 居中内容 */
       display: flex;
       justify-content: center;
       align-items: flex-start;
     }
 
     .at-overlay-content {
-      /* white box with drop-shadow */
+      /* 白色盒子带阴影 */
       margin-top: 20px;
       background: #fff;
       box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
       padding: 10px;
     }
 
-    /** Track selector **/
+    /** 音轨选择器 **/
     .at-track {
       display: flex;
       position: relative;
@@ -420,7 +419,7 @@ layout.onchange = () => {
       font-weight: 500;
     }
 
-    /** Footer **/
+    /** 页脚 **/
     .at-controls {
       flex: 0 0 auto;
       display: flex;
@@ -492,7 +491,7 @@ layout.onchange = () => {
   <div class="at-wrap">
     <div class="at-overlay">
       <div class="at-overlay-content">
-        Music sheet is loading
+        乐谱加载中
       </div>
     </div>
     <div class="at-content">
@@ -541,8 +540,8 @@ layout.onchange = () => {
         </div>
         <div class="at-layout">
           <select>
-            <option value="horizontal">Horizontal</option>
-            <option value="page" selected>Page</option>
+            <option value="horizontal">水平</option>
+            <option value="page" selected>页面</option>
           </select>
         </div>
       </div>
@@ -561,17 +560,17 @@ layout.onchange = () => {
   </template>
 
   <script type="text/javascript">
-    // load elements
+    // 加载元素
     const wrapper = document.querySelector(".at-wrap");
     const main = wrapper.querySelector(".at-main");
 
-    // initialize alphatab
+    // 初始化 alphatab
     const settings = {
       file: "https://www.alphatab.net/files/canon.gp",
     };
     const api = new alphaTab.AlphaTabApi(main, settings);
 
-    // overlay logic
+    // 遮罩层逻辑
     const overlay = wrapper.querySelector(".at-overlay");
     api.renderStarted.on(() => {
       overlay.style.display = "flex";
@@ -580,7 +579,7 @@ layout.onchange = () => {
       overlay.style.display = "none";
     });
 
-    // track selector
+    // 音轨选择器
     function createTrackItem(track) {
       const trackItem = document
         .querySelector("#at-track-template")
@@ -595,20 +594,20 @@ layout.onchange = () => {
     }
     const trackList = wrapper.querySelector(".at-track-list");
     api.scoreLoaded.on((score) => {
-      // clear items
+      // 清空项目
       trackList.innerHTML = "";
-      // generate a track item for all tracks of the score
+      // 为乐谱的所有音轨生成音轨项目
       score.tracks.forEach((track) => {
         trackList.appendChild(createTrackItem(track));
       });
     });
     api.renderStarted.on(() => {
-      // collect tracks being rendered
+      // 收集正在渲染的音轨
       const tracks = new Map();
       api.tracks.forEach((t) => {
         tracks.set(t.index, t);
       });
-      // mark the item as active or not
+      // 将项目标记为激活或非激活
       const trackItems = trackList.querySelectorAll(".at-track");
       trackItems.forEach((trackItem) => {
         if (tracks.has(trackItem.track.index)) {
@@ -619,7 +618,7 @@ layout.onchange = () => {
       });
     });
 
-    /** Controls **/
+    /** 控件 **/
     api.scoreLoaded.on((score) => {
       wrapper.querySelector('.at-song-title').innerText = score.title;
       wrapper.querySelector('.at-song-artist').innerText = score.artist;

@@ -1,38 +1,38 @@
 ---
-title: Track Selector
+title: 音轨选择器
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-## Build the track selector
+## 构建音轨选择器
 
-Many input file formats that alphaTab supports can contain more than just one instrument.
-There can be vocals, guitars, drums or other instruments where the notation is available,
-and users would like to switch between the individual tracks.
+alphaTab 支持的许多输入文件格式可以包含不止一种乐器。
+可以有声乐、吉他、鼓或其他乐器的谱子，
+用户希望在这些单独的音轨之间切换。
 
-The track selector will be put in the sidebar, so let's extend our `index.html` with a template
-that we will use for all items in the track selector and some place in the sidebar where the items will go.
+音轨选择器将放在侧边栏中，因此让我们用模板扩展我们的 `index.html`，
+我们将使用该模板来创建音轨选择器中的所有项目，并在侧边栏中添加一些放置项目的位置。
 
 <Tabs
   defaultValue="dom"
   values={[
-    { label: 'New DOM', value: 'dom', },
-    { label: 'New CSS', value: 'css', },
+    { label: '新增 DOM', value: 'dom', },
+    { label: '新增 CSS', value: 'css', },
   ]
 }>
 <TabItem value="dom">
 
 ```html
-<!-- New in head tag -->
+<!-- head 标签中的新增内容 -->
 <script src="https://kit.fontawesome.com/b43f0e512e.js"></script>
-<!-- Changed sidebar -->
+<!-- 更改后的侧边栏 -->
 <div class="at-sidebar">
   <div class="at-sidebar-content">
     <div class="at-track-list"></div>
   </div>
 </div>
-<!-- New below wrapper -->
+<!-- 包装器下方的新增内容 -->
 <template id="at-track-template">
   <div class="at-track">
     <div class="at-track-icon">
@@ -49,7 +49,7 @@ that we will use for all items in the track selector and some place in the sideb
 <TabItem value="css">
 
 ```css
-/** Sidebar (now with hover expansion) **/
+/** 侧边栏（现在支持悬停展开） **/
 .at-sidebar {
   position: absolute;
   top: 0;
@@ -70,7 +70,7 @@ that we will use for all items in the track selector and some place in the sideb
   overflow-y: auto;
 }
 
-/** Track selector **/
+/** 音轨选择器 **/
 .at-track {
   display: flex;
   position: relative;
@@ -118,21 +118,21 @@ that we will use for all items in the track selector and some place in the sideb
 </TabItem>
 </Tabs>
 
-Let's take a closer look at the new UI element. We have one column for the icon of the track and another one for the details of the track. 
-In the details we still only show the name of the track. Other controls for volume and muting will be added later.
-In this tutorial, we use Font Awesome to display some icons.
+让我们仔细看看这个新的 UI 元素。我们有一列用于音轨的图标，另一列用于音轨的详细信息。
+在详细信息中，我们目前只显示音轨的名称。音量和静音的其他控件将在稍后添加。
+在本教程中，我们使用 Font Awesome 来显示一些图标。
 
 :::caution
-Do not use this Font Awesome CDN link from this tutorial. Head over to https://fontawesome.com/
-to create your own personal kit for usage on your website. 
+不要使用本教程中的这个 Font Awesome CDN 链接。前往 https://fontawesome.com/
+为您自己的网站创建个人工具包。
 :::
 
-Now the real magic happens as we will hook this up with alphaTab. We will once again listen to some events and fill the UI accordingly.
-This will also be the first time we use UI interaction to tell alphaTab to do something.
-When a user clicks on an item, we want to render the selected track.
+现在真正的魔法发生了，因为我们将把它与 alphaTab 连接起来。我们将再次监听一些事件并相应地填充 UI。
+这也是我们第一次使用 UI 交互来告诉 alphaTab 要做什么。
+当用户点击某个项目时，我们希望渲染选定的音轨。
 
 ```js
-// helper function to create individual items
+// 创建单个项目的辅助函数
 function createTrackItem(track) {
   const trackItem = document
     .querySelector("#at-track-template")
@@ -141,8 +141,8 @@ function createTrackItem(track) {
   trackItem.track = track;
   trackItem.onclick = (e) => {
     e.stopPropagation();
-    // here we use some API function of alphaTab. 
-    // check the reference docs for the details.
+    // 这里我们使用 alphaTab 的一些 API 函数。
+    // 查看参考文档了解详细信息。
     api.renderTracks([track]);
   };
   return trackItem;
@@ -150,25 +150,25 @@ function createTrackItem(track) {
 
 
 const trackList = wrapper.querySelector(".at-track-list");
-// fill track list when the score is loaded
+// 当乐谱加载时填充音轨列表
 api.scoreLoaded.on((score) => {
-  // clear items
+  // 清空项目
   trackList.innerHTML = "";
-  // generate a track item for all tracks of the score
+  // 为乐谱的所有音轨生成音轨项目
   score.tracks.forEach((track) => {
     trackList.appendChild(createTrackItem(track));
   });
 });
 
-// mark the rendered track as active in the list
+// 将渲染的音轨在列表中标记为激活
 api.renderStarted.on(() => {
-  // collect tracks being rendered
+  // 收集正在渲染的音轨
   const tracks = new Map();
-  // here we access the currently rendered tracks of alphaTab
+  // 这里我们访问 alphaTab 当前渲染的音轨
   api.tracks.forEach((t) => {
     tracks.set(t.index, t);
   });
-  // mark the item as active or not
+  // 将项目标记为激活或非激活
   const trackItems = trackList.querySelectorAll(".at-track");
   trackItems.forEach((trackItem) => {
     if (tracks.has(trackItem.track.index)) {
@@ -180,20 +180,20 @@ api.renderStarted.on(() => {
 });
 ```
 
-The code above should be easy understandable but let's have a closer look at what happens here.
+上面的代码应该很容易理解，但让我们仔细看看这里发生了什么。
 
-We have a small helper function which creates the DOM element for a given track. It uses the `<template>`
-element from before to create this element, and then we just fill in the name. Upon click we tell alphaTab to render the given track.
+我们有一个小的辅助函数，它为给定的音轨创建 DOM 元素。它使用之前的 `<template>`
+元素来创建这个元素，然后我们只需填入名称。点击时，我们告诉 alphaTab 渲染给定的音轨。
 
-Below that helper function, we listen to the [`scoreLoaded`](/docs/reference/api/scoreloaded) event which is fired once the data model for the song is loaded. 
-There we iterate through each track and create an item for the track selector and place it in the sidebar.
+在这个辅助函数下面，我们监听 [`scoreLoaded`](/docs/reference/api/scoreloaded) 事件，该事件在歌曲的数据模型加载完成后触发。
+在那里，我们遍历每个音轨并为音轨选择器创建一个项目，将其放在侧边栏中。
 
-Last but not least, we add another listener to the [`renderStarted`](/docs/reference/api/renderstarted) event that marks the currently rendered
-tracks as active in the sidebar with a CSS class.
+最后，我们添加另一个对 [`renderStarted`](/docs/reference/api/renderstarted) 事件的监听器，该监听器用 CSS 类将侧边栏中当前渲染的
+音轨标记为激活。
 
 <img src="/img/tutorial-web/track-selector.png" height="400" />
 
-## Final File
+## 最终文件
 
 ```html
 <!DOCTYPE html>
@@ -223,7 +223,7 @@ tracks as active in the sidebar with a CSS class.
         overflow: hidden;
         flex: 1 1 auto;
       }
-      /** Sidebar **/
+      /** 侧边栏 **/
       .at-sidebar {
         position: absolute;
         top: 0;
@@ -259,10 +259,10 @@ tracks as active in the sidebar with a CSS class.
         color: #fff;
       }
 
-      /** Overlay **/
+      /** 遮罩层 **/
 
       .at-overlay {
-        /** Fill Parent */
+        /** 填充父元素 */
         position: absolute;
         top: 0;
         left: 0;
@@ -270,25 +270,25 @@ tracks as active in the sidebar with a CSS class.
         bottom: 0;
         z-index: 1002;
 
-        /* Blurry dark shade */
+        /* 模糊暗色遮罩 */
         backdrop-filter: blur(3px);
         background: rgba(0, 0, 0, 0.5);
 
-        /** center content */
+        /** 居中内容 */
         display: flex;
         justify-content: center;
         align-items: flex-start;
       }
 
       .at-overlay-content {
-        /* white box with drop-shadow */
+        /* 白色盒子带阴影 */
         margin-top: 20px;
         background: #fff;
         box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
         padding: 10px;
       }
 
-      /** Track selector **/
+      /** 音轨选择器 **/
       .at-track {
         display: flex;
         position: relative;
@@ -338,7 +338,7 @@ tracks as active in the sidebar with a CSS class.
     <div class="at-wrap">
       <div class="at-overlay">
         <div class="at-overlay-content">
-          Music sheet is loading
+          乐谱加载中
         </div>
       </div>
       <div class="at-content">
@@ -352,7 +352,7 @@ tracks as active in the sidebar with a CSS class.
         </div>
       </div>
       <div class="at-controls">
-        Player controls will go here
+        播放器控件将放在这里
       </div>
     </div>
 
@@ -368,17 +368,17 @@ tracks as active in the sidebar with a CSS class.
     </template>
 
     <script type="text/javascript">
-      // load elements
+      // 加载元素
       const wrapper = document.querySelector(".at-wrap");
       const main = wrapper.querySelector(".at-main");
 
-      // initialize alphatab
+      // 初始化 alphatab
       const settings = {
         file: "https://www2.alphatab.net/files/canon.gp",
       };
       const api = new alphaTab.AlphaTabApi(main, settings);
 
-      // overlay logic
+      // 遮罩层逻辑
       const overlay = wrapper.querySelector(".at-overlay");
       api.renderStarted.on(() => {
         overlay.style.display = "flex";
@@ -387,7 +387,7 @@ tracks as active in the sidebar with a CSS class.
         overlay.style.display = "none";
       });
 
-      // track selector
+      // 音轨选择器
       function createTrackItem(track) {
         const trackItem = document
           .querySelector("#at-track-template")
@@ -402,20 +402,20 @@ tracks as active in the sidebar with a CSS class.
       }
       const trackList = wrapper.querySelector(".at-track-list");
       api.scoreLoaded.on((score) => {
-        // clear items
+        // 清空项目
         trackList.innerHTML = "";
-        // generate a track item for all tracks of the score
+        // 为乐谱的所有音轨生成音轨项目
         score.tracks.forEach((track) => {
           trackList.appendChild(createTrackItem(track));
         });
       });
       api.renderStarted.on(() => {
-        // collect tracks being rendered
+        // 收集正在渲染的音轨
         const tracks = new Map();
         api.tracks.forEach((t) => {
           tracks.set(t.index, t);
         });
-        // mark the item as active or not
+        // 将项目标记为激活或非激活
         const trackItems = trackList.querySelectorAll(".at-track");
         trackItems.forEach((trackItem) => {
           if (tracks.has(trackItem.track.index)) {

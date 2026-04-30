@@ -1,30 +1,29 @@
 ---
-title: Player
+title: 播放器
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-## Basic setup
+## 基本设置
 
-Now that we have the basic component ready, it is time to add some sound.
-AlphaTab comes with an audio synthesis engine named AlphaSynth to play the songs
-via MIDI and a SoundFont2/SoundFont3 file.
+既然我们已经准备好了基本组件，现在是时候添加一些声音了。
+AlphaTab 自带一个名为 AlphaSynth 的音频合成引擎，用于通过 MIDI 和 SoundFont2/SoundFont3 文件播放乐曲。
 
-To get the player configured is also quite easy: 
+配置播放器也非常简单：
 
-1. We tell alphaTab that we want the player active and where to find the SoundFont file that should be used. 
-alphaTab ships a free SoundFont file for usage on your website. 
-2. We tell alphaTab which DOM element to scroll when the cursor moves.
-3. We tell alphaTab how the cursors should look like
-4. We add some UI elements for the user to start/pause the playback and show the current position.
+1. 我们告诉 alphaTab 我们要启用播放器，并指定应该使用的 SoundFont 文件的位置。
+alphaTab 提供了一个免费的 SoundFont 文件供您在网站上使用。
+2. 我们告诉 alphaTab 当光标移动时要滚动哪个 DOM 元素。
+3. 我们告诉 alphaTab 光标应该长什么样
+4. 我们添加一些 UI 元素，让用户可以开始/暂停播放并显示当前位置。
 
 <Tabs
   defaultValue="js"
   values={[
-    { label: 'Initialize Player', value: 'js', },
-    { label: 'Cursor Styles', value: 'css', },
+    { label: '初始化播放器', value: 'js', },
+    { label: '光标样式', value: 'css', },
   ]
 }>
 <TabItem value="js">
@@ -35,7 +34,7 @@ const settings = {
   player: {
       enablePlayer: true,
       soundFont: 'https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2',
-      scrollElement: wrapper.querySelector('.at-viewport') // this is the element to scroll during playback
+      scrollElement: wrapper.querySelector('.at-viewport') // 这是播放期间要滚动的元素
   }
 };
 const api = new alphaTab.AlphaTabApi(main, settings);
@@ -46,23 +45,23 @@ const api = new alphaTab.AlphaTabApi(main, settings);
 
 ```css
 .at-cursor-bar {
-  /* Defines the color of the bar background when a bar is played */
+  /* 定义小节被播放时背景条的颜色 */
   background: rgba(255, 242, 0, 0.25);
 }
 
 .at-selection div {
-  /* Defines the color of the selection background */
+  /* 定义选择背景的颜色 */
   background: rgba(64, 64, 255, 0.1);
 }
 
 .at-cursor-beat {
-  /* Defines the beat cursor */
+  /* 定义节拍光标 */
   background: rgba(64, 64, 255, 0.75);
   width: 3px;
 }
 
 .at-highlight * {
-  /* Defines the color of the music symbols when they are being played (svg) */
+  /* 定义音乐符号被播放时的颜色（svg） */
   fill: #0078ff;
   stroke: #0078ff;
 }
@@ -70,24 +69,24 @@ const api = new alphaTab.AlphaTabApi(main, settings);
 </TabItem>
 </Tabs>
 
-## Loading indicator
+## 加载指示器
 
-Just like alphaTab, alphaSynth might need some time to initialize and load all required data. 
-Especially the SoundFonts can become quite big and might need some time to load. So we will
-add a small loading indicator to our footer so that the user will know once the player is ready
-for usage. 
+就像 alphaTab 一样，alphaSynth 可能需要一些时间来初始化和加载所有必需的数据。
+特别是 SoundFont 文件可能会变得相当大，可能需要一些时间来加载。因此我们将
+在页脚添加一个小型加载指示器，以便用户知道播放器何时可以
+使用。
 
-It is better to have a separate loading indicator for the player.
-A typical user will look at the music sheet for a bit before pressing play.
-If we keep the main loading indicator for the music sheet visible until the player is ready, the user does not get the chance to have a look.
+最好为播放器设置一个单独的加载指示器。
+典型的用户会在按下播放之前先看一会儿乐谱。
+如果我们将乐谱的主加载指示器保持可见直到播放器准备就绪，用户就没有机会查看。
 
-To keep the tutorial simple we will just show a percentage value but you might want to show a nice looking progress indicator on your site.
+为了保持教程简单，我们只显示一个百分比值，但您可能希望在您的网站上显示一个好看的进度指示器。
 
 <Tabs
   defaultValue="dom"
   values={[
-    { label: 'New DOM', value: 'dom', },
-    { label: 'New JavaScript', value: 'js', },
+    { label: '新增 DOM', value: 'dom', },
+    { label: '新增 JavaScript', value: 'js', },
   ]
 }>
 <TabItem value="dom">
@@ -116,31 +115,31 @@ api.playerReady.on(()=>{
 </TabItem>
 </Tabs>
 
-First we add a placeholder in which we will show the percentage value.
-Then we will use the [`soundFontLoad`](/docs/reference/api/soundfontload) event to indicate the load progress of the (usually larger) SoundFont.
-The [`playerReady`](/docs/reference/api/playerready.mdx) will tell us when to hide the indicator.
+首先我们添加一个占位符，在其中显示百分比值。
+然后我们将使用 [`soundFontLoad`](/docs/reference/api/soundfontload) 事件来指示（通常较大的）SoundFont 的加载进度。
+[`playerReady`](/docs/reference/api/playerready.mdx) 将告诉我们何时隐藏指示器。
 
-## Main player controls
+## 主播放器控件
 
-Now we need to add the required controls for the users to play and pause the audio. 
-We add one button for play/pause which will change the icon depending on the current playback state.
-We also add one button which stops the playback and moves the cursor back to the start.
+现在我们需要添加用户播放和暂停音频所需的控件。
+我们添加一个播放/暂停按钮，该按钮会根据当前播放状态改变图标。
+我们还添加一个停止播放并将光标移回开头的按钮。
 
-We use [`playPause()`](/docs/reference/api/playpause) and [`stop()`](/docs/reference/api/stop) to send the right signals to alphaTab and we use the
-[`playerStateChanged`](/docs/reference/api/playerstatechanged) event to update the button icon. To ensure that the user does not interact with the player
-before it is ready, we keep the buttons disabled until the player is ready.
+我们使用 [`playPause()`](/docs/reference/api/playpause) 和 [`stop()`](/docs/reference/api/stop) 向 alphaTab 发送正确的信号，并使用
+[`playerStateChanged`](/docs/reference/api/playerstatechanged) 事件来更新按钮图标。为了确保用户在播放器准备就绪之前不会与之交互，
+我们在播放器准备就绪之前保持按钮禁用状态。
 
 <Tabs
   defaultValue="dom"
   values={[
-    { label: 'New DOM', value: 'dom', },
-    { label: 'New CSS', value: 'css', },
-    { label: 'New JavaScript', value: 'js', },
+    { label: '新增 DOM', value: 'dom', },
+    { label: '新增 CSS', value: 'css', },
+    { label: '新增 JavaScript', value: 'js', },
   ]
 }>
 <TabItem value="dom">
 
-Here we have the two new buttons:
+这里是我们新增的两个按钮：
 
 ```html
 <div class="at-controls">
@@ -159,8 +158,8 @@ Here we have the two new buttons:
 
 <TabItem value="css">
 
-We need some styles for the disabled buttons. In our case we just make them
-semi-transparent and change the cursor.
+我们需要为禁用状态的按钮添加一些样式。在我们的例子中，我们只是让它们
+半透明并改变光标。
 
 ```css
 .at-controls .btn.disabled {
@@ -207,25 +206,25 @@ api.playerStateChanged.on((e) => {
 </TabItem>
 </Tabs>
 
-The result looks like this: 
+结果看起来像这样：
 
 <img src="/img/tutorial-web/main-player-controls.png" height="400" />
 
 
-## Showing the current time
+## 显示当前时间
 
-In this step we will add a textual indicator of the current position of the playback.
-You could use the provided information to build a progress bar indicator for the users
-which could even be interactive with seeking, but this tutorial will not cover that.
+在这一步中，我们将添加一个文本指示器来显示播放的当前位置。
+您可以使用提供的信息为用户构建一个进度条指示器，
+甚至可以支持交互式跳转，但本教程不会涵盖这些内容。
 
-As in most other steps we will add some new DOM elements, corresponding CSS and then
-hook it up with the alphaTab event, [`playerPositionChanged`](/docs/reference/api/playerpositionchanged), providing the necessary data.
+与大多数其他步骤一样，我们将添加一些新的 DOM 元素、相应的 CSS，然后
+使用 alphaTab 事件 [`playerPositionChanged`](/docs/reference/api/playerpositionchanged) 将其连接起来，该事件提供必要的数据。
 
 <Tabs
   defaultValue="dom"
   values={[
-    { label: 'New DOM', value: 'dom', },
-    { label: 'New JavaScript', value: 'js', },
+    { label: '新增 DOM', value: 'dom', },
+    { label: '新增 JavaScript', value: 'js', },
   ]
 }>
 <TabItem value="dom">
@@ -244,8 +243,8 @@ hook it up with the alphaTab event, [`playerPositionChanged`](/docs/reference/ap
 
 <TabItem value="js">
 
-The `playerPositionChanged` event is fired quite frequently. To reduce stress for the browser
-we throttle the number of updates to only change once per second.
+`playerPositionChanged` 事件触发得非常频繁。为了减少浏览器的压力，
+我们将更新次数限制为每秒只更改一次。
 
 ```js
 function formatDuration(milliseconds) {
@@ -262,7 +261,7 @@ function formatDuration(milliseconds) {
 const songPosition = wrapper.querySelector(".at-song-position");
 let previousTime = -1;
 api.playerPositionChanged.on((e) => {
-  // reduce number of UI updates to second changes.
+  // 将 UI 更新次数减少到秒级变化。
   const currentSeconds = (e.currentTime / 1000) | 0;
   if (currentSeconds == previousTime) {
     return;
@@ -275,7 +274,7 @@ api.playerPositionChanged.on((e) => {
 </TabItem>
 </Tabs>
 
-## Final File
+## 最终文件
 
 ```html
 <!DOCTYPE html>
@@ -308,7 +307,7 @@ api.playerPositionChanged.on((e) => {
         flex: 1 1 auto;
       }
 
-      /** Sidebar **/
+      /** 侧边栏 **/
       .at-sidebar {
         position: absolute;
         top: 0;
@@ -346,10 +345,10 @@ api.playerPositionChanged.on((e) => {
         color: #fff;
       }
 
-      /** Overlay **/
+      /** 遮罩层 **/
 
       .at-overlay {
-        /** Fill Parent */
+        /** 填充父元素 */
         position: absolute;
         top: 0;
         left: 0;
@@ -357,25 +356,25 @@ api.playerPositionChanged.on((e) => {
         bottom: 0;
         z-index: 1002;
 
-        /* Blurry dark shade */
+        /* 模糊暗色遮罩 */
         backdrop-filter: blur(3px);
         background: rgba(0, 0, 0, 0.5);
 
-        /** center content */
+        /** 居中内容 */
         display: flex;
         justify-content: center;
         align-items: flex-start;
       }
 
       .at-overlay-content {
-        /* white box with drop-shadow */
+        /* 白色盒子带阴影 */
         margin-top: 20px;
         background: #fff;
         box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
         padding: 10px;
       }
 
-      /** Track selector **/
+      /** 音轨选择器 **/
       .at-track {
         display: flex;
         position: relative;
@@ -428,7 +427,7 @@ api.playerPositionChanged.on((e) => {
         font-weight: 500;
       }
 
-      /** Footer **/
+      /** 页脚 **/
       .at-controls {
         flex: 0 0 auto;
         display: flex;
@@ -499,23 +498,23 @@ api.playerPositionChanged.on((e) => {
       }
 
       .at-cursor-bar {
-        /* Defines the color of the bar background when a bar is played */
+        /* 定义小节被播放时背景条的颜色 */
         background: rgba(255, 242, 0, 0.25);
       }
 
       .at-selection div {
-        /* Defines the color of the selection background */
+        /* 定义选择背景的颜色 */
         background: rgba(64, 64, 255, 0.1);
       }
 
       .at-cursor-beat {
-        /* Defines the beat cursor */
+        /* 定义节拍光标 */
         background: rgba(64, 64, 255, 0.75);
         width: 3px;
       }
 
       .at-highlight * {
-        /* Defines the color of the music symbols when they are being played (svg) */
+        /* 定义音乐符号被播放时的颜色（svg） */
         fill: #0078ff;
         stroke: #0078ff;
       }
@@ -526,7 +525,7 @@ api.playerPositionChanged.on((e) => {
     <div class="at-wrap">
       <div class="at-overlay">
         <div class="at-overlay-content">
-          Music sheet is loading
+          乐谱加载中
         </div>
       </div>
       <div class="at-content">
@@ -583,8 +582,8 @@ api.playerPositionChanged.on((e) => {
           </div>
           <div class="at-layout">
             <select>
-              <option value="horizontal">Horizontal</option>
-              <option value="page" selected>Page</option>
+              <option value="horizontal">水平</option>
+              <option value="page" selected>页面</option>
             </select>
           </div>
         </div>
@@ -603,11 +602,11 @@ api.playerPositionChanged.on((e) => {
     </template>
 
     <script type="text/javascript">
-      // load elements
+      // 加载元素
       const wrapper = document.querySelector(".at-wrap");
       const main = wrapper.querySelector(".at-main");
 
-      // initialize alphatab
+      // 初始化 alphatab
       const settings = {
         file: "https://www.alphatab.net/files/canon.gp",
         player: {
@@ -618,7 +617,7 @@ api.playerPositionChanged.on((e) => {
       };
       const api = new alphaTab.AlphaTabApi(main, settings);
 
-      // overlay logic
+      // 遮罩层逻辑
       const overlay = wrapper.querySelector(".at-overlay");
       api.renderStarted.on(() => {
         overlay.style.display = "flex";
@@ -627,7 +626,7 @@ api.playerPositionChanged.on((e) => {
         overlay.style.display = "none";
       });
 
-      // track selector
+      // 音轨选择器
       function createTrackItem(track) {
         const trackItem = document
           .querySelector("#at-track-template")
@@ -642,20 +641,20 @@ api.playerPositionChanged.on((e) => {
       }
       const trackList = wrapper.querySelector(".at-track-list");
       api.scoreLoaded.on((score) => {
-        // clear items
+        // 清空项目
         trackList.innerHTML = "";
-        // generate a track item for all tracks of the score
+        // 为乐谱的所有音轨生成音轨项目
         score.tracks.forEach((track) => {
           trackList.appendChild(createTrackItem(track));
         });
       });
       api.renderStarted.on(() => {
-        // collect tracks being rendered
+        // 收集正在渲染的音轨
         const tracks = new Map();
         api.tracks.forEach((t) => {
           tracks.set(t.index, t);
         });
-        // mark the item as active or not
+        // 将项目标记为激活或非激活
         const trackItems = trackList.querySelectorAll(".at-track");
         trackItems.forEach((trackItem) => {
           if (tracks.has(trackItem.track.index)) {
@@ -666,7 +665,7 @@ api.playerPositionChanged.on((e) => {
         });
       });
 
-      /** Controls **/
+      /** 控件 **/
       api.scoreLoaded.on((score) => {
         wrapper.querySelector(".at-song-title").innerText = score.title;
         wrapper.querySelector(".at-song-artist").innerText = score.artist;
@@ -724,7 +723,7 @@ api.playerPositionChanged.on((e) => {
         api.render();
       };
 
-      // player loading indicator
+      // 播放器加载指示器
       const playerIndicator = wrapper.querySelector(
         ".at-controls .at-player-progress"
       );
@@ -736,7 +735,7 @@ api.playerPositionChanged.on((e) => {
         playerIndicator.style.display = "none";
       });
 
-      // main player controls
+      // 主播放器控件
       const playPause = wrapper.querySelector(
         ".at-controls .at-player-play-pause"
       );
@@ -768,7 +767,7 @@ api.playerPositionChanged.on((e) => {
         }
       });
 
-      // song position
+      // 歌曲位置
       function formatDuration(milliseconds) {
         let seconds = milliseconds / 1000;
         const minutes = (seconds / 60) | 0;
@@ -783,7 +782,7 @@ api.playerPositionChanged.on((e) => {
       const songPosition = wrapper.querySelector(".at-song-position");
       let previousTime = -1;
       api.playerPositionChanged.on((e) => {
-        // reduce number of UI updates to second changes.
+        // 将 UI 更新次数减少到秒级变化。
         const currentSeconds = (e.currentTime / 1000) | 0;
         if (currentSeconds == previousTime) {
           return;
