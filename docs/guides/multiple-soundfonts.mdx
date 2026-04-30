@@ -1,65 +1,63 @@
 ---
-title: Use multiple SoundFonts to reduce traffic
+title: 使用多个音色库以减少流量
 since: 1.1.0
 ---
 import { SinceBadge } from '@site/src/components/SinceBadge';
 
 <SinceBadge since="1.1.0" />
 
-Since alphaTab v1.1 you can load multiple soundfonts into alphaTab depending on the 
-needs of the song loaded. This guide will show you how to setup alphaTab in a way
-that it loads only individual soundfonts from the server depending on the ones
-needed by the loaded score. 
+自 alphaTab v1.1 起，你可以根据加载歌曲的需要将多个音色库加载到 alphaTab 中。本指南将向你展示如何设置 alphaTab，
+使其仅根据加载的乐谱所需的音色库从服务器加载单个音色库。
 
 
-:::note tl;dr
-Detect in the `scoreLoaded` event which midi programs your tracks need, load the SoundFonts manually via Ajax and use 
- `api.loadSoundFont(data, true)` with the second parameter to true to load multiple soundfonts into the synthesizer for playback.
+:::note 太长不看
+在 `scoreLoaded` 事件中检测你的轨道需要哪些 midi 程序，通过 Ajax 手动加载音色库，并使用
+ `api.loadSoundFont(data, true)`，第二个参数设置为 true，将多个音色库加载到合成器中以进行播放。
 :::
 
-## Data Preparation
+## 数据准备
 
-First we need to slice down our SoundFont into smaller chunks. We will use [Polyphone](https://www.polyphone-soundfonts.com/)
-a free SoundFont editor to do this. 
+首先，我们需要将音色库切分成更小的块。我们将使用 [Polyphone](https://www.polyphone-soundfonts.com/)
+一个免费的音色库编辑器来完成此操作。
 
-The slicing that makes sense, strongly depends on what kind of music pieces you plan to offer to your users. 
-For simplicity in this example we will just slice the soundfont into 2 files: 
+切分的合理性在很大程度上取决于你计划向用户提供什么样的音乐作品。
+为了简化，在此示例中，我们将仅将音色库切分为 2 个文件：
 
-1. sonivox-main.sf2 containing all guitars (midi 24-31) and drums 
-2. sonivox-others.sf2 containing the other files
+1. sonivox-main.sf2 包含所有吉他（midi 24-31）和鼓
+2. sonivox-others.sf2 包含其他文件
 
-You can of course go that far to put each instrument into an own file. A typical music piece usually
-will not contain more than 4-5 different instruments which should still allow fast download of the files. 
-Modern browser limit the number of concurrent requests to the server, so you might slow down the data loading. 
+你当然可以走得更远，将每种乐器放入一个单独的文件中。一首典型的音乐作品通常
+不会包含超过 4-5 种不同的乐器，这应该仍然允许快速下载文件。
+现代浏览器限制了对服务器的并发请求数量，因此你可能会减慢数据加载速度。
 
-First we make 2 copies of the main soundfont file and rename them as above. 
+首先，我们制作主音色库文件的 2 个副本，并按上述方式重命名它们。
 
 <img src="/img/guides/multiple-soundfonts/files.png" />
 
-Then we open the first file in Polyphone, and select all presets beside 000:24-000:31 and 128:000, right-click them and request deletion: 
+然后我们在 Polyphone 中打开第一个文件，并选择除 000:24-000:31 和 128:000 之外的所有预设，右键单击它们并请求删除：
 
 <img src="/img/guides/multiple-soundfonts/delete.png" />
 
-After that we clean from the instruments all entries which are not used in the presets.
-This is quite easy, we can select **all** instruments and request deletion, Polyphone will not delete the ones which are in use 
+之后，我们从乐器中清除所有未在预设中使用的条目。
+这非常简单，我们可以选择 **所有** 乐器并请求删除，Polyphone 不会删除正在使用的那些
 
 <img src="/img/guides/multiple-soundfonts/delete-instruments.png" />
 
-And we do the same with the samples group, select all and hit delete. After that you can save the file. 
+我们对采样组执行相同的操作，选择所有并点击删除。之后你可以保存文件。
 
-With the second file we do it reverse: we delete the presets 000:24-000:31 and 128:000 and keep the rest. 
-And now we have one small and one larger file: 
+对于第二个文件，我们执行相反的操作：我们删除预设 000:24-000:31 和 128:000 并保留其余部分。
+现在我们有一个小文件和一个大文件：
 
 <img src="/img/guides/multiple-soundfonts/files-after.png" />
 
-## Setup alphaTab 
+## 设置 alphaTab
 
-Now we need to hook into some alphaTab events to load the right soundfonts when they are needed. 
-The example below will already give some hints on how you might want to manage the downloads. 
+现在我们需要接入一些 alphaTab 事件，以便在需要时加载正确的音色库。
+下面的示例将为你提供一些关于如何管理下载的提示。
 
 ```html
-<div>Progress <span id="progressValue">0%</div>
-<button id="playPause" disabled="disabled">Play/Pause</button>
+<div>进度 <span id="progressValue">0%</div>
+<button id="playPause" disabled="disabled">播放/暂停</button>
 <div id="alphaTab"></div>
 <script type="text/javascript">
 	const el = document.querySelector('#alphaTab');
@@ -92,15 +90,15 @@ The example below will already give some hints on how you might want to manage t
 	}
 	
 	function loadSoundFont(url) {
-		// only load once
+		// 只加载一次
 		if(progress.has(url)) {
 			return; 
 		}
 		
-		// assume 100KB as avg. size before we actually know it. 
+		// 在实际知道之前，假设平均大小为 100KB。
 		progress.set(url, { loaded: 0, total: 100 * 1024});
 	
-		// load via ajax
+		// 通过 ajax 加载
 		const request = new XMLHttpRequest();
 		request.open('GET', url, true);
 		request.responseType = 'arraybuffer';
@@ -115,11 +113,11 @@ The example below will already give some hints on how you might want to manage t
 		request.send();
 	}			
 	
-	// when a score is loaded, trigger load of soundfonts depending on programs. 
+	// 当乐谱加载时，根据程序触发音色库的加载。
 	at.scoreLoaded.on(score => {
 		score.tracks.forEach(track => {
 			const program = track.playbackInfo.program;
-			if(track.playbackInfo.primaryChannel === 9 /* drums */ || (program >= 24 && program <= 31)) {
+			if(track.playbackInfo.primaryChannel === 9 /* 鼓 */ || (program >= 24 && program <= 31)) {
 				loadSoundFont('sonivox-main.sf2');
 			} else {
 				loadSoundFont('sonivox-others.sf2');
@@ -129,15 +127,15 @@ The example below will already give some hints on how you might want to manage t
 </script>
 ```
 
-Let's recap what we're doing here. First we setup alphaTab with the player enabled but no SoundFont configured yet. 
-Then we add a handler to the `scoreLoaded` event which will be fired when a new music piece was loaded. Then we will inspect
-the midi programs of the individual tracks and dynamically initiate the loading of the SoundFonts. 
+让我们回顾一下我们在这里做什么。首先，我们设置 alphaTab 启用播放器，但尚未配置音色库。
+然后我们添加一个 `scoreLoaded` 事件的处理程序，当新的音乐作品加载时触发。然后我们将检查
+各个轨道的 midi 程序，并动态启动音色库的加载。
 
-The SoundFont loader uses a `Map` to avoid multiple loading of SoundFonts and keep track of the overall download progress. 
-In simple words: The `loadSoundFont` loads a soundfont if needed, reports the progress and initiates a SoundFont load in alphaTab once downloaded. 
-The important aspect is the second parameter of the `loadSoundFont` which indicates that the presets from the soundfont should be added and not replaced. 
+音色库加载器使用 `Map` 来避免多次加载音色库并跟踪整体下载进度。
+简而言之：`loadSoundFont` 在需要时加载音色库，报告进度，并在下载完成后启动 alphaTab 中的音色库加载。
+重要的方面是 `loadSoundFont` 的第二个参数，它指示应添加音色库的预设，而不是替换。
 
-If we check the logic with two different files, one with guitar only, the other with a mix of instruments, we can see how only the required soundfonts are loaded.
+如果我们用两个不同的文件检查逻辑，一个只有吉他，另一个混合了乐器，我们可以看到只加载了所需的音色库。
 
 
 <img src="/img/guides/multiple-soundfonts/guitar-only.png" />

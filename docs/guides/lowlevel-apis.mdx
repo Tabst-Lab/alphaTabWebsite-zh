@@ -1,30 +1,29 @@
 ---
-title: Low Level APIs
+title: 底层 API
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This guide explains how to use the low level APIs of alphaTab in case the full API object cannot be used or is not needed. 
+本指南介绍如何在无法使用或不需使用完整 API 对象的情况下使用 alphaTab 的底层 API。
 
-The full API object is usually linked directly to a UI via a `IUiFacade`. There exist various `IUiFacade` implementations
-for the different platforms like for Web, .net WPF and .net WinForms. 
+完整的 API 对象通常通过 `IUiFacade` 直接链接到 UI。存在各种 `IUiFacade` 实现
+用于不同的平台，如 Web、.net WPF 和 .net WinForms。
 
-In scenarios where none of these UI platforms are used or if not even a UI exists, you will need to use the low level APIs 
-of alphaTab to setup the individual steps manually. The following examples show the
-most typical scenarios that you will likely need when using alphaTab.
+在以下场景中，你将需要使用底层 API 手动设置各个步骤：当这些 UI 平台都未使用，或者甚至没有 UI 时。以下示例展示了
+使用 alphaTab 时你可能需要的最典型场景。
 
-## Loading Files via ScoreLoader
+## 通过 ScoreLoader 加载文件
 
-One of the most common tasks is to load a `Score` object from a binary buffer,
-the `AlphaTab.Importer.ScoreLoader` class offers an easy mechanism to take a buffer,
-and try loading it with the available importers. 
-Internally alphaTab has a list of `ScoreImporter` implementations for the different file formats 
-which are tried one after another to parse the provided buffer into a `Score` object. If the buffer cannot be converted
-a `AlphaTab.Importer.UnsupportedFormatError` is thrown.
+最常见的任务之一是从二进制缓冲区加载 `Score` 对象，
+`AlphaTab.Importer.ScoreLoader` 类提供了一种简单的机制，接受一个缓冲区，
+并尝试使用可用的导入器加载它。
+在内部，alphaTab 有一个针对不同文件格式的 `ScoreImporter` 实现列表，
+它们会依次尝试将提供的缓冲区解析为 `Score` 对象。如果缓冲区无法转换，
+将抛出 `AlphaTab.Importer.UnsupportedFormatError`。
 
-The `LoadScoreFromBytes` method accepts as first parameter the raw byte buffer and as second optional parameter 
-a `AlphaTab.Settings` object which might control some aspects of the import sequence. 
+`LoadScoreFromBytes` 方法接受第一个参数为原始字节缓冲区，第二个可选参数为
+`AlphaTab.Settings` 对象，它可能控制导入序列的某些方面。
 
 <Tabs
   defaultValue="js"
@@ -59,17 +58,17 @@ var score = AlphaTab.Importer.ScoreLoader.LoadScoreFromBytes(data, settings);
 </TabItem>
 </Tabs>
 
-## Rendering Files via ScoreRenderer
+## 通过 ScoreRenderer 渲染文件
 
-The `AlphaTab.Rendering.ScoreRenderer` is the main component which takes a `Score` and `Settings` as input, 
-and then generates a rendered music sheet. Setting up a `ScoreRenderer` is fairly easy if you know the following basics:
+`AlphaTab.Rendering.ScoreRenderer` 是主要组件，它接受 `Score` 和 `Settings` 作为输入，
+然后生成渲染的乐谱。设置 `ScoreRenderer` 相当简单，如果你了解以下基础知识：
 
-1. The ScoreRenderer needs to know the target width if you use a Top-To-Bottom Layout
-2. The music sheet is rendered in individual chunks which are provided via the events `partialRenderFinished` and `renderFinished` 
-3. AlphaTab internally keeps the information about the rendered score when rendering with `renderScore`, afterwards optimized rendering with resizing can be done via `resizeRender`
+1. 如果你使用从上到下布局，ScoreRenderer 需要知道目标宽度
+2. 乐谱以单独的块渲染，通过事件 `partialRenderFinished` 和 `renderFinished` 提供
+3. AlphaTab 在使用 `renderScore` 渲染时内部保留有关已渲染乐谱的信息，之后可以通过 `resizeRender` 进行优化渲染和调整大小
 
-The ScoreRenderer does not provide rendering in a background worker (aka. Thread) out of the box.
-This logic is part of the `AlphaTabApi` which wraps a ScoreRenderer into a worker.
+ScoreRenderer 默认不提供在后台工作线程（即线程）中渲染。
+此逻辑属于 `AlphaTabApi`，它将 ScoreRenderer 包装到工作线程中。
 
 <Tabs
   defaultValue="js"
@@ -81,27 +80,27 @@ This logic is part of the `AlphaTabApi` which wraps a ScoreRenderer into a worke
 <TabItem value="js">
 
 ```js
-// 1. Setup renderer
-const score = /* Load score here */;
+// 1. 设置渲染器
+const score = /* 在此处加载乐谱 */;
 const settings = new alphaTab.Settings();
 settings.core.engine = 'svg';
 const renderer = new alphaTab.rendering.ScoreRenderer(settings);
 renderer.width = 1200;
 
-// 2. Listen to Events 
+// 2. 监听事件
 let svgChunks = [];
 renderer.preRender.on(isResize => {
-    svgChunks = []; // clear on new rendering
+    svgChunks = []; // 在新渲染时清除
 });
-// since 1.2.3 we need to request
-// rendering of each chunk layed out. 
-// you can defer rendering based on your needs. 
+// 自 1.2.3 起，我们需要请求
+// 渲染每个布局好的块。
+// 你可以根据你的需要推迟渲染。
 renderer.partialLayoutFinished.on(r => {
     renderer.renderResult(r.id);
 });
 renderer.partialRenderFinished.on(r => {
     svgChunks.push({
-        svg: r.renderResult, // svg string
+        svg: r.renderResult, // svg 字符串
         width: r.width,
         height: r.height
     });
@@ -110,10 +109,10 @@ renderer.renderFinished.on(r => {
     displayResult(svgChunks, r.totalWidth, r.totalHeight);
 });
 
-// 3. Fire off rendering
+// 3. 开始渲染
 renderer.renderScore(score, [0]);
 
-// 4. resize
+// 4. 调整大小
 renderer.width = 800;
 renderer.resizeRender();
 ```
@@ -122,27 +121,27 @@ renderer.resizeRender();
 <TabItem value="cs">
 
 ```cs
-// 1. Setup renderer
-var score = /* Load score here */;
+// 1. 设置渲染器
+var score = /* 在此处加载乐谱 */;
 var settings = new AlphaTab.Settings();
 settings.Core.Engine = "svg";
 var renderer = new AlphaTab.Rendering.ScoreRenderer(settings);
 renderer.Width = 1200;
 
-// 2. Listen to Events 
+// 2. 监听事件
 var svgChunks = new List<(string svg, double width, double height)>();
 renderer.PreRender.On(isResize => {
-    svgChunks.Clear(); // clear on new rendering
+    svgChunks.Clear(); // 在新渲染时清除
 });
-// since 1.2.3 we need to request
-// rendering of each chunk layed out. 
-// you can defer rendering based on your needs. 
+// 自 1.2.3 起，我们需要请求
+// 渲染每个布局好的块。
+// 你可以根据你的需要推迟渲染。
 renderer.PartialLayoutFinished.On(r => {
     renderer.RenderResult(r.Id);
 });
 renderer.PartialRenderFinished.On(r => {
     svgChunks.Add((
-        svg: (string)r.RenderResult, // svg string
+        svg: (string)r.RenderResult, // svg 字符串
         width: r.Width,
         height: r.Height
     ));
@@ -151,10 +150,10 @@ renderer.RenderFinished.On(r => {
     DisplayResult(svgChunks, r.TotalWidth, r.TotalHeight);
 });
 
-// 3. Fire off rendering
+// 3. 开始渲染
 renderer.RenderScore(score, new List<double> { 0 });
 
-// 4. resize
+// 4. 调整大小
 renderer.Width = 800;
 renderer.ResizeRender();
 ```
@@ -162,15 +161,15 @@ renderer.ResizeRender();
 </TabItem>
 </Tabs>
 
-## Generating Midi Files via MidiFileGenerator
+## 通过 MidiFileGenerator 生成 Midi 文件
 
-AlphaTab has components for translating a `Score` object into a `MidiFile` which 
-can then be passed on to other components to write it to a file or feed it into a 
-Midi Synthesis engine. The main classes related to midi generation are: 
+AlphaTab 具有将 `Score` 对象转换为 `MidiFile` 的组件，
+然后可以将其传递给其他组件以写入文件或输入到
+Midi 合成引擎。与 midi 生成相关的主要类有：
 
-1. The `AlphaTab.Midi.MidiFileGenerator` which contains all the logic for emitting the right midi events for a `Score` using an `IMidiFileHandler` 
-2. The `AlphaTab.Midi.AlphaSynthMidiFileHandler` which fills a `AlphaTab.Midi.MidiFile` object with events. 
-3. The `AlphaTab.Midi.MidiFile` representing a Sequence of Midi Events that can be passed on to AlphaSynth or be written into a file. 
+1. `AlphaTab.Midi.MidiFileGenerator`，它包含使用 `IMidiFileHandler` 为 `Score` 发出正确 midi 事件的所有逻辑
+2. `AlphaTab.Midi.AlphaSynthMidiFileHandler`，它用事件填充 `AlphaTab.Midi.MidiFile` 对象。
+3. `AlphaTab.Midi.MidiFile` 表示可以传递给 AlphaSynth 或写入文件的 Midi 事件序列。
 
 <Tabs
   defaultValue="js"
@@ -182,18 +181,18 @@ Midi Synthesis engine. The main classes related to midi generation are:
 <TabItem value="js">
 
 ```js
-const score = /* Load score here */;
+const score = /* 在此处加载乐谱 */;
 const settings = new alphaTab.Settings();
 
-// Setup generator and midi file handler
+// 设置生成器和 midi 文件处理器
 const midiFile = new alphaTab.midi.MidiFile();
-const handler = new alphaTab.midi.AlphaSynthMidiFileHandler(midiFile, true /* For SMF1.0 export */);
+const handler = new alphaTab.midi.AlphaSynthMidiFileHandler(midiFile, true /* 用于 SMF1.0 导出 */);
 const generator = new alphaTab.midi.MidiFileGenerator(score, settings, handler);
 
-// start generation
+// 开始生成
 generator.generate();
 
-// use midi file
+// 使用 midi 文件
 saveToFile(midiFile);
 ```
 
@@ -201,33 +200,33 @@ saveToFile(midiFile);
 <TabItem value="cs">
 
 ```cs
-var score = /* Load score here */;
+var score = /* 在此处加载乐谱 */;
 var settings = new AlphaTab.Settings();
 
-// Setup generator and midi file handler
+// 设置生成器和 midi 文件处理器
 var midiFile = new AlphaTab.Midi.MidiFile();
-var handler = new AlphaTab.Midi.AlphaSynthMidiFileHandler(midiFile, true /* For SMF1.0 export */);
+var handler = new AlphaTab.Midi.AlphaSynthMidiFileHandler(midiFile, true /* 用于 SMF1.0 导出 */);
 var generator = new AlphaTab.Midi.MidiFileGenerator(score, settings, handler);
 
-// start generation
+// 开始生成
 generator.Generate();
 
-// use midi file
+// 使用 midi 文件
 SaveToFile(midiFile);
 ```
 
 </TabItem>
 </Tabs>
 
-## Playing Files via AlphaSynth
+## 通过 AlphaSynth 播放文件
 
-A midi file as such is not very interesting, but it becomes interesting when you can play it. 
-AlphaTab has a component named AlphaSynth which is a SoundFont2 based midi synthesizer. 
-It can take a SoundFont2 file and a Midi File generated by alphaTab, and play it on the 
-corresponding target platform via an `IOutput` implementation. 
+Midi 文件本身并不是很有趣，但当你能播放它时，它就会变得有趣。
+AlphaTab 有一个名为 AlphaSynth 的组件，它是一个基于 SoundFont2 的 midi 合成器。
+它可以获取一个 SoundFont2 文件和一个由 alphaTab 生成的 Midi 文件，并在
+通过 `IOutput` 实现的相应目标平台上播放它。
 
-The following examples show how to use the main component `AlphaSynth` which is usually running within a worker or thread 
-to ensure smooth playback.  
+以下示例展示了如何使用主要组件 `AlphaSynth`，它通常在工作线程或线程中运行
+以确保流畅播放。
 
 <Tabs
   defaultValue="js"
@@ -239,32 +238,32 @@ to ensure smooth playback.
 <TabItem value="js">
 
 ```js
-const midifile = /* Load score and convert it to midi here */;
-const soundFont = /* Load SoundFont2 as Uint8Array here */;
+const midifile = /* 在此处加载乐谱并将其转换为 midi */;
+const soundFont = /* 在此处加载 SoundFont2 为 Uint8Array */;
 
-// Setup player
+// 设置播放器
 const player = new alphaTab.synth.AlphaSynth(
-    new AlphaSynthWebAudioOutput() // the output to use
+    new AlphaSynthWebAudioOutput() // 要使用的输出
 );
 player.loadSoundFont(soundFont);
 player.loadMidiFile(midiFile);
 player.play();
 ```
 
-For the Web version of alphaTab provides an out-of-the-box implementation 
-for operating alphaSynth within a WebWorker and playing the audio via Web Audio API 
-on the main browser thread: `alphaTab.synth.AlphaSynthWebWorkerApi`.
-The API is the same as on the normal `AlphaSynth` object but 
-it needs a bit more input on creation but then the rest works as above. 
+对于 Web 版本的 alphaTab，提供了一个开箱即用的实现
+用于在 WebWorker 中操作 alphaSynth，并通过 Web Audio API 在浏览器主线程上播放音频：
+`alphaTab.synth.AlphaSynthWebWorkerApi`。
+API 与普通的 `AlphaSynth` 对象相同，但
+在创建时需要更多输入，但之后其余部分的工作方式如上所述。
 
 ```js
 const supportsAudioWorklets: boolean = window.isSecureContext && 'AudioWorkletNode' in window;
 
 const player = new alphaTab.synth.AlphaSynthWebWorkerApi(
-    // the output to be used on the main browser thread
+    // 在浏览器主线程上要使用的输出
     supportsAudioWorklets ? new alphaTab.synth.AlphaSynthAudioWorkletOutput() : new alphaTab.synth.AlphaSynthWebAudioOutput(),
-    pathToAlphaSynthScriptFile, // this script will be used to launch the worker, must point to the main file containing alphaTab
-    alphaTab.LogLevel.Info // the log level to use
+    pathToAlphaSynthScriptFile, // 此脚本将用于启动工作线程，必须指向包含 alphaTab 的主文件
+    alphaTab.LogLevel.Info // 要使用的日志级别
 );
 player.loadSoundFont(soundFont);
 player.loadMidiFile(midiFile);
@@ -276,13 +275,13 @@ player.play();
 <TabItem value="cs">
 
 ```cs
-var midifile = /* Load score and convert it to midi here */;
-var soundFont = /* Load SoundFont2 as Uint8Array here */;
+var midifile = /* 在此处加载乐谱并将其转换为 midi */;
+var soundFont = /* 在此处加载 SoundFont2 为 Uint8Array */;
 
-// Setup player
-// Note: NAudio already does the playback in an own worker thread, 
-// you might just want to separate the overall AlphaSynth component from your main 
-// application to not block user interaction. 
+// 设置播放器
+// 注意：NAudio 已经在自己的工作线程中进行播放，
+// 你可能只是想将整体 AlphaSynth 组件与你的主
+// 应用程序分开，以免阻塞用户交互。
 var player = new AlphaTab.Synth.AlphaSynth(new NAudioSynthOutput());
 player.LoadSoundFont(soundFont);
 player.LoadMidiFile(midiFile);
@@ -292,30 +291,30 @@ player.Play();
 </TabItem>
 </Tabs>
 
-## Serialize Data Model from/to JSON 
+## 将数据模型序列化为/从 JSON 序列化
 
-alphaTab can convert the data model (and also the settings object) from and to `Map` objects for further
-serialization via JSON or transmission over wire. The normal data model of alphaTab requires many references to be hooked up 
-and also the right object instances to be created. This graph cannot be simply written to a JSON e.g. via `JSON.stringify` but requires
-the right logic to do so.
+alphaTab 可以将数据模型（以及设置对象）转换为 `Map` 对象，以便进一步
+通过 JSON 序列化或通过线路传输。alphaTab 的普通数据模型需要连接许多引用
+并且还需要创建正确的对象实例。此图不能简单地通过例如 `JSON.stringify` 写入 JSON，而需要
+正确的逻辑来执行此操作。
 
 :::note
 
-The serialized JSON/Map should not be used for persisting the data model to disk or databases for later loading. 
-The format is not guaranteed to be compatible between different alphaTab versions and might change over time.
-This data structure can be used to transmit the data model between components using the same version of alphaTab like 
-backends+frontends.
+序列化的 JSON/Map 不应用于将数据模型持久化到磁盘或数据库以供以后加载。
+该格式不能保证与不同的 alphaTab 版本兼容，并且可能会随时间变化。
+此数据结构可用于使用相同版本 alphaTab 的组件之间传输数据模型，如
+后端+前端。
 
 :::
 
-This logic can be accessed via the `alphaTab.model.JsonConverter` class. It provides 4 main operations for both `Score` and `Settings` objects: 
+此逻辑可以通过 `alphaTab.model.JsonConverter` 类访问。它为 `Score` 和 `Settings` 对象提供 4 个主要操作：
 
-1. `*ToJsObject` - Convert a `Score` or `Settings` object into a `Map` structure for further serialization 
-2. `jsObjectTo*` - Convert a `Map` structure back to a `Score` or `Settings` object.
-3. `*ToJson` - Convert a `Score` or `Settings` object into JSON encoded string (web only).
-4. `jsonTo*` - Convert a JSON encoded string back to a `Score` or `Settings` object (web only).
+1. `*ToJsObject` - 将 `Score` 或 `Settings` 对象转换为 `Map` 结构以进行进一步序列化
+2. `jsObjectTo*` - 将 `Map` 结构转换回 `Score` 或 `Settings` 对象。
+3. `*ToJson` - 将 `Score` 或 `Settings` 对象转换为 JSON 编码字符串（仅限 Web）。
+4. `jsonTo*` - 将 JSON 编码字符串转换回 `Score` 或 `Settings` 对象（仅限 Web）。
 
-For the conversions back to `Score` objects a `Settings` object can/should be passed on.
+对于转换回 `Score` 对象，可以/应该传递一个 `Settings` 对象。
 
 <Tabs
   defaultValue="js"

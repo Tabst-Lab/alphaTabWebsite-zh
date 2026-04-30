@@ -1,5 +1,5 @@
 ---
-title: Export Data Model
+title: 导出数据模型
 since: 1.2.0
 ---
 import Tabs from '@theme/Tabs';
@@ -9,16 +9,16 @@ import { SinceBadge } from '@site/src/components/SinceBadge';
 
 <SinceBadge since="1.2.0"></SinceBadge>
 
-After alphaTab has loaded a full [`Score`](/docs/reference/score) object from any input source, it can also be exported again to one of the supported export formats. 
-Supported export formats: 
+在 alphaTab 从任何输入源加载完整的 [`Score`](/docs/reference/score) 对象后，它也可以再次导出为支持的导出格式之一。
+支持的导出格式：
 
-- Guitar Pro 7 (alphaTab.exporter.Gp7Exporter) <span className="badge badge--info">since 1.2.0</span>
-- alphaTex (alphaTab.exporter.AlphaTexExporter) <span className="badge badge--info">since 1.7.0</span>
+- Guitar Pro 7 (alphaTab.exporter.Gp7Exporter) <span className="badge badge--info">自 1.2.0</span>
+- alphaTex (alphaTab.exporter.AlphaTexExporter) <span className="badge badge--info">自 1.7.0</span>
 
-To export a `Score` object the corresponding exporter needs to be created and called. Then the resulting binary array can be used further to 
-trigger a download, send it to a server, save it to a file etc. 
+要导出 `Score` 对象，需要创建并调用相应的导出器。然后生成的二进制数组可以进一步用于
+触发下载、发送到服务器、保存到文件等。
 
-## Guitar Pro 7 (since 1.2.0)
+## Guitar Pro 7 (自 1.2.0)
 
 <Tabs
   defaultValue="js"
@@ -31,9 +31,9 @@ trigger a download, send it to a server, save it to a file etc.
 
 ```js
 const exporter = new alphaTab.exporter.Gp7Exporter();
-const data = exporter.export(api.score, api.settings); // will return a Uint8Array
+const data = exporter.export(api.score, api.settings); // 将返回 Uint8Array
 
-// trigger download
+// 触发下载
 const a = document.createElement('a');
 a.download = api.score.title.length > 0 ? api.score.title + '.gp' : 'Untitled.gp';
 a.href = URL.createObjectURL(new Blob([data]));
@@ -59,23 +59,23 @@ using(var fs = new System.IO.FileStream(fileName, System.IO.FileMode.Create))
 </TabItem>
 </Tabs>
 
-## alphaTex Exporter (since 1.7.0)
+## alphaTex 导出器 (自 1.7.0)
 
-Starting with 1.7.0 alphaTab can also export the data model to its own music notation language [alphaTex](/docs/alphatex/introduction).
-The exporter supports all features which the importer can also handle. If you find something, please open a feature request. 
+从 1.7.0 开始，alphaTab 还可以将数据模型导出为其自己的音乐记谱语言 [alphaTex](/docs/alphatex/introduction)。
+导出器支持导入器也能处理的所有功能。如果你发现有遗漏，请提交功能请求。
 
-Via the exporter settings [`settings.exporter`](/docs/reference/settings.mdx#Exporter) the format of the exported code can be adjusted.
-Especially the `comments` can be quite useful for alphaTex beginners to learn about the syntax.
+通过导出器设置 [`settings.exporter`](/docs/reference/settings.mdx#Exporter) 可以调整导出代码的格式。
+特别是 `comments` 对于 alphaTex 初学者学习语法非常有用。
 
-While you can use the standard `export` to export the code into a byte array, you can also use `exportToString` to get the alphaTex code
-back as plain string.
+虽然你可以使用标准的 `export` 将代码导出到字节数组，但你也可以使用 `exportToString` 将 alphaTex 代码
+作为纯字符串返回。
 
 ```js
 const exporter = new alphaTab.exporter.AlphaTexExporter();
-const data = exporter.export(api.score, api.settings); // will return a Uint8Array
-const texCode = exporter.exportToString(api.score, api.settings); // will return a string
+const data = exporter.export(api.score, api.settings); // 将返回 Uint8Array
+const texCode = exporter.exportToString(api.score, api.settings); // 将返回字符串
 
-// trigger download
+// 触发下载
 const a = document.createElement('a');
 a.download = api.score.title.length > 0 ? api.score.title + '.atex' : 'Untitled.atex';
 a.href = URL.createObjectURL(new Blob([data]));

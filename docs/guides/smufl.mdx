@@ -1,5 +1,5 @@
 --- 
-title: SMuFL font customization
+title: SMuFL 字体自定义
 since: 1.7.0
 ---
 
@@ -7,7 +7,7 @@ import { AlphaTab } from '@site/src/components/AlphaTab';
 import { AlphaTexSample } from '@site/src/components/AlphaTexSample';
 import { AlphaTabPetaluma } from '@site/src/components/AlphaTabPetaluma';
 
-> SMuFL is a specification that provides a standard way of mapping the thousands of musical symbols required by conventional music notation into the Private Use Area in Unicode’s Basic Multilingual Plane for a single (format-independent) font.
+> SMuFL 是一项规范，它提供了一种标准方式，将传统音乐记谱所需的数千个音乐符号映射到 Unicode 基本多文种平面中的私用区，用于单个（与格式无关的）字体。
 > https://www.smufl.org/
 
 <AlphaTabPetaluma>{`
@@ -30,48 +30,48 @@ import { AlphaTabPetaluma } from '@site/src/components/AlphaTabPetaluma';
 r.2
 `}</AlphaTabPetaluma>
 
-For years alphaTab was using the SmuFL font Bravura to render the music notation symbols. But historically a lot of the visual aspects like spacings, paddings and other arrangements were a custom development originating in the roots of alphaTab.
-While music sheets were generally looking good, various aspects of the SmuFL specification were not followed leading into "incorrect" display according to this spec. 
+多年来，alphaTab 使用 SmuFL 字体 Bravura 来渲染音乐记谱符号。但从历史上看，许多视觉方面，如间距、填充和其他布局都是源自 alphaTab 根源的自定义开发。
+虽然乐谱通常看起来不错，但 SmuFL 规范的各个方面并未遵循，导致根据该规范的显示"不正确"。
 
-With 1.7.0 we have cleaned years of accumulated customizations in layouting the music sheet bringing things closer to the spec.
-Not only brings this change alphaTab closer too the expected look&feel compared to other music notation software, it also allows the usage of custom SmuFL compliant fonts.
+在 1.7.0 版本中，我们清理了多年来积累的音乐记谱布局自定义，使内容更接近规范。
+这一更改不仅使 alphaTab 的外观和感觉更接近其他音乐记谱软件的预期，还允许使用自定义的 SmuFL 兼容字体。
 
-SMuFl fonts consist of two main parts: 
+SMuFL 字体由两个主要部分组成：
 
-1. The Font itself holding drawing and text-layout information of the glyphs
-2. A separate metadata.json holding SMuFL spec specific details on sizes to use.
+1. 字体本身，保存字形的绘图和文本布局信息
+2. 一个单独的 metadata.json，保存 SMuFL 规范特定的尺寸使用细节。
 
-To activate a custom font these two things have to be provided to alphaTab. The following example shows the same music sheet with different SMuFL fonts: 
+要激活自定义字体，必须将这两项提供给 alphaTab。以下示例展示了使用不同 SMuFL 字体的相同乐谱：
 
 ```ts
 import * as alphaTab from "@coderline/alphatab";
 const settings = new alphaTab.Settings();
 
-// 1. Tell alphatab where to find the font
+// 1. 告诉 alphatab 在哪里找到字体
 settings.core.smuflFontSources = new Map<alphaTab.FontFileFormat, string>([
     [alphaTab.FontFileFormat.OpenType, 'Petaluma.otf']
 ])
 
-// 2. Fill the metadata containing all sizes and spacing information
+// 2. 填充包含所有尺寸和间距信息的元数据
 const petalumaMetadata = await loadJsonViaAjax('petaluma_metadata.json');
 settings.display.resources.engravingSettings.fillFromSmufl(petalumaMetadata);
 
-// 3. Initialize alphaTab as usual
+// 3. 像往常一样初始化 alphaTab
 const api = new alphaTab.AlphaTabApi(document.querySelector('#alphatab'), settings);
 ```
 
-## Limitations
+## 限制
 
-### No dynamic font changes
+### 不支持动态字体更改
 
-alphaTab cannot dynamically change the font used in one instance. Hence changing the `smuflFontSources` will not have any effect
-on re-rendering. In such cases destroy the current `AlphaTabApi` instance and create a new one. 
+alphaTab 无法动态更改一个实例中使用的字体。因此更改 `smuflFontSources` 不会对重新渲染产生任何效果。
+在这种情况下，销毁当前的 `AlphaTabApi` 实例并创建一个新实例。
 
-### Incomplete SMuFl Fonts
+### 不完整的 SMuFL 字体
 
-We noticed that there are not many fonts beside Bravura which provide all symbols used by alphaTab. alphaTab has no fallback mechanism
-to use other glyphs in such cases. Also some fonts have placeholder symbols for glyphs not supported.
+我们注意到，除了 Bravura 之外，没有多少字体提供 alphaTab 使用的所有符号。alphaTab 没有回退机制
+在这种情况下使用其他字形。此外，某些字体对不支持的字形有占位符符号。
 
-alphaTab tries to warn about missing glyphs using the information in the `metadata.json`.
+alphaTab 尝试使用 `metadata.json` 中的信息警告缺失的字形。
 
-Check the console warnings when calling `fillFromSmufl`.
+调用 `fillFromSmufl` 时检查控制台警告。

@@ -1,68 +1,68 @@
 --- 
-title: Audio & Video Sync
+title: 音频与视频同步
 since: 1.6.0
 ---
 import { SinceBadge } from '@site/src/components/SinceBadge';
 
 <SinceBadge since="1.6.0" />
 
-alphaTab can be synchronized with an external audio or video backing track. You can either use Guitar Pro 8 files with an audio track or synchronize alphaTab with an external media using the 
-[Media Sync Editor in the Playground](/docs/playground/playground.mdx).
+alphaTab 可以与外部音频或视频伴奏同步。你可以使用带有音频轨道的 Guitar Pro 8 文件，或者使用
+[Playground 中的媒体同步编辑器](/docs/playground/playground.mdx) 将 alphaTab 与外部媒体同步。
 
-At this point alphaTab cannot mix the synthesized audio and a backing track together, therefore only either audio will be heard. Using the synchronization information embedded in the data model,
-alphaTab can then place the cursor correctly as an external media is taking over the audio.
+此时 alphaTab 无法将合成音频和伴奏混合在一起，因此只能听到其中一种音频。使用嵌入在数据模型中的同步信息，
+当外部媒体接管音频时，alphaTab 可以正确放置光标。
 
-### Audio Backing Track 
+### 音频伴奏
 
-alphaTab has built-in support for audio backing tracks. To play alphaTab with an audio backing track instead of synthesized audio, following prerequisites have to be fulfilled:
+alphaTab 内置支持音频伴奏。要使用音频伴奏而不是合成音频播放 alphaTab，必须满足以下先决条件：
 
-1. The data model ships the backing track audio file.
-2. The data model ships sync points which aligns the external audio track with the music notation.
-3. You enabled the backing track via either `PlayerMode.EnabledAutomatic` or `PlayerMode.EnabledBackingTrack`.
-4. Your platform (browser, operating system,...) has to support the embedded audio file. OGG Vorbis and MP3s are quite widely supported, and if used, there shouldn't be major problems.
+1. 数据模型包含伴奏音频文件。
+2. 数据模型包含将外部音频轨道与音乐记谱对齐的同步点。
+3. 你通过 `PlayerMode.EnabledAutomatic` 或 `PlayerMode.EnabledBackingTrack` 启用了伴奏。
+4. 你的平台（浏览器、操作系统等）必须支持嵌入的音频文件。OGG Vorbis 和 MP3 得到了相当广泛的支持，如果使用，应该不会有重大问题。
 
-To tackle 1. and 2. you can use the Media Sync Editor we provide on our [Playground](/docs/playground/playground.mdx). Learn more about the editor [here](./media-sync-editor.mdx)
+要解决 1. 和 2.，你可以使用我们在 [Playground](/docs/playground/playground.mdx) 上提供的媒体同步编辑器。在此了解更多关于编辑器的信息 [here](./media-sync-editor.mdx)
 
-### Guitar Pro 8 Files
+### Guitar Pro 8 文件
 
-Since Version 8 Guitar Pro provides built-in audio tracks with the possibility to synchronize the backing track with the music sheet. If the audio file is embedded into the GP file, alphaTab can load and use 
-both the audio file and the sync point information. 
+自第 8 版起，Guitar Pro 提供内置音频轨道，可以将伴奏与乐谱同步。如果音频文件嵌入到 GP 文件中，alphaTab 可以加载和使用
+音频文件和同步点信息。
 
-As mentioned above, alphaTab can only play **either** the external audio file **or** the synthesized audio. Also we do not support changes in the audio (like adjusting the pitch).
+如上所述，alphaTab 只能播放 **外部音频文件** **或** **合成音频**。我们也不支持音频中的更改（如调整音高）。
 
-Beside that you can load Guitar Pro 8 files and directly benefit from the enhanced sound experience.
+除此之外，你可以加载 Guitar Pro 8 文件，并直接从增强的声音体验中受益。
 
-### Custom External Media Player
+### 自定义外部媒体播放器
 
-alphaTab can be integrated with any external media system but it requires some implementation on the integrator side. To properly synchronize alphaTab and an external media source (audio or video) the `alphaTab.synth.IExternalMediaHandler` interface has to be implemented and provided to alphaTab.
-Beside that, alphaTab has to be informed about the time updates on the external media (e.g. during playback and seeking). This update should happen at a rate smaller than two subsequent notes. 50ms updates have shown to work well on even fast songs, but to save power and battery you might want to handle this dynamically.
+alphaTab 可以与任何外部媒体系统集成，但这需要集成器方面进行一些实现。要正确同步 alphaTab 和外部媒体源（音频或视频），必须实现并提供 `alphaTab.synth.IExternalMediaHandler` 接口给 alphaTab。
+除此之外，alphaTab 必须被告知外部媒体上的时间更新（例如，在播放和跳转期间）。此更新应以小于两个连续音符的速率进行。50 毫秒的更新即使在快速歌曲上也显示效果良好，但为了节省电量和电池，你可能希望动态处理此问题。
 
-The following example illustrates a full integration with a HTML Media Element like `<audio />` or `<video />`. This should be a good reference on how to implement the related sync with your media player. 
-Most things should be quite obvious like syncing volume, playback speed and providing the time and duration.
+以下示例说明了与 HTML 媒体元素（如 `<audio />` 或 `<video />`）的完整集成。这应该是如何实现与你的媒体播放器相关的同步的一个很好的参考。
+大多数事情应该相当明显，如同步音量、播放速度和提供时间与持续时间。
 
 import { ExternalMediaSample } from '@site/src/components/ExternalMediaSample';
 
 <ExternalMediaSample />
 
 
-#### YouTube 
+#### YouTube
 
-YouTube is a great counterpart to alphaTab to provide audio and video for your music sheet. Until now we decided to NOT ship a direct YouTube integration as there are quite some implications to it.
-Some key reasons behind this is:
+YouTube 是 alphaTab 的一个很好的搭档，可以为你的乐谱提供音频和视频。到目前为止，我们决定不直接集成 YouTube，因为这有一些影响。
+背后的一些关键原因是：
 
-1. alphaTab is a cross-platform toolkit. While integrating a YouTube player in the web is easy, SDKs for Android or Desktop platforms are way more complex. We want to keep this on the integrator side. 
-2. Looking at data protection laws like GDPR, users have to accept the load and integration of such external media. We want to be sure devs take proper care asking users for consent where required.
-3. The integration of the YouTube player requires further considerations in your user interface (sizing, where to place it, how to configure the YouTube player).
+1. alphaTab 是一个跨平台工具包。虽然在 Web 中集成 YouTube 播放器很容易，但 Android 或桌面平台的 SDK 要复杂得多。我们希望将此留给集成器处理。
+2. 考虑到数据保护法（如 GDPR），用户必须接受此类外部媒体的加载和集成。我们希望确保开发者在需要时妥善征求用户同意。
+3. YouTube 播放器的集成需要在用户界面中进一步考虑（大小、放置位置、如何配置 YouTube 播放器）。
 
-Nevertheless we want to give you some guidance on how to link alphaTab to YouTube. The following steps show how to use the [YouTube Player API Reference for iframe Embeds](https://developers.google.com/youtube/iframe_api_reference) together with alphaTab.
+尽管如此，我们还是想为你提供一些关于如何将 alphaTab 链接到 YouTube 的指导。以下步骤展示了如何使用 [YouTube 播放器 iframe 嵌入 API 参考](https://developers.google.com/youtube/iframe_api_reference) 与 alphaTab 一起使用。
 
 
 ```js
-// assuming a <div id="youtube"></div> somewhere
+// 假设某处有一个 <div id="youtube"></div>
 
 
 //
-// 1. load the YouTube IFrame API. we use promises to have a bit better control over the initialization sequence
+// 1. 加载 YouTube IFrame API。我们使用 promises 来更好地控制初始化顺序
 
 const playerElement = document.getElementById('youtube');
 
@@ -74,39 +74,39 @@ const youtubeApiReady = Promise.withResolvers();
 window.onYouTubePlayerAPIReady = youtubeApiReady.resolve;
 
 //
-// 2. Already initialize alphaTab
+// 2. 已经初始化 alphaTab
 
 const api = new alphaTab.AlphaTabApi('#alphaTab', {
     core: {
         file: 'my-synced-file.gp'
     },
     player: {
-        // set the external media mode
+        // 设置外部媒体模式
         playerMode: alphaTab.PlayerMode.EnabledExternalMedia
     }
 });
 window.at = at;
 
 //
-// 3. Wait for the youtube API to be ready
+// 3. 等待 youtube API 准备就绪
 await youtubeApiReady.promise;
 
 
 //
-// 4. Setup the youtube player and wait for the video to be ready for playback
+// 4. 设置 youtube 播放器并等待视频准备好播放
 const youtubePlayerReady = Promise.withResolvers();
 let currentTimeInterval  = 0;
 const player = new YT.Player(playerElement, {
     height: '360',
     width: '640',
     videoId: 'your-video-id',
-    playerVars: { 'autoplay': 0 }, // we do not want autoplay
+    playerVars: { 'autoplay': 0 }, // 我们不想要自动播放
     events: {
         'onReady': (e) => {
             youtubePlayerReady.resolve();
         },
 
-        // when the player state changes we update alphatab accordingly.
+        // 当播放器状态改变时，我们相应地更新 alphatab。
         'onStateChange': (e) => {
             // 
             switch (e.data) {
@@ -140,9 +140,9 @@ const player = new YT.Player(playerElement, {
 await youtubePlayerReady.promise;
 
 // 
-// 5. Setup the handler to let alphaTab control the youtube player when needed
+// 5. 设置处理程序，让 alphaTab 在需要时控制 youtube 播放器
 
-// Setup alphaTab with youtube handler
+// 使用 youtube 处理程序设置 alphaTab
 const alphaTabYoutubeHandler = {
     get backingTrackDuration() {
         return player.getDuration() * 1000;
@@ -172,18 +172,17 @@ const alphaTabYoutubeHandler = {
 api.player.output.handler = alphaTabYoutubeHandler;
 ```
 
-As you can see it is again just a matter of passing the right calls and values back and forth just like with an `<audio />` element.
+正如你所见，这只是来回传递正确的调用和值的问题，就像使用 `<audio />` 元素一样。
 
 > [!WARNING]
-> The YouTube IFrame API has a quite nasty behavior when it comes to seeking: For some strange reason `seekTo` will start the playback of the video
-> depending on the state. The docs say:
->
+> YouTube IFrame API 在跳转方面有一个相当令人讨厌的行为：由于某些奇怪的原因，`seekTo` 会根据状态开始播放视频。
+> 文档说：
 > > `player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void`
 > >
-> > Seeks to a specified time in the video. If the player is paused when the function is called, it will remain paused. If the function is called from another state (playing, video cued, etc.), the player will play the video.
+> > 跳转到视频中的指定时间。如果调用函数时播放器处于暂停状态，它将保持暂停。如果从其他状态（播放、视频已缓存等）调用该函数，播放器将播放视频。
 >
-> alphaTab might initially do some seeking to the start position. This can cause the video to directly start playing which you might not want. 
-> To workaround this problem you could adjust the handler to check the player state and react accordingly. 
+> alphaTab 最初可能会跳转到起始位置。这可能导致视频直接开始播放，而你可能不希望这样。
+> 要解决此问题，你可以调整处理程序以检查播放器状态并做出相应反应。
 
 ```js
 let initialSeek = -1;

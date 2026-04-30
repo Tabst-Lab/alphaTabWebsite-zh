@@ -1,64 +1,63 @@
 ---
-title: Handling Midi Events
+title: 处理 Midi 事件
 ---
 
-## Introduction
+## 简介
 
-When alphaTab is playing the audio, it internally uses a Midi and SoundFont2 based synthesizer. 
-The midi it plays is generated from the data model and includes the messages on when notes have to start/stop playing,
-when tempo changes are etc. These timed "Midi Messages" are named "Midi Events". Additionally there are midi events for
-events like the metronome or the count-in sounds which will trigger a special note being played. 
+当 alphaTab 播放音频时，它在内部使用基于 Midi 和 SoundFont2 的合成器。
+它播放的 midi 是从数据模型生成的，包括音符何时开始/停止播放的消息，
+何时速度变化等。这些定时的 "Midi 消息" 被称为 "Midi 事件"。此外，还有 midi 事件用于
+节拍器或预备拍声音等事件，这些事件将触发一个特殊音符的播放。
 
-You can learn more about midi all across the internet, here some links for further reading: 
+你可以在互联网上了解更多关于 midi 的信息，这里有一些进一步阅读的链接：
 
 * https://www.midi.org/images/easyblog_articles/47/audio_midi.pdf
 * https://www.midi.org/midi-articles/about-midi-part-3-midi-messages
 * https://www.midi.org/midi-articles/about-midi-part-4-midi-files
-* Official Specs: https://www.midi.org/specifications
+* 官方规范：https://www.midi.org/specifications
 
-When building applications or websites with alphaTab you might need to know during playback that certain midi events 
-were processed and played. The most obvious example is handling the metronome. You might want to 
-show some visual feedback of the metronome, like a number that counts visually. But also other events like 
-notes that start/stop playing might be important. 
+在使用 alphaTab 构建应用程序或网站时，你可能需要在播放期间知道某些 midi 事件
+已被处理和播放。最明显的例子是处理节拍器。你可能想要
+显示节拍器的一些视觉反馈，比如一个数字直观地计数。但其他事件如
+音符开始/停止播放也可能很重要。
 
-alphaTab exposes an event where you can register for the midi events that have been played. Internally alphaTab
-buffers the audio, so it will process first a bunch of midi events and generate the related audio for it. 
-Once these events were detected to be actually played on the audio device, the event in alphaTab will be triggered
-and you can handle the played events within your codebase. 
+alphaTab 公开了一个事件，你可以在其中注册已播放的 midi 事件。在内部，alphaTab
+缓冲音频，因此它会首先处理一批 midi 事件并生成相关的音频。
+一旦检测到这些事件实际上在音频设备上播放，alphaTab 中的事件将被触发
+你可以在你的代码库中处理已播放的事件。
 
 :::note
-Due to audio latency and architecture of alphaTab you have to take into account that there can be a latency between
-the actual playback and the event being fired. This latency might depend on the machine performance. 
+由于音频延迟和 alphaTab 的架构，你必须考虑到实际播放和事件触发之间可能存在延迟。此延迟可能取决于机器性能。
 :::
 
 :::note
-Secondly you have to notice that midi events are only timed single events with no direct duration. When a note is played, 
-it does not have an event "play note at time X with duration Y". It has one event "at time X start note with the key 90 on channel 1" and later 
-when the note should stop there is an event "at time Y stop stop note with key 90 on channel 1". You can see this like on a keyboard,
-when pressing the key, the sound starts playing until you release it. The duration is not known at this point.
+其次，你必须注意到 midi 事件只是定时的单个事件，没有直接的持续时间。当播放一个音符时，
+它没有 "在时间 X 播放音符，持续时间为 Y" 的事件。它有一个事件 "在时间 X 开始在通道 1 上播放键 90 的音符"，稍后
+当音符应该停止时，有一个事件 "在时间 Y 停止在通道 1 上播放键 90 的音符"。你可以将其视为在键盘上，
+按下键时，声音开始播放直到你释放它。此时还不知道持续时间。
 
-You can use the [`midiLoad`](/docs/reference/api/midiload) event to inspect all midi events which will be loaded by the synthesizer.
-From additional values like durations can be derived by tracking the related events. 
+你可以使用 [`midiLoad`](/docs/reference/api/midiload) 事件来检查合成器将加载的所有 midi 事件。
+可以从跟踪相关事件中获得额外的值，如持续时间。
 :::
 
-## Hands on 
+## 动手实践
 
-The hands-on will be focusing on how to develop this solution using the Web version but it should be easy to adopt it to any other platform. 
+动手实践将侧重于如何使用 Web 版本开发此解决方案，但应该很容易将其应用于任何其他平台。
 
-In the following hands-on we will use the main alphaTab events related to played midi events (events everywhere!) to 
-build a visual metronome which will count in a double fashion like "1 and 2 and 3 and 4".
+在以下动手实践中，我们将使用与已播放 midi 事件相关的主要 alphaTab 事件（到处都是事件！）来
+构建一个视觉节拍器，它将以双重方式计数，如 "1 和 2 和 3 和 4"。
 
-To achieve this we will follow this strategy: 
+为了实现这一点，我们将遵循以下策略：
 
-1. We will listen to played metronome ticks to update the metronome counter to 1,2,3 and so on. 
-2. We will listen to time signature events to be able to derive the right counting and durations of the metronome. 
-3. We will listen to tempo changes to be able to translate the midi ticks to actual milliseconds. 
-4. Using the time information from 2. and 3. we will show the "and" label with a simple timeout. 
+1. 我们将监听已播放的节拍器滴答声，以将节拍器计数器更新为 1,2,3 等等。
+2. 我们将监听拍号事件，以便能够得出正确的计数和节拍器的持续时间。
+3. 我们将监听速度变化，以便能够将 midi 节拍转换为实际的毫秒数。
+4. 使用来自 2. 和 3. 的时间信息，我们将使用一个简单的 timeout 显示 "和" 标签。
 
-### Base Structure
+### 基础结构
 
-The starting point is a simple page with alphaTab and some UI elements for the metronome counter and a play button. 
-From this starting point we will be adding the logic.  
+起点是一个带有 alphaTab 和一些用于节拍器计数器和播放按钮的 UI 元素的简单页面。
+从这个起点开始，我们将添加逻辑。
 
 <img src="/img/guides/handling-midi-events/base-structure.png" />
 
@@ -68,7 +67,7 @@ From this starting point we will be adding the logic.
 
 <head>
     <meta charset="utf-8" />
-    <!-- Using the alpha builds for testing here -->
+    <!-- 此处使用 alpha 版本进行测试 -->
     <script src="https://cdn.jsdelivr.net/npm/@coderline/alphatab@alpha/dist/alphaTab.min.js"></script>
     <style>
         html,
@@ -93,25 +92,25 @@ From this starting point we will be adding the logic.
             margin-right: 5px;
         }
 
-        /* Styles for player */
+        /* 播放器样式 */
         .at-cursor-bar {
-            /* Defines the color of the bar background when a bar is played */
+            /* 定义播放小节时小节背景的颜色 */
             background: rgba(255, 242, 0, 0.25);
         }
 
         .at-selection div {
-            /* Defines the color of the selection background */
+            /* 定义选择背景的颜色 */
             background: rgba(64, 64, 255, 0.1)
         }
 
         .at-cursor-beat {
-            /* Defines the beat cursor */
+            /* 定义拍光标 */
             background: rgba(64, 64, 255, 0.75);
             width: 3px;
         }
 
         .at-highlight * {
-            /* Defines the color of the music symbols when they are being played (svg) */
+            /* 定义播放时音乐符号的颜色 (svg) */
             fill: #0078ff;
             stroke: #0078ff;
         }
@@ -120,9 +119,9 @@ From this starting point we will be adding the logic.
 
 <body>
     <div id="controls">
-        <button id="playPause">Play/Pause</button>
+        <button id="playPause">播放/暂停</button>
         <span id="counter">1</span>
-        <span id="and">and</span>
+        <span id="and">和</span>
     </div>
     <div id="alphaTab">
         \ts 3 4 
@@ -153,11 +152,11 @@ From this starting point we will be adding the logic.
 </body>
 ```
 
-### Simple counter
+### 简单计数器
 
-First we will add the code to add the counter. For this we will listen to the `SystemExclusive2` event by adding it to the filter and subscribing 
-to the event. Without the filter, the event will not fire. For performance reasons alphaTab signales only events which have been registered, not all events
-which are played. 
+首先，我们将添加代码来添加计数器。为此，我们将通过将其添加到过滤器并订阅
+事件来监听 `SystemExclusive2` 事件。没有过滤器，事件将不会触发。出于性能原因，alphaTab 仅发出已注册的事件信号，而不是所有
+已播放的事件。
 
 ```js
 const el = document.getElementById('alphaTab');
@@ -172,28 +171,28 @@ document.getElementById('playPause').onclick = () => {
 const counterSpan = document.getElementById('counter');
 api.midiEventsPlayedFilter = [alphaTab.midi.MidiEventType.AlphaTabMetronome];
 api.playerStateChanged.on(e => {
-    // reset to 1 when stopped
+    // 停止时重置为 1
     if(e.stopped) {
         counterSpan.innerText = 1;
     }
 });
 api.midiEventsPlayed.on(e => {
-    for (const midi of e.events) { // loop through all played events
-        if (midi.isMetronome) { // if a metronome was played, update the UI
+    for (const midi of e.events) { // 遍历所有已播放的事件
+        if (midi.isMetronome) { // 如果播放了节拍器，更新 UI
             counterSpan.innerText = midi.metronomeNumerator + 1;
         }
     }
 });
 ```
 
-And we already got our counter: 
+我们已经得到了我们的计数器：
 <img src="/img/guides/handling-midi-events/simple-counter.gif" />
 
-### Adding 'and' counting
+### 添加 "和" 计数
 
-Here it gets a bit more tricky. alphaTab does not do an "and" counting. There is no event for it. So we have to find out the time
-at which the "and" starts which should be in the middle between two number counts. This means we need to know how many milliseconds
-after the normal metronome event we need to show the "and". Luckily for the metronome events alphaTab provides these details. 
+这里变得有点棘手。alphaTab 不进行 "和" 计数。没有对应的事件。因此我们必须找出 "和" 开始的时间，
+它应该在两个数字计数之间的中间。这意味着我们需要知道在正常节拍器事件之后多少毫秒
+我们需要显示 "和"。幸运的是，对于节拍器事件，alphaTab 提供了这些详细信息。
 
 ```js
 const el = document.getElementById('alphaTab');
@@ -210,21 +209,21 @@ const andSpan = document.getElementById('and');
 
 api.midiEventsPlayedFilter = [alphaTab.midi.MidiEventType.AlphaTabMetronome];
 
-andSpan.style.display = 'none'; // hide 'and' at start
+andSpan.style.display = 'none'; // 开始时隐藏 '和'
 api.playerStateChanged.on(e => {
-    // reset to 1 when stopped
+    // 停止时重置为 1
     if(e.stopped) {
         counterSpan.innerText = 1;
         andSpan.style.display = 'none';
     }
 });
 api.midiEventsPlayed.on(e => {
-    for (const midi of e.events) { // loop through all played events
-        if (midi.isMetronome) { // if a metronome was played, update the UI
+    for (const midi of e.events) { // 遍历所有已播放的事件
+        if (midi.isMetronome) { // 如果播放了节拍器，更新 UI
             console.log('metronome');
             counterSpan.innerText = midi.metronomeNumerator + 1;
-            andSpan.style.display = 'none'; // hide 'and' on tick.
-            // show "and" after half the metronome duration
+            andSpan.style.display = 'none'; // 在滴答时隐藏 '和'。
+            // 在节拍器持续时间的一半后显示 "和"
             const andTime = (midi.metronomeDurationInMilliseconds / 2) / api.playbackSpeed;
             setTimeout(() => {
                 andSpan.style.display = 'inline';
@@ -234,16 +233,16 @@ api.midiEventsPlayed.on(e => {
 });
 ```
 
-Nothing special right? Just hiding and showing some span at some given times.
+没什么特别的对吧？只是在给定的时间隐藏和显示一些 span。
 
 <img src="/img/guides/handling-midi-events/and-counting.gif" />
 
-Now it is up to you to use this feature in any way you can make use of it. You can subscribe to midi events
-and forward them to any further component you prefer. Keep in mind that subscribing to too many events might
-also cause some performance degredation and as there is a bit audio latency involved, there might be some delays.
+现在由你以任何你可以使用的方式使用此功能。你可以订阅 midi 事件
+并将它们转发到你喜欢的任何其他组件。请记住，订阅太多事件可能会
+导致一些性能下降，并且由于存在一些音频延迟，可能会有一些延迟。
 
 
-## Final File
+## 最终文件
 
 ```html
 <!DOCTYPE html>
@@ -251,7 +250,7 @@ also cause some performance degredation and as there is a bit audio latency invo
 
 <head>
     <meta charset="utf-8" />
-    <!-- Using the alpha builds for testing here -->
+    <!-- 此处使用 alpha 版本进行测试 -->
     <script src="https://cdn.jsdelivr.net/npm/@coderline/alphatab@alpha/dist/alphaTab.min.js"></script>
     <style>
         html,
@@ -276,25 +275,25 @@ also cause some performance degredation and as there is a bit audio latency invo
             margin-right: 5px;
         }
 
-        /* Styles for player */
+        /* 播放器样式 */
         .at-cursor-bar {
-            /* Defines the color of the bar background when a bar is played */
+            /* 定义播放小节时小节背景的颜色 */
             background: rgba(255, 242, 0, 0.25);
         }
 
         .at-selection div {
-            /* Defines the color of the selection background */
+            /* 定义选择背景的颜色 */
             background: rgba(64, 64, 255, 0.1)
         }
 
         .at-cursor-beat {
-            /* Defines the beat cursor */
+            /* 定义拍光标 */
             background: rgba(64, 64, 255, 0.75);
             width: 3px;
         }
 
         .at-highlight * {
-            /* Defines the color of the music symbols when they are being played (svg) */
+            /* 定义播放时音乐符号的颜色 (svg) */
             fill: #0078ff;
             stroke: #0078ff;
         }
@@ -303,9 +302,9 @@ also cause some performance degredation and as there is a bit audio latency invo
 
 <body>
     <div id="controls">
-        <button id="playPause">Play/Pause</button>
+        <button id="playPause">播放/暂停</button>
         <span id="counter">1</span>
-        <span id="and">and</span>
+        <span id="and">和</span>
     </div>
     <div id="alphaTab">
         \ts 3 4 
@@ -338,21 +337,21 @@ also cause some performance degredation and as there is a bit audio latency invo
 
         api.midiEventsPlayedFilter = [alphaTab.midi.MidiEventType.SystemExclusive2];
 
-        andSpan.style.display = 'none'; // hide 'and' at start
+        andSpan.style.display = 'none'; // 开始时隐藏 '和'
         api.playerStateChanged.on(e => {
-            // reset to 1 when stopped
+            // 停止时重置为 1
             if(e.stopped) {
                 counterSpan.innerText = 1;
                 andSpan.style.display = 'none';
             }
         });
         api.midiEventsPlayed.on(e => {
-            for (const midi of e.events) { // loop through all played events
-                if (midi.isMetronome) { // if a metronome was played, update the UI
+            for (const midi of e.events) { // 遍历所有已播放的事件
+                if (midi.isMetronome) { // 如果播放了节拍器，更新 UI
                     console.log('metronome');
                     counterSpan.innerText = midi.metronomeNumerator + 1;
-                    andSpan.style.display = 'none'; // hide 'and' on tick.
-                    // show "and" after half the metronome duration
+                    andSpan.style.display = 'none'; // 在滴答时隐藏 '和'。
+                    // 在节拍器持续时间的一半后显示 "和"
                     const andTime = (midi.metronomeDurationInMilliseconds / 2) / api.playbackSpeed;
                     setTimeout(() => {
                         andSpan.style.display = 'inline';

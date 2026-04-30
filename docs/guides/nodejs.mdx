@@ -1,5 +1,5 @@
 ---
-title: Use in Node.js
+title: 在 Node.js 中使用
 since: 1.2.3
 ---
 import { SinceBadge } from '@site/src/components/SinceBadge';
@@ -8,33 +8,33 @@ import { SinceBadge } from '@site/src/components/SinceBadge';
 
 export const SourceLinks = 'linkAlphaTabApi="/docs/reference/types/AlphaTabApi" linkScore="/docs/reference/types/model/Score"'
 
-The JavaScript version of alphaTab is primarily optimized for usage in Browsers. At least the top level `AlphaTabApi`
-which is a UI focused interface to alphaTab. But alphaTab can also be used in other
-JavaScript environments like Node.js or headless JavaScript engines. The core of alphaTab is platform independent
-and simply requires certain APIs to be available. With [alphaSkia](https://github.com/CoderLine/alphaSkia) you can 
-even produce raster graphics output.
+JavaScript 版本的 alphaTab 主要针对浏览器中的使用进行了优化。至少顶层 `AlphaTabApi`
+是 alphaTab 的 UI 聚焦接口。但 alphaTab 也可以在其他
+JavaScript 环境中使用，如 Node.js 或无头 JavaScript 引擎。alphaTab 的核心是平台独立的
+并且只需要某些 API 可用。使用 [alphaSkia](https://github.com/CoderLine/alphaSkia) 你甚至可以
+生成光栅图形输出。
 
-In this guide we will setup a Node.js example which is using alphaTab to render a given input file to an SVG and PNG.
+在本指南中，我们将设置一个 Node.js 示例，使用 alphaTab 将给定的输入文件渲染为 SVG 和 PNG。
 
-## 1. Setup project
+## 1. 设置项目
 
-The start is quite simple:
+开始非常简单：
 
-1. Run `npm init` in a new directory 
-2. Run `npm install @coderline/alphatab` to install alphaTab
-3. Create a new `index.mjs` into which our code will go .
+1. 在新目录中运行 `npm init`
+2. 运行 `npm install @coderline/alphatab` 安装 alphaTab
+3. 创建一个新的 `index.mjs`，我们的代码将放在其中。
 
-## 2. The basic code structure
+## 2. 基本代码结构
 
-In our code we will first load alphaTab and load the `Score` from a given input file path: 
+在我们的代码中，我们将首先加载 alphaTab 并从给定的输入文件路径加载 `Score`：
 
 ```js
-// load alphaTab
+// 加载 alphaTab
 import * as alphaTab from "@coderline/alphatab";
-// needed for file load
+// 文件加载所需
 import * as fs from 'fs';
 
-// Load the file
+// 加载文件
 const fileData = await fs.promises.readFile(process.argv[2]);
 const settings = new alphaTab.Settings();
 const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
@@ -44,25 +44,26 @@ const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
 console.log(score.title);
 ```
 
-And when we run this file on the command line we already have a loaded data model: 
+当我们在命令行上运行此文件时，我们已经有了一个加载的数据模型：
 
 <img src="/img/guides/nodejs/load-file.png" />
 
-## 3. Using the Low Level APIs
-From this point on we will use the Low Level APIs to render the Score into an SVG. 
-As of now there are no render engines shipped with alphaTab which would allow rendering into 
-raster graphics so we will render it to an SVG. Feel free to open [new discussions on GitHub](https://github.com/CoderLine/alphaTab/discussions) if you have 
-special needs for your project. 
+## 3. 使用底层 API
 
-The code below is mainly taken from the [Low Level API guide](/docs/guides/lowlevel-apis). 
+从这一点开始，我们将使用底层 API 将乐谱渲染为 SVG。
+到目前为止，alphaTab 没有附带任何允许渲染到
+光栅图形的渲染引擎，因此我们将把它渲染为 SVG。如果你有
+项目的特殊需求，欢迎在 [GitHub 上发起新的讨论](https://github.com/CoderLine/alphaTab/discussions)。
+
+下面的代码主要取自 [底层 API 指南](/docs/guides/lowlevel-apis)。
 
 ```js
-// load alphaTab
+// 加载 alphaTab
 import * as alphaTab from "@coderline/alphatab";
-// needed for file load
+// 文件加载所需
 import * as fs from 'fs';
 
-// 1. Load File
+// 1. 加载文件
 const fileData = await fs.promises.readFile(process.argv[2]);
 const settings = new alphaTab.Settings();
 
@@ -71,54 +72,55 @@ const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
   settings
 );
 
-// 2. Setup renderer
+// 2. 设置渲染器
 settings.core.engine = "svg";
 const renderer = new alphaTab.rendering.ScoreRenderer(settings);
 renderer.width = 1200;
 
-// 3. Listen to Events
+// 3. 监听事件
 let svgChunks = [];
 
-// clear on new rendering
+// 新渲染时清除
 renderer.preRender.on((isResize) => {
   svgChunks = []; 
 });
 
-// Since 1.3.0:
-// alphaTab separates "layouting" and "rendering" of the individual
-// partial results. in this case we want to render directly any partial layouted
-// (in UI scenarios the rendering might be delayed to the point when partials become visible)
-// Alternatively settings.core.enableLazyLoading could be set to false. 
+// 自 1.3.0 起：
+// alphaTab 将单个结果的"布局"和"渲染"分开。
+// 在这种情况下，我们想要直接渲染任何部分布局好的
+// （在 UI 场景中，渲染可能会推迟到部分可见时）
+// 或者可以将 settings.core.enableLazyLoading 设置为 false。
 renderer.partialLayoutFinished.on((r) => {
     renderer.renderResult(r.id);
 })
 
-// whenever the rendering of a partial is finished, we remember all individual outputs.
+// 每当部分渲染完成时，我们记住所有单独的输出。
 renderer.partialRenderFinished.on((r) => {
   svgChunks.push({
-    svg: r.renderResult, // svg string
+    svg: r.renderResult, // svg 字符串
     width: r.width,
     height: r.height,
   });
 });
 
-// 4. Fire off rendering, this is synchronous so we can assume all results to be available after this call.
+// 4. 开始渲染，这是同步的，因此我们可以假设在此调用后所有结果都可用。
 renderer.renderScore(score, [0]);
 
-// 5. log the SVG chunks
+// 5. 输出 SVG 块
 console.log(svgChunks.map((c) => c.svg).join("\n"));
 ```
 
-Running the script again, we can see the output.
+再次运行脚本，我们可以看到输出。
 
 <img src="/img/guides/nodejs/svg.png" />
 
-## 4. The CSS dependency
-The rendered SVG assumes some CSS specific parts to be available for the Music Font. Normally alphaTab adds 
-a `style` tag to the page which loads the Music Symbol Font (Bravura) via as Web Font. Without these 
-styles the SVG will not display the symbols correctly.   
+## 4. CSS 依赖
 
-The related CSS template is: 
+渲染的 SVG 假设某些 CSS 特定部分可用于音乐字体。通常 alphaTab 会添加
+一个 `style` 标签到页面，通过 Web 字体加载音乐符号字体（Bravura）。没有这些
+样式，SVG 将无法正确显示符号。
+
+相关的 CSS 模板是：
 
 ```css
 @font-face {
@@ -152,59 +154,59 @@ The related CSS template is:
 }
 ```
 
-## 5. PNG rendering <SinceBadge since="1.3.0" inline="true" />
+## 5. PNG 渲染 <SinceBadge since="1.3.0" inline="true" />
 
-While SVG can be nice for some use-cases, having PNGs as output is easier to handle in some environments. 
-[`alphaSkia`](https://github.com/CoderLine/alphaSkia) is a custom wrapper we created around [Skia](https://skia.org/) to have best compatibility and consistent rendering
-across platforms.
+虽然 SVG 对于某些用例可能不错，但在某些环境中使用 PNG 作为输出更容易处理。
+[`alphaSkia`](https://github.com/CoderLine/alphaSkia) 是我们创建的围绕 [Skia](https://skia.org/) 的自定义包装器，以实现最佳的兼容性和一致的渲染
+跨平台。
 
-First we need to install main alphaSkia library via `npm install @coderline/alphaskia`.  
-Second we need to install the native operating system dependencies (skia libs) on which we plan to run our application:
+首先，我们需要通过 `npm install @coderline/alphaskia` 安装主 alphaSkia 库。
+其次，我们需要在计划运行应用程序的操作系统上安装原生操作系统依赖项（skia 库）：
 
 * `npm install @coderline/alphaskia-windows`
 * `npm install @coderline/alphaskia-linux`
 * `npm install @coderline/alphaskia-macos`
 
-This done we can update our alphaTab code with following parts:
+完成这些后，我们可以用以下部分更新我们的 alphaTab 代码：
 
-1. We connect alphaTab and alphaSkia to enable the raster graphics rendering. 
-2. We load the fonts we plan to use into alphaSkia.
-3. We change the rendering settings to produce PNG with our custom fonts. 
-3. We combine all individual PNGs into one final one and save it.
+1. 我们连接 alphaTab 和 alphaSkia 以启用光栅图形渲染。
+2. 我们将计划使用的字体加载到 alphaSkia 中。
+3. 我们更改渲染设置以使用我们的自定义字体生成 PNG。
+3. 我们将所有单独的 PNG 组合成一个最终的 PNG 并保存它。
 
 
-### Connecting alphaTab and alphaSkia
+### 连接 alphaTab 和 alphaSkia
 
-To enable alphaSkia we can call `alphaTab.Environment.enableAlphaSkia` where we pass in the Bravura font data to have the music notation font available. 
+要启用 alphaSkia，我们可以调用 `alphaTab.Environment.enableAlphaSkia`，在其中传入 Bravura 字体数据以使音乐记谱字体可用。
 
 ```js
 import * as alphaTab from '@coderline/alphatab';
 import * as fs from 'fs';
 import * as alphaSkia from '@coderline/alphaskia';
 
-// 1. Initialize alphaSkia
+// 1. 初始化 alphaSkia
 alphaTab.Environment.enableAlphaSkia(
-  (await fs.promises.readFile('node_modules/@coderline/alphatab/dist/font/Bravura.ttf')).buffer /* needs an ArrayBuffer */,
+  (await fs.promises.readFile('node_modules/@coderline/alphatab/dist/font/Bravura.ttf')).buffer /* 需要一个 ArrayBuffer */,
   alphaSkia
 );
 ```
 
-### Load the fonts we plan to use. 
+### 加载我们计划使用的字体。
 
-We want to use some custom fonts in alphaTab for normal texts so we load them for later use.
+我们想在 alphaTab 中使用一些自定义字体来显示普通文本，因此我们加载它们以供以后使用。
 
 ```js
 import * as alphaTab from '@coderline/alphatab';
 import * as fs from 'fs';
 import * as alphaSkia from '@coderline/alphaskia';
 
-// 1. Initialize alphaSkia
+// 1. 初始化 alphaSkia
 alphaTab.Environment.enableAlphaSkia(
-  (await fs.promises.readFile('node_modules/@coderline/alphatab/dist/font/Bravura.ttf')).buffer /* needs an ArrayBuffer */,
+  (await fs.promises.readFile('node_modules/@coderline/alphatab/dist/font/Bravura.ttf')).buffer /* 需要一个 ArrayBuffer */,
   alphaSkia
 );
 
-// 2. Load custom fonts
+// 2. 加载自定义字体
 const fontFiles = [
   'font/roboto/Roboto-Regular.ttf',
   'font/roboto/Roboto-Italic.ttf',
@@ -222,7 +224,7 @@ for (const fontFile of fontFiles) {
   fontInfo.push(alphaTab.Environment.registerAlphaSkiaCustomFont(new Uint8Array(fontData)));
 }
 
-// 3. Load File
+// 3. 加载文件
 const fileData = await fs.promises.readFile(process.argv[2]);
 const settings = new alphaTab.Settings();
 const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
@@ -231,20 +233,20 @@ const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
 );
 ```
 
-### Change the rendering settings to produce PNG with our custom fonts.
+### 更改渲染设置以使用我们的自定义字体生成 PNG。
 
 ```js
 import * as alphaTab from '@coderline/alphatab';
 import * as fs from 'fs';
 import * as alphaSkia from '@coderline/alphaskia';
 
-// 1. Initialize alphaSkia
+// 1. 初始化 alphaSkia
 alphaTab.Environment.enableAlphaSkia(
-  (await fs.promises.readFile('node_modules/@coderline/alphatab/dist/font/Bravura.ttf')).buffer /* needs an ArrayBuffer */,
+  (await fs.promises.readFile('node_modules/@coderline/alphatab/dist/font/Bravura.ttf')).buffer /* 需要一个 ArrayBuffer */,
   alphaSkia
 );
 
-// 2. Load custom fonts
+// 2. 加载自定义字体
 const fontFiles = [
   'path-to-fonts/roboto/Roboto-Regular.ttf',
   'path-to-fonts/roboto/Roboto-Italic.ttf',
@@ -262,7 +264,7 @@ for (const fontFile of fontFiles) {
   fontInfo.push(alphaTab.Environment.registerAlphaSkiaCustomFont(new Uint8Array(fontData)));
 }
 
-// 3. Load File
+// 3. 加载文件
 const fileData = await fs.promises.readFile(process.argv[2]);
 const settings = new alphaTab.Settings();
 const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
@@ -270,8 +272,8 @@ const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
   settings
 );
 
-// 4. Setup renderer
-settings.core.engine = "skia"; // ask for skia rendering
+// 4. 设置渲染器
+settings.core.engine = "skia"; // 请求 skia 渲染
 
 const sansFontName = fontInfo[0].families;
 const serifFontName = fontInfo[4].families;
@@ -292,16 +294,16 @@ const renderer = new alphaTab.rendering.ScoreRenderer(settings);
 renderer.width = 1200;
 ```
 
-### Combine all individual PNGs into one final one and save it.
+### 将所有单独的 PNG 组合成一个最终的 PNG 并保存它。
 
-Here it gets a bit more tricky: To draw the final image, we need to know the final size of it. 
+这里变得有点棘手：要绘制最终图像，我们需要知道它的最终大小。
 
-Technically we could collect all partial results and draw the full image at the end but this might result
-in quite some memory consumption as all partials have to be kept in-memory until combining them. But we want to do better by 
-drawing any partial directly into the final image and then cleanup the partial.
+从技术上讲，我们可以收集所有部分结果并在最后绘制完整图像，但这可能会导致
+相当多的内存消耗，因为所有部分都必须保留在内存中直到组合它们。但我们希望做得更好，通过
+将任何部分直接绘制到最终图像中，然后清理该部分。
 
-Therefore we cannot directly ask for drawing when the layouting finished, instead we first wait for the layouting to be fully finished to have the total size. 
-Then we request all partials to be rendered. This logic is implemented in the following part:
+因此，我们不能在布局完成时直接请求绘制，而是首先等待布局完全完成以获得总大小。
+然后我们请求所有部分进行渲染。此逻辑在以下部分中实现：
 
 
 ```js
@@ -309,13 +311,13 @@ import * as alphaTab from '@coderline/alphatab';
 import * as fs from 'fs';
 import * as alphaSkia from '@coderline/alphaskia';
 
-// 1. Initialize alphaSkia
+// 1. 初始化 alphaSkia
 alphaTab.Environment.enableAlphaSkia(
-  (await fs.promises.readFile('node_modules/@coderline/alphatab/dist/font/Bravura.ttf')).buffer /* needs an ArrayBuffer */,
+  (await fs.promises.readFile('node_modules/@coderline/alphatab/dist/font/Bravura.ttf')).buffer /* 需要一个 ArrayBuffer */,
   alphaSkia
 );
 
-// 2. Load custom fonts
+// 2. 加载自定义字体
 const fontFiles = [
   'font/roboto/Roboto-Regular.ttf',
   'font/roboto/Roboto-Italic.ttf',
@@ -333,7 +335,7 @@ for (const fontFile of fontFiles) {
   fontInfo.push(alphaTab.Environment.registerAlphaSkiaCustomFont(new Uint8Array(fontData)));
 }
 
-// 3. Load File
+// 3. 加载文件
 const fileData = await fs.promises.readFile(process.argv[2]);
 const settings = new alphaTab.Settings();
 const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
@@ -341,8 +343,8 @@ const score = alphaTab.importer.ScoreLoader.loadScoreFromBytes(
   settings
 );
 
-// 4. Setup renderer
-settings.core.engine = "skia"; // ask for skia rendering
+// 4. 设置渲染器
+settings.core.engine = "skia"; // 请求 skia 渲染
 
 const sansFontName = fontInfo[0].families;
 const serifFontName = fontInfo[4].families;
@@ -362,29 +364,27 @@ settings.display.resources.markerFont.families = serifFontName;
 const renderer = new alphaTab.rendering.ScoreRenderer(settings);
 renderer.width = 1200;
 
-// 5. Listen to Events
+// 5. 监听事件
 
-// clear on new rendering
+// 新渲染时清除
 let partialIds = [];
 renderer.preRender.on((isResize) => {
   partialIds = []; 
 });
 
-// alphaTab separates "layouting" and "rendering" of the individual
-// partial results. in this case we want to render directly any partial layouted
-// (in UI scenarios the rendering might be delayed to the point when partials become visible)
-// Alternatively settings.core.enableLazyLoading could be set to false. 
+// alphaTab 将单个结果的"布局"和"渲染"分开。在这种情况下，我们想要直接渲染任何部分布局好的
+// （在 UI 场景中，渲染可能会推迟到部分可见时）
+// 或者可以将 settings.core.enableLazyLoading 设置为 false。
 renderer.partialLayoutFinished.on((r) => {
     partialIds.push(r.id);
 });
 
-// due to the historic behavior of `renderFinished` the name can be misleading. But this event is 
-// fired as soon the layouting of the song finished and all partials are available and ready for rendering. 
-// there is no event anymore indicating that all partials have been rendered.
+// 由于 `renderFinished` 的历史行为，名称可能具有误导性。但此事件在歌曲布局完成且所有部分都可用并准备好渲染时触发。
+// 不再有事件指示所有部分都已渲染。
 const finalImageCanvas = new alphaSkia.AlphaSkiaCanvas();
 renderer.renderFinished.on((r) => {
   finalImageCanvas.beginRender(r.totalWidth, r.totalHeight);
-  // just for visibility in this demo we fill the canvas with a white background, but you can keep it transparent if you like
+  // 仅为了在此演示中可见，我们用白色背景填充画布，但如果你愿意，可以保留透明
   finalImageCanvas.color = alphaSkia.AlphaSkiaCanvas.rgbaToColor(255, 255, 255, 255);
   finalImageCanvas.fillRect(0,0, r.totalWidth, r.totalHeight);
 
@@ -393,21 +393,21 @@ renderer.renderFinished.on((r) => {
   }
 });
 
-// whenever the rendering of a partial is finished, we draw it into the final image.
+// 每当部分渲染完成时，我们将其绘制到最终图像中。
 renderer.partialRenderFinished.on((r) => {
   finalImageCanvas.drawImage(r.renderResult, r.x, r.y, r.width, r.height);
 
-  // free the partial image and release the memory used by it
+  // 释放部分图像并释放其使用的内存
   r.renderResult[Symbol.dispose]();
 });
 
-// 6. Fire off rendering, this is synchronous so we can assume all results to be available after this call.
+// 6. 开始渲染，这是同步的，因此我们可以假设在此调用后所有结果都可用。
 renderer.renderScore(score, [0]);
 
-// 7. save the final image as png
+// 7. 将最终图像保存为 png
 const finalImage = finalImageCanvas.endRender();
 const outputFilePath = process.argv[2] + '.png';
-// encode as PNG and free the memory of the final image
+// 编码为 PNG 并释放最终图像的内存
 const png = finalImage.toPng();
 finalImage[Symbol.dispose]();
 finalImageCanvas[Symbol.dispose]();

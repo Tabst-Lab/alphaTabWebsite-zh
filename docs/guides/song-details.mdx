@@ -1,32 +1,32 @@
 ---
-title: Song Details
+title: 歌曲详情
 since: 1.0.0
 ---
 import { SinceBadge } from '@site/src/components/SinceBadge';
 
 <SinceBadge since="1.0.0" />
 
-alphaTab follows the approach of Guitar Pro and shows the song details like title and artist only on the page layout. 
-On the horizontal layout no details are shown. This is mainly because only the page layout with a known width at the start
-can properly align the song details as header. 
+alphaTab 遵循 Guitar Pro 的方法，仅在页面布局上显示歌曲详情，如标题和艺术家。
+在水平布局上不显示任何详情。这主要是因为只有页面布局在开始时具有已知的宽度，
+才能正确地将歌曲详情对齐为页眉。
 
-While alphaTab could align also show the song details left aligned, this has caused some other issues on layouting and hence
-the recommendation has become a different one. 
+虽然 alphaTab 也可以将歌曲详情左对齐显示，但这在布局方面引起了一些其他问题，因此
+建议已经变成了不同的方向。
 
-Instead of relying on the built-in functionality to show the song details we recommend to you to show the details
-somewhere outside of alphaTab on your page.
+我们建议你不要依赖内置功能来显示歌曲详情，而是将详情
+显示在页面上 alphaTab 之外的某个位置。
 
-The song details can be obtained on the [`scoreLoaded`](/docs/reference/api/scoreloaded/) where the full [data model](/docs/reference/score) can be accessed. 
+歌曲详情可以在 [`scoreLoaded`](/docs/reference/api/scoreloaded/) 上获取，在那里可以访问完整的 [数据模型](/docs/reference/score)。
 
-At the same time you might want to disable that alphaTab also shows the song information when using the page layout using the [notation.elements](/docs/reference/settings/notation/elements/) setting.
-This will allow you to build a way better integrated UI for your website than relying on the built-in song detail rendering. 
+同时，你可能希望在使用页面布局时禁用 alphaTab 也显示歌曲信息，使用 [notation.elements](/docs/reference/settings/notation/elements/) 设置。
+这将允许你为网站构建一个比依赖内置歌曲详情渲染更好集成的 UI。
 
 ```html
 <style>
 #song-details {
 	font-family: 'Georgia';
 }
-/* Hide empty elements */
+/* 隐藏空元素 */
 #song-details > *:empty {
    display: none;
 }
@@ -69,6 +69,6 @@ at.scoreLoaded.on(score => {
 </script>
 ```
 
-This will result in something like:
+这将产生类似以下的效果：
 
 <img src="/img/guides/song-details/result.png" />

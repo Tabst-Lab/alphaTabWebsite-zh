@@ -1,22 +1,22 @@
 --- 
-title: Media Sync Editor
+title: 媒体同步编辑器
 since: 1.6.0
 ---
 import { SinceBadge } from '@site/src/components/SinceBadge';
 
 <SinceBadge since="1.6.0" />
 
-This guide is about the Media Sync Editor we provide as part of our [Playground](/docs/playground/playground.mdx).
+本指南介绍我们作为 [Playground](/docs/playground/playground.mdx) 一部分提供的媒体同步编辑器。
 
-To use alphaTab together with external media like audio or video backing tracks, it is often needed to somehow synchronize the two parties due to inconsistencies. 
-It is rather rare that the music sheet and the used backing track 100% align in timing. There might be intros, outros slight time differences which need to be accommodated for. 
+要将 alphaTab 与外部媒体（如音频或视频伴奏）一起使用，通常需要由于不一致而以某种方式同步两方。
+乐谱和使用的伴奏在时间上 100% 对齐的情况相当罕见。可能有前奏、尾奏或轻微的时间差异需要调整。
 
-The Media Sync Editor provides an online editor for exactly this task. You can load your music sheet and your backing track. The editor then offers features to eliminate potential
-differences of the two. 
+媒体同步编辑器正是为此任务提供的在线编辑器。你可以加载你的乐谱和伴奏。然后编辑器提供功能来消除
+两者之间的潜在差异。
 
-Before we go into the details, first an overview on the general features and recommendations.
+在深入了解细节之前，首先概述一般功能和推荐做法。
 
-<img src="/img/guides/media-sync-editor/overview.png" alt="Overview" />
+<img src="/img/guides/media-sync-editor/overview.png" alt="概览" />
 
 
 import Tabs from '@theme/Tabs';
@@ -37,131 +37,131 @@ import TabItem from '@theme/TabItem';
   ]
 }>
 <TabItem value="1">
-**(1) Media Sync Editor**
+**(1) 媒体同步编辑器**
 
-The Media Sync Editor can be accessed on the bottom right side of the playground. When clicking on the button the editor toggles.
-Closing the editor will reset the editor but most relevant information is generally remembered within the playground. Re-Opening
-the editor after closing should show again the correct details, but aspects like zoom or undo/redo are reset. 
+媒体同步编辑器可以在 playground 的右下角访问。点击按钮时编辑器会切换。
+关闭编辑器将重置编辑器，但大多数相关信息通常会在 playground 中记住。关闭后重新打开
+编辑器应该再次显示正确的详细信息，但诸如缩放或撤销/重做等方面会被重置。
 </TabItem>
 <TabItem value="2">
-**(2) Player Mode**
+**(2) 播放器模式**
 
-This area allows to change the player mode within the playground to synchronize the song. 
+此区域允许在 playground 中更改播放器模式以同步歌曲。
 
-* **Synthesizer** enables again the use of the built-in synthesizer for playback. 
-* **Audio Track** enables loading of a local audio (or video) file from which the raw audio will be used. 
-* **YouTube Video** enables loading a YouTube Video. 
+* **合成器** 重新启用内置合成器进行播放。
+* **音频轨道** 启用从本地音频（或视频）文件加载，将使用其原始音频。
+* **YouTube 视频** 启用加载 YouTube 视频。
 
-You can switch between the modes and any sync points are remembered in the playground.
+你可以在模式之间切换，任何同步点都会在 playground 中记住。
 </TabItem>
 <TabItem value="3">
-**(3) Sync Point Actions**
+**(3) 同步点操作**
 
-This menu provides some handy actions for sync points. 
+此菜单为同步点提供一些便捷的操作。
 
 </TabItem>
 <TabItem value="4">
-**(4) Zoom**
+**(4) 缩放**
 
-To align the song precisely it is often required to zoom deeper into the audio. With this zoom level the time axis
-of the editor is stretched or condensed for more precise sync point editing. 
+为了精确对齐歌曲，通常需要更深入地放大音频。使用此缩放级别，编辑器的时间轴
+被拉伸或压缩，以便更精确地编辑同步点。
 
 </TabItem>
 <TabItem value="5">
-**(5) Undo**
+**(5) 撤销**
 
-The editor will remember individual edits done to the sync points. You can undo/redo those changes in case you made a mistake. 
+编辑器会记住对同步点所做的个别编辑。如果你犯了错误，可以撤销/重做这些更改。
 
 </TabItem>
 <TabItem value="6">
-**(6) Export**
+**(6) 导出**
 
-Once you have synced the file, you can use these export actions to download your synced file. You can either export
-a Guitar Pro 8 file or generate some custom source code to add to your project for enabling the synchronization as configured. 
+同步文件后，你可以使用这些导出操作下载同步后的文件。你可以导出
+Guitar Pro 8 文件或生成一些自定义源代码以添加到你的项目中，从而启用按配置同步。
 
 </TabItem>
 <TabItem value="7">
-**(7) Waveform**
+**(7) 波形**
 
-When you load a local audio or video file, the editor will show a visual waveform in the central space. This is very useful to identify 
-spots in the audio where sync points should be placed. Unfortunately YouTube doesn't allow access to the raw media. That's why the waveform will be empty in this case. 
+当你加载本地音频或视频文件时，编辑器会在中央空间显示视觉波形。这对于识别
+应该放置同步点的音频位置非常有用。不幸的是，YouTube 不允许访问原始媒体。因此在这种情况下波形将为空。
 
 </TabItem>
 <TabItem value="8">
-**(8) Masterbar / Measure Sync Points**
+**(8) 主小节 / 小节同步点**
 
-These are the main sync points for masterbars (aka. measures). The main synchronization happens on a bar level. Sync points can be active or inactive. 
+这些是主小节（又称小节）的主要同步点。主要的同步发生在小节级别。同步点可以是活动的或非活动的。
 
-If they are active they have a dark blue arrow-head and show a BPM value beside it. Active sync points can be dragged to the right spot in the audio where the related bar is expected to be played.
-To activate or deactivate any sync point doubleclick it and it will be toggled. 
+如果它们是活动的，它们有一个深蓝色的箭头头部，并在旁边显示一个 BPM 值。活动的同步点可以拖动到音频中的正确位置，即预期播放相关小节的位置。
+要激活或停用任何同步点，请双击它，它将被切换。
 
-Inactive markers are placed automatically according to the time axis and BPM of the song. They are having light blue arrow heads.
+非活动标记根据时间轴和歌曲的 BPM 自动放置。它们具有浅蓝色的箭头头部。
 
-If there are repeats or jumps in the song the repeat counter is shown in parenthesis behind the bar number above the arrow head. For the first occurence no repeat number is shown. 
+如果歌曲中有重复或跳转，重复计数器显示在箭头头部上方小节号后面的括号中。对于第一次出现，不显示重复编号。
 
 </TabItem>
 <TabItem value="9">
-**(9) Time Signature Sync Points**
+**(9) 拍号同步点**
 
-While the internals of alphaTab support any dynamic placement of sync points, the editor provides only the option to add additional sync points following the time signature. 
+虽然 alphaTab 的内部支持任何动态放置的同步点，但编辑器仅提供根据拍号添加额外同步点的选项。
 
-e.g. on a 4/4 time signature, you will notice additional three dashed lines marking the individual metronome ticks of the bar. These sync point markers can be activated with a doubleclick like masterbar sync points.
+例如，在 4/4 拍号上，你会注意到另外三条虚线标记着小节的各个节拍器滴答声。这些同步点标记可以像主小节同步点一样通过双击激活。
 </TabItem>
 </Tabs>
 
 
-## Synchronizing Songs
+## 同步歌曲
 
-The more complex the song, the more time is needed for synchronizing it properly. But assuming that your music notation and your audio should generally match the effort of synchronizing can be reduced
-drastically if done correctly.
+歌曲越复杂，正确同步它所需的时间就越多。但是假设你的音乐记谱和音频通常匹配，如果操作正确，同步的工作量可以
+大大减少。
 
-The first two most important steps are applied by the editor when you load an audio file:
+加载音频文件时，编辑器会应用前两个最重要的步骤：
 
-1. Create Sync Points according to the audio start and end
-2. Create Sync Points for all tempo changes and place them according to the played speed. 
+1. 根据音频开始和结束创建同步点
+2. 为所有速度变化创建同步点，并根据播放速度放置它们。
 
-If the music notation and audio match, you typically do not need any more sync points than these to get already a decent result. If there are some further inaccuracies they might need correction. Typical problems and solutions are: 
-
----
-
-**Problem:** In live recordings when the band improvises.  In this case obviously the music notation might not match if they decide to stretch the solo or repeat a chorus.
-
-**Solution 1:** Best would be to adjust the music sheet to match again the actually played parts.
-
-**Solution 2:** Pick any bar(s) and make them artificially slower/faster to pick up the right spot when the music sheet matches again. e.g. you might use a time signature marker to have the bar mostly shown correct, and then stretch this bar as long as needed until the band continues normally.
+如果音乐记谱和音频匹配，你通常不需要比这更多的同步点就能获得不错的结果。如果还有一些不准确之处，可能需要纠正。典型的问题和解决方案是：
 
 ---
 
-**Problem:** There are instruction parts where a teacher might explain something inbetween. 
+**问题：** 现场录音中乐队即兴演奏。在这种情况下，显然如果他们决定拉长独奏或重复合唱，音乐记谱可能不匹配。
 
-**Solution 1:** If you manually control the external media synchronization (via `IExternalMediaHandler`) you could adjust the time reported to alphaTab so that it quasi stops playing and moving the cursor. 
+**解决方案 1：** 最好是调整乐谱以再次匹配实际演奏的部分。
 
-**Solution 2:** Add an empty bar in the song for the time of this explanation and then stretch this part accordingly with sync points. 
-
-**Solution 3:** Stretch an existing bar by using the time signature markers. 
+**解决方案 2：** 选择任意小节，并人为地使其变慢/变快，以便在音乐记谱再次匹配时找到正确的位置。例如，你可以使用拍号标记来使小节大部分正确显示，然后拉伸这个小节直到乐队正常继续。
 
 ---
 
-**Problem:** The audio is from a cover which is not played accurately and there are slips in tempos. This can be on purpose for artistic purposes (e.g. swing style or improvisation) or accidentally. 
+**问题：** 有教学部分，老师可能会在中间解释一些事情。
 
-**Solution:** First add bar markers before and after the affected bar. Then additionally place time signature markers according to the real playback. 
+**解决方案 1：** 如果你手动控制外部媒体同步（通过 `IExternalMediaHandler`），你可以调整报告给 alphaTab 的时间，使其 quasi 停止播放和移动光标。
+
+**解决方案 2：** 在歌曲中添加一个空小节用于解释的时间，然后使用同步点相应地拉伸此部分。
+
+**解决方案 3：** 使用拍号标记拉伸现有小节。
 
 ---
 
-Generally it is discouraged to add too many markers (e.g. for every bar). It's unlikely that the tempo changes constantly and needs adjustment. Rather pick a range where you expect the tempo to be roughtly equal, 
-mark it with two sync points and place them accordingly. 
+**问题：** 音频来自一个翻奏，演奏不准确，存在速度上的失误。这可能是出于艺术目的（例如摇摆风格或即兴演奏）或意外。
 
-The general recommendation to place markers correctly is: 
+**解决方案：** 首先在受影响的小节前后添加小节标记。然后根据实际播放放置拍号标记。
 
-1. Seek the player to some bars before the spot where the marker should roughly be. This can be done by clicking at the right spot in the music sheet or in the wave form. 
-2. Start the playback but rather ignore what you see on the cursor and music sheet. Listen closely and watch the playback cursor in the waveform. 
-3. When the right note/chord is played remember the position on screen.
-4. Move the sync point marker to the spot. 
-5. Repeat the playback again and check if the spot matches. If required zoom in and tweak the precise position a bit. 
-6. Seek the player back to the previous sync point and let the song play until your new sync point. 
-7. Check if the cursor and audio now match up.
+---
 
-Repeat this for all markers until things match up. Then continue with any fine-tuning on time signature marker level if required. 
+通常不建议添加太多标记（例如每个小节）。速度不太可能不断变化并需要调整。而是选择一个你预期速度大致相等的范围，
+用两个同步点标记它，并相应地放置它们。
+
+正确放置标记的一般建议是：
+
+1. 将播放器定位到标记应该大致所在位置之前的几个小节。这可以通过点击乐谱或波形中的正确位置来完成。
+2. 开始播放，但忽略光标和乐谱上显示的内容。仔细聆听并观察波形中的播放光标。
+3. 当播放正确的音符/和弦时，记住屏幕上的位置。
+4. 将同步点标记移动到该位置。
+5. 再次重复播放并检查该位置是否匹配。如果需要，放大并稍微调整精确位置。
+6. 将播放器定位回上一个同步点，让歌曲播放到你的新同步点。
+7. 检查光标和音频现在是否匹配。
+
+对所有标记重复此操作，直到匹配为止。然后如果需要，继续对拍号标记级别进行任何微调。
 
 > [!TIP]
-> You can change the playback speed in the **Settings** panel if songs are too fast.
+> 如果歌曲太快，你可以在 **设置** 面板中更改播放速度。
