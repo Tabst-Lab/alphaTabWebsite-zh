@@ -18,13 +18,13 @@ function HomepageHeader() {
             className="button button--secondary button--lg"
             to="/docs/introduction"
           >
-            Get Started
+            开始使用
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/playground"
           >
-            Explore Playground
+            探索游乐场
           </Link>
         </div>
       </div>
