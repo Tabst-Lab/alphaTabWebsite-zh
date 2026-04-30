@@ -7,24 +7,23 @@ import { AlphaTexSample } from '@site/src/components/AlphaTexSample';
 
 ## 1.8.1
 
-This hotfix release brings following improvements
+此热修复版本带来以下改进
 
-### Music Notation
+### 音乐记谱
 
-#### render: respect diatonic scales for note placement
+#### 渲染：遵循自然音阶进行音符定位
 
 https://github.com/CoderLine/alphaTab/pull/2534
 
-Up to this release alphaTab had rather a "chromatic spelling" when it comes to placing note heads and accidentals. This means it simply looked at the octave and 
-applied accidentals accordingly where needed. This leads to non-optimal display of notes in various key signatures. 
+在此版本之前，alphaTab 在放置音符头和变音记号时采用了一种"半音拼写"方式。这意味着它只是简单地查看八度，并在需要的地方相应地应用变音记号。这导致在各种调号下音符显示不够理想。
 
-e.g. For a F# key signature we would show a F-note with a naturalize accidental instead of a E# note without any accidental (the # is applied via key signature). 
+例如，对于 F# 调号，我们会显示带还原记号的 F 音符，而不是不带任何变音记号的 E# 音符（# 通过调号应用）。
 
 <AlphaTexSample>{`
-\\title "F# Major Scale"
-\\ks f#
-\\tuning (G2 D2 A1 E1)
-\\clef bass
+\title "F# 大调音阶"
+\ks f#
+\tuning (G2 D2 A1 E1)
+\clef bass
 :4
 2.4 4.4 1.3 2.3 | 
 4.3 1.2 3.2 4.2 | 
@@ -32,188 +31,173 @@ e.g. For a F# key signature we would show a F-note with a naturalize accidental 
 2.3 1.3 4.4 2.4
 `}</AlphaTexSample>
 
-Thanks to [@tbreuss](https://github.com/tbreuss) for reporting this problem. 
+感谢 [@tbreuss](https://github.com/tbreuss) 报告此问题。
 
-### Guitar Pro extensions
+### Guitar Pro 扩展
 
-#### importer: correct GP5 bass clef detection (Guitar Pro 3-5)
+#### 导入器：修正 GP5 低音谱号检测（Guitar Pro 3-5）
 https://github.com/CoderLine/alphaTab/pull/2531
 
-The improvements for detecting bass clefs in GP5 files caused a strange bug where we treated almost all 
-files with a bass clef. This fix ensures the correct behavior. 
+用于检测 GP5 文件中低音谱号的改进导致了一个奇怪的 bug，即我们几乎将所有文件都当作低音谱号处理。此修复确保了正确的行为。
 
-#### importer: handle all Guitar Pro 5 percussion instruments
+#### 导入器：处理所有 Guitar Pro 5 打击乐器
 https://github.com/CoderLine/alphaTab/pull/2537
 
-As we updated the percussion handling 1.8.0 there broke some compatibility things with Guitar Pro 5. 
-The latest Guitar Pro versions do not support all percussion instruments which existed in Guitar Pro 5 and alphaTab inherited that problem. 
+随着我们在 1.8.0 中更新打击乐处理，与 Guitar Pro 5 的兼容性出现了一些问题。最新的 Guitar Pro 版本不支持 Guitar Pro 5 中存在的所有打击乐器，alphaTab 继承了这个问题的。
 
-We added some workarounds to ensure we are compatible with these special percussion instruments. 
-The affected instruments are mainly part of the "General Sound" MIDI standard and cover some rather rarely used instruments. 
+我们添加了一些变通方法，以确保与这些特殊打击乐器的兼容性。受影响的乐器主要是"通用声音"MIDI 标准的一部分，涵盖了一些相当少用的乐器。
 
-We map unsupported articulations to known ones and also handle fallback scenarios better. 
+我们将不支持的演奏法映射到已知的演奏法，并更好地处理回退场景。
 
-Thanks [@LIUBINfighter](https://github.com/LIUBINfighter) for reporting this problem. 
+感谢 [@LIUBINfighter](https://github.com/LIUBINfighter) 报告此问题。
 
-### Player
+### 播放器
 
-#### player: animate cursor to playback range end
+#### 播放器：将光标动画到播放范围末尾
 https://github.com/CoderLine/alphaTab/pull/2536
 
-This is a small improvement in the cursor animation for alphaTab. Unless there are some repeats or jumps, the beat cursor typically
-animates from the start beat to the next beat. But if users select a part of the song to be played or the playback range is set via code, 
-the cursor visually exceeds the selected range. 
+这是 alphaTab 光标动画的一个小改进。除非有一些重复或跳转，节拍光标通常从开始节拍动画到下一个节拍。但如果用户选择播放歌曲的一部分，或者通过代码设置播放范围，光标在视觉上会超出所选范围。
 
-While technically it is not wrong to indicate that the playback reaches over to the next beat, it looks rather wrong from a UI/UX perspective. 
+虽然从技术上讲，指示播放到下一个节拍并没有错，但从 UI/UX 角度来看，这看起来相当错误。
 
-With this improvement the cursor will now animate to the end of the selected beat in such cases. 
+通过此改进，光标现在将在这种情况下动画到所选节拍的末尾。
 
-Thanks [@AvaTheArchitect](https://github.com/AvaTheArchitect) for reporting this problem. 
+感谢 [@AvaTheArchitect](https://github.com/AvaTheArchitect) 报告此问题。
 
-#### player: allow custom cursor handlers
+#### 播放器：允许自定义光标处理器
 https://github.com/CoderLine/alphaTab/pull/2536
 
-As part of the cursor animation improvements we also added the possibility to handle the cursor placement in a custom way.
-This extension point is similar to the `IScrollHandlers` we added (see below). The new `ICursorHandler` which can be set via `api.customCursorHandler` 
-allows custom placing of the bar and beat cursor. It is currently tightly coupled to the way alphaTab handles the cursor placement. 
+作为光标动画改进的一部分，我们还添加了以自定义方式处理光标放置的可能性。
+此扩展点类似于我们添加的 `IScrollHandlers`（见下文）。可以通过 `api.customCursorHandler` 设置的新 `ICursorHandler` 允许自定义小节和节拍光标的放置。它目前与 alphaTab 处理光标放置的方式紧密耦合。
 
-If you are implementing a custom extended cursor (e.g. with more complex UI elements) you can now handle all the placement and animation logic in a custom implementation.
-You can start your own implementation by looking at our default implementations in the alphaTex codebase and work your way from there. 
+如果你正在实现自定义扩展光标（例如，具有更复杂的 UI 元素），你现在可以在自定义实现中处理所有的放置和动画逻辑。你可以从查看 alphaTex 代码库中的默认实现开始，然后在此基础上进行开发。
 
-Likely this API still needs some fine-tuning and extensions, but considering this is a patch release, it should allow handling most important bits.
+可能此 API 仍需要一些微调和扩展，但考虑到这是一个补丁版本，它应该允许处理最重要的部分。
 
 
 ## 1.8.0
 
-This has been one of the fastest alphaTab releases so far. Within 1 month we added  quite a list of improvements and fixes. 
-Let's dive in. 🤘😎
+这是迄今为止最快的 alphaTab 版本之一。在 1 个月内，我们添加了相当多的改进和修复。让我们深入了解一下。🤘😎
 
-### Music Notation
+### 音乐记谱
 
-#### notation: extend bar-lines across staves in system
+#### 记谱：在系统中跨谱表延伸小节线
 https://github.com/CoderLine/alphaTab/pull/2416
 
-This new option allows extending the bar lines across the staves in the system connecting them
-for better visual guidance. We also respect the related Guitar Pro stylesheet settings or 
-the option can be set via alphaTex or on the stylesheet object after loading the files.
+此新选项允许在系统中的谱表之间延伸小节线，将它们连接起来以获得更好的视觉引导。我们还遵循相关的 Guitar Pro 样式表设置，或者可以通过 alphaTex 或在加载文件后在样式表对象上设置该选项。
 
 <AlphaTab tex={true} tracks="all">{`
-\\extendBarLines
-\\track "Piano1"
-    \\staff {score}
-    \\instrument piano
-    C4 D4 E4 F4 | \\barlineright dashed C4 D4 E4 F4 | C4 D4 E4 F4 |
-    \\staff {score}
-    \\clef f4 C3 D3 E3 F3 | \\barlineright dashed 
-\\instrument flute
+\extendBarLines
+\track "Piano1"
+    \staff {score}
+    \instrument piano
+    C4 D4 E4 F4 | \barlineright dashed C4 D4 E4 F4 | C4 D4 E4 F4 |
+    \staff {score}
+    \clef f4 C3 D3 E3 F3 | \barlineright dashed 
+\instrument flute
     C4 D4 E4 F4
-\\track "Flute 2"
-    \\staff { score }
-\\instrument flute
-    \\clef f4 C3 D3 E3 F3
-\\track "Guitar 1"
-    \\staff { score tabs }
+\track "Flute 2"
+    \staff { score }
+\instrument flute
+    \clef f4 C3 D3 E3 F3
+\track "Guitar 1"
+    \staff { score tabs }
     0.3.4 2.3.4 5.3.4 7.3.4
 `}</AlphaTab>
 
-This feature can be configured via: 
+此功能可以通过以下方式配置：
 
-* [`\\extendBarLine`](/docs/alphatex/score-metadata#extendbarlines) in alphaTex
-* File / StyleSheet / Systems & Staves in Guitar Pro 
-* [`score.stylesheet.extendBarLines`](/docs/reference/types/model/renderstylesheet/#extendbarlines) on the data model.
+* alphaTex 中的 [`\extendBarLine`](/docs/alphatex/score-metadata#extendbarlines)
+* Guitar Pro 中的 文件 / 样式表 / 系统与谱表
+* 数据模型上的 [`score.stylesheet.extendBarLines`](/docs/reference/types/model/renderstylesheet/#extendbarlines)。
 
-#### notation: multi-system slurs
+#### 记谱：跨系统连音线
 https://github.com/CoderLine/alphaTab/pull/2425
 
-Previously alphaTab only rendered slurs on single-system breaks. If a slur spans multiple systems
-this caused an incorrect display. With this improvement we can now have slurs spanning many systems
-until the end bar is reached. 
+以前，alphaTab 只在单个系统断点处渲染连音线。如果连音线跨越多个系统，这会导致显示不正确。通过此改进，我们现在可以让连音线跨越多个系统，直到到达结束小节。
 
-The alignment of these slurs has been improved to resemble the height at the starting system.
+这些连音线的对齐方式已得到改进，以与起始系统处的高度相似。
 
 <AlphaTab tex={true} tracks="all" settings={{display:{layoutMode: "parchment"}}}>{`
-\\track {defaultsystemslayout 3}
+\track {defaultsystemslayout 3}
 C4 {slur s1} .1 | r | r |
 r | r | r |
 r | C4 {slur s1} | r 
 `}</AlphaTab>
 
-#### notation: improved note head alignment and displacement. 
+#### 记谱：改进音符头对齐和位移。
 https://github.com/CoderLine/alphaTab/pull/2426
 
 https://github.com/CoderLine/alphaTab/pull/2430
 
-With this change we now align note heads according to more common practices. 
+通过此改动，我们现在按照更常见的做法对齐音符头。
 
-The first change is to align the primary note heads on the same axis. Basically: on an upwards stem the left note heads, and on a downwards stem the right note heads are now aligned. 
-Displaced note-heads are shifted to the other side of the stem. 
+第一个改动是将主音符头对齐到同一轴线上。基本上：在向上符干上，左侧的音符头对齐；在向下符干上，右侧的音符头对齐。
+位移的音符头被移到符干的另一侧。
 
-With this improvement as a base, we now also merge or further shift note-heads when multiple voices are contained in a bar. 
-This way the readability is improved and unnecessary white-space is avoided. 
+以此改进为基础，当小节中包含多个声部时，我们现在还会合并或进一步移动音符头。这样可以提高可读性并避免不必要的空白。
 
 <AlphaTab tex={true}>{`
-\\voice 
+\voice 
 E5*5
-\\voice 
+\voice 
 C5 D5 E5 F5 G5`}</AlphaTab>
 
-#### notation: in-score chord diagrams
+#### 记谱：乐谱内和弦图
 https://github.com/CoderLine/alphaTab/pull/2435
 
-Often requested but never shipped. Now they are available: chord diagrams inside the music sheet. 
+经常被要求但从未实现。现在它们可用了：乐谱内部的和弦图。
 
-Previously alphaTab could only show the used chord as diagrams on top of the score. 
-With this change chord diagrams can be shown inside the music sheet above the staff. 
+以前 alphaTab 只能在乐谱顶部将使用的和弦显示为和弦图。
+通过此改动，和弦图可以显示在乐谱内部，位于谱表上方。
 
 <AlphaTab tex={true}>{`
-\\chordDiagramsInScore
-\\chord ("E" 0 0 1 2 2 0) {showDiagram false}
+\chordDiagramsInScore
+\chord ("E" 0 0 1 2 2 0) {showDiagram false}
 (0.1 0.2 1.3 2.4 2.5 0.6){ch "E"}
 `}</AlphaTab>
 
-#### notation: numbered notation ties and dash placement
+#### 记谱：简谱连音和破折号放置
 https://github.com/CoderLine/alphaTab/pull/2438
 
-alphaTab 1.7 had some incorrect display of numbered notation. Following improvements were added in this release:
+alphaTab 1.7 的简谱显示存在一些不正确的地方。此版本中添加了以下改进：
 
-* The beats are now correctly showing the respective duration with dashes and additional number glyphs as expected.
-* The dots and overflow calculations have been reworked to avoid overlaps
-* The "beam" drawing logic has been updated to be closer to the common logic.
-* We do not render beams for grace notes anymore.
-* key signature has been moved to an own effect band.
+* 节拍现在正确地使用破折号和额外的数字字形显示相应的时值。
+* 圆点和溢出计算已重新设计，以避免重叠
+* "符杠"绘制逻辑已更新，更接近通用逻辑。
+* 我们不再为装饰音渲染符杠。
+* 调号已移动到单独的效果带中。
 
 <AlphaTab tex={true}>{`
-\\staff {score numbered}
-\\hidedynamics
+\staff {score numbered}
+\hidedynamics
 
 C5.1 | C4 {tu 3} * 3
-\\staff
+\staff
 C4.4 *4 
 `}</AlphaTab>
 
-#### notation: hide empty staves
+#### 记谱：隐藏空谱表
 https://github.com/CoderLine/alphaTab/pull/2443
 
-With this feature we add an option to hide staves if they are empty. This feature mainly targets
-the multi-track display and multi-staff instruments. If the option is configured, any staves
-without content will be hidden. 
+通过此功能，我们添加了如果谱表为空则隐藏它们的选项。此功能主要针对多音轨显示和多谱表乐器。如果配置了此选项，任何没有内容的谱表都将被隐藏。
 
-At this point alphaTab will not hide whole systems to avoid side-effects during playback and the related cursor placement. 
-If alphaTab detects tha all systems are empty, it will force the first one to be visible. 
+在这一点上，alphaTab 不会隐藏整个系统，以避免在播放期间和光标放置时产生副作用。
+如果 alphaTab 检测到所有系统都为空，它将强制第一个系统可见。
 
 <AlphaTab tex={true} tracks="all" settings={{display: {layoutmode: "parchment"}}}>{`
-\\hideEmptyStaves
-\\defaultSystemsLayout 3
-\\multiTrackTrackNamePolicy allSystems
-\\track "T1"
+\hideEmptyStaves
+\defaultSystemsLayout 3
+\multiTrackTrackNamePolicy allSystems
+\track "T1"
 C4.4 *4 | r.1 | r.1 |
     r.1 | r.1 | r.1 |
     r.1 | r.1 | r.1 | 
     r.1 | r.1 | r.1 |  
     r.1 | C4 |
 
-\\track "T2"
-\\clef C3
+\track "T2"
+\clef C3
     r.1 | r.1 | r.1 | 
     r.1 | r.1 | r.1 | 
     r.1 | c4 | r.1 | 
@@ -221,40 +205,37 @@ C4.4 *4 | r.1 | r.1 |
     r.1 | C4 |
 `}</AlphaTab>
 
-This feature can be configured via: 
+此功能可以通过以下方式配置：
 
-* [`\hideEmptyStaves`](/docs/alphatex/score-metadata#hideemptystaves) and [`\hideEmptyStavesInFirstSystem`](/docs/alphatex/score-metadata#hideemptystavesinfirstsystem) in alphaTex
-* [`score.stylesheet.hideEmptyStaves`](/docs/reference/types/model/renderstylesheet/#hideemptystaves) and [`score.stylesheet.hideEmptyStavesInFirstSystem`](/docs/reference/types/model/renderstylesheet/#hideemptystavesinfirstsystem) on the data model.
+* alphaTex 中的 [`\hideEmptyStaves`](/docs/alphatex/score-metadata#hideemptystaves) 和 [`\hideEmptyStavesInFirstSystem`](/docs/alphatex/score-metadata#hideemptystavesinfirstsystem)
+* 数据模型上的 [`score.stylesheet.hideEmptyStaves`](/docs/reference/types/model/renderstylesheet/#hideemptystaves) 和 [`score.stylesheet.hideEmptyStavesInFirstSystem`](/docs/reference/types/model/renderstylesheet/#hideemptystavesinfirstsystem)。
 
-#### notation: parchment layout
+#### 记谱：羊皮纸布局
 https://github.com/CoderLine/alphaTab/pull/2459
 
-The parchment layout is is a variation of the currently available `page` layout. THe special thing about this layout is that the
-configured systems layout is always active. For the `page` layout a separate option was required to enable the usage of the systems layout
-which configures the number of bars shown in every system. 
+羊皮纸布局是目前可用的 `page` 布局的一种变体。这种布局的特殊之处在于，配置的系统布局始终处于活动状态。对于 `page` 布局，需要单独的选项来启用系统布局的使用，该系统布局配置每个系统中显示的小节数。
 
-The parchment layout is typically more optimized for printing and fixed layouts where the exact positioning and sizing of elements is important.
+羊皮纸布局通常更适合打印和固定布局，其中元素的精确定位和大小很重要。
 
 <AlphaTexSample tex={true} settings={{display: {layoutmode: "parchment"}}}>{`
-\\track {systemslayout (2 3 2)}
-    \\scale 2 C4 * 4 |
-    \\scale 1 C4 * 4 |
-    \\scale 2 C4 * 4 |
-    \\scale 1 C4 * 4 |
-    \\scale 2 C4 * 4 |
-    \\scale 0.5 C4 * 4 |
-    \\scale 1 C4 * 4 |
+\track {systemslayout (2 3 2)}
+    \scale 2 C4 * 4 |
+    \scale 1 C4 * 4 |
+    \scale 2 C4 * 4 |
+    \scale 1 C4 * 4 |
+    \scale 2 C4 * 4 |
+    \scale 0.5 C4 * 4 |
+    \scale 1 C4 * 4 |
 `}</AlphaTexSample>
 
-This feature can be configured via: 
+此功能可以通过以下方式配置：
 
-* [`settings.display.layoutMode`](/docs/reference/settings/display/layoutmode) setting it to [`LayoutMode.Parchment`](/docs/reference/types/layoutmode)
+* [`settings.display.layoutMode`](/docs/reference/settings/display/layoutmode) 设置为 [`LayoutMode.Parchment`](/docs/reference/types/layoutmode)
 
-#### notation: buzzroll tremolos
+#### 记谱：滚奏震音
 https://github.com/CoderLine/alphaTab/pull/2476
 
-With this change we now support buzzroll tremolos. It can be separately configured if these tremolos should be played like classical 
-ones. 
+通过此改动，我们现在支持滚奏震音。可以单独配置这些震音是否应该像经典震音一样播放。
 
 <AlphaTexSample tex={true}>{`
 :4
@@ -264,154 +245,148 @@ C4 {tp 3} |
 C4 {tp (3 buzzRoll)} |
 `}</AlphaTexSample>
 
-BuzzRolls can be used via: 
+滚奏可以通过以下方式使用：
 
-* [`tp`](/docs/alphatex/beat-properties#tp) on alphaTex
-* [MusicXML](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/tremolo/) using tremolo marks `0` or setting the `smufl` attribute.
+* alphaTex 上的 [`tp`](/docs/alphatex/beat-properties#tp)
+* [MusicXML](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/tremolo/) 使用震音标记 `0` 或设置 `smufl` 属性。
 
 
-#### style: advanced font configurations and lyric paddings
+#### 样式：高级字体配置和歌词填充
 https://github.com/CoderLine/alphaTab/pull/2481
 
-This improvement changes extends how fonts can be configured in alphaTab. 
-Previously the `settings.display.resources` had specific properties for individual items lacking flexibility for a range of elements. 
+此改进扩展了 alphaTab 中字体的配置方式。
+以前，`settings.display.resources` 有针对各个项目的特定属性，缺乏对一系列元素的灵活性。
 
-With this change devs can now configure fonts for a wide range of individual `NotationElement.*` values. The old general `effectFont` was 
-deprecated and fonts can now be configured individually as desired. 
+通过此改动，开发者现在可以为广泛的单个 `NotationElement.*` 值配置字体。旧的通用 `effectFont` 已被弃用，字体现在可以根据需要单独配置。
 
-This feature started with a request to customize the display of lyrics. To support this request further, the padding between individual 
-lyric lines can now be configured via `settings.display.lyricLinesPaddingBetween`
+此功能始于一个自定义歌词显示的请求。为了进一步支持此请求，现在可以通过 `settings.display.lyricLinesPaddingBetween` 配置各个歌词行之间的填充。
 
 <AlphaTab tex={true} tracks="all" settings={{display: {lyricLinesPaddingBetween: 16, resources: { elementFonts: { EffectLyrics: "16px 'Noto Sans" } } }}}>{`
-\\lyrics "Do Re Mi Fa"
-\\lyrics "Do  Mi "
+\lyrics "Do Re Mi Fa"
+\lyrics "Do  Mi "
 C4 C4 C4 C4
 `}</AlphaTab>
 
-This feature can be configured via: 
+此功能可以通过以下方式配置：
 
 * [`settings.display.resources.elementFonts`](/docs/reference/settings/display/resources#elementfonts)
 * [`settings.display.lyricLinesPaddingBetween`](/docs/reference/settings/display/lyriclinespaddingbetween)
 
-#### notation: configure display of bar numbers
+#### 记谱：配置小节编号显示
 https://github.com/CoderLine/alphaTab/pull/2482
 
-Before this release alphaTab was always rendering bar numbers on all bars. Devs could trick the display by setting the bar number color
-but this was not really a sustainable approach. 
+在此版本之前，alphaTab 总是在所有小节上渲染小节编号。开发者可以通过设置小节编号颜色来欺骗显示，但这并不是真正可持续的方法。
 
-With this feature it can now be configured whether to show bar numbers on 
+通过此功能，现在可以配置是否显示小节编号：
 
-1. all bars
-2. no bars 
-3. the first bars of every system
+1. 所有小节
+2. 没有小节
+3. 每个系统的第一个小节
 
-We now read the respective information from supported input formats (Guitar Pro, MusicXML, alphaTex) to respect the intentions of the transcriber. 
+我们现在从支持的输入格式（Guitar Pro、MusicXML、alphaTex）中读取相应的信息，以尊重转录者的意图。
 
 <AlphaTexSample tex={true} settings={{display: {layoutmode: "parchment"}}}>{`
-\\defaultBarNumberDisplay firstOfSystem 
+\defaultBarNumberDisplay firstOfSystem 
 C4.1 | C4.1 | C4.1 | 
 C4.1 | C4.1 | C4.1
 `}</AlphaTexSample>
 
 
 <AlphaTexSample tex={true} settings={{display: {layoutmode: "parchment"}}}>{`
-\\defaultBarNumberDisplay hide 
-C4.1 | \\barNumberDisplay allBars C4.1 | C4.1 | 
+\defaultBarNumberDisplay hide 
+C4.1 | \barNumberDisplay allBars C4.1 | C4.1 | 
 C4.1 | C4.1 | C4.1
 `}</AlphaTexSample>
 
-This feature can be used via: 
+此功能可以通过以下方式使用：
 
-* [`\defaultBarNumberDisplay`](/docs/alphatex/score-metadata#defaultbarnumberdisplay) and [`\barNumberDisplay`] (/docs/alphatex/bar-metadata#barnumberdisplay) in alphaTex
-* [`score.stylesheet.barNumberDisplay`](/docs/reference/types/model/renderstylesheet/#barnumberdisplay) and [`score.tracks[].staves[].bars[].barNumberDisplay`](/docs/reference/types/model/bar/#barnumberdisplay) in the data model.
-* File / Stylesheet > Texts & Styles > Bar numbers in Guitar Pro
-* [`measure-numbering`](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/measure-numbering/) in MusicXML
+* alphaTex 中的 [`\defaultBarNumberDisplay`](/docs/alphatex/score-metadata#defaultbarnumberdisplay) 和 [`\barNumberDisplay`] (/docs/alphatex/bar-metadata#barnumberdisplay)
+* 数据模型中的 [`score.stylesheet.barNumberDisplay`](/docs/reference/types/model/renderstylesheet/#barnumberdisplay) 和 [`score.tracks[].staves[].bars[].barNumberDisplay`](/docs/reference/types/model/bar/#barnumberdisplay)。
+* Guitar Pro 中的 文件 / 样式表 > 文本与样式 > 小节编号
+* MusicXML 中的 [`measure-numbering`](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/measure-numbering/)
 
-#### notation: custom beaming rules
+#### 记谱：自定义符杠规则
 https://github.com/CoderLine/alphaTab/pull/2489
 
-alphaTab 1.8 ships significant improvements around the beaming of notes. 
-Previously alphaTab had only 2 rules on how notes were beamed.
+alphaTab 1.8 在音符符杠方面带来了重大改进。
+以前 alphaTab 只有 2 条关于音符如何符杠的规则。
 
-With alphaTab 1.8 not only we have **27** optimized beaming rules for a range of common time signatures.
-Users can now fully customize how notes should be beamed. 
+在 alphaTab 1.8 中，我们不仅有 **27** 条针对一系列常见拍号的优化符杠规则。
+用户现在还可以完全自定义音符应该如何符杠。
 
-We read the information contained in Guitar Pro files and alphaTex provides new metadata tags for this feature. 
-In worst case devs can opt to set the rules after loading any custom file. 
+我们读取 Guitar Pro 文件中包含的信息，alphaTex 为此功能提供了新的元数据标签。
+在最坏的情况下，开发者可以选择在加载任何自定义文件后设置规则。
 
 <AlphaTexSample tex={true}>{`
-\\ts (4 4)
-\\beaming (8 2 2 2 2)
+\ts (4 4)
+\beaming (8 2 2 2 2)
     C4.8 * 8 |
-\\beaming (8 2 4 2)
+\beaming (8 2 4 2)
     C4.8 * 8 |
-\\ts (4 4)
-\\beaming (16 4 4 8)
+\ts (4 4)
+\beaming (16 4 4 8)
     C4.16 * 8 
     C4.16 * 8            
 `}</AlphaTexSample>
 
-This feature can be used via: 
+此功能可以通过以下方式使用：
 
-* [`\beaming`](/docs/alphatex/bar-metadata#beaming) alphaTex
-* [`score.masterBars[].beamingRules`](/docs/reference/types/model/masterbar#beamingrules) in the data model.
-* Bar / Time Signature in Guitar Pro
+* alphaTex 中的 [`\beaming`](/docs/alphatex/bar-metadata#beaming)
+* 数据模型中的 [`score.masterBars[].beamingRules`](/docs/reference/types/model/masterbar#beamingrules)。
+* Guitar Pro 中的 小节 / 拍号
 
-### Player
+### 播放器
 
-#### player: grace beats on song start
+#### 播放器：歌曲开头的装饰音
 https://github.com/CoderLine/alphaTab/pull/2415
 
-Grace Beats take a special role in music notation and have a fairly unique behavior regarding display and playback. 
+装饰音在音乐记谱中扮演着特殊的角色，在显示和播放方面具有相当独特的行为。
 
-These beats do not have their own "playback time", they steal their duration from the previous or next beat, shortening it in the process.
+这些节拍没有自己的"播放时间"，它们从上一个或下一个节拍中窃取时值，从而缩短其时值。
 
-In Guitar Pro terminology there are `on-beat` grace notes and `before-beat` grace notes stealing the duration from the next or previous beat respectively. 
-This becomes a problem when we place a `before-beat` at the start of the song because there is no "previous beat" from which we can steal the duration.
+在 Guitar Pro 术语中，有 `on-beat`（拍上）装饰音和 `before-beat`（拍前）装饰音，分别窃取下一个或上一个节拍的时值。当我们在歌曲开头放置一个 `before-beat` 装饰音时，这就成了一个问题，因为没有"上一个节拍"可以从中窃取时值。
 
-This was a problem for alphaTab as the time of this beat was suddenly negative resulting in incorrect playback and cursor placement. Normally the author of the music sheet would need to 
-rewrite the notes to have some sort of beat to steal the duration from (e.g. via pick-up/anacrusis bar or changing to an on-beat grace note).
-This individualization is not always possible if the input file is consumed from an external source. 
+这对 alphaTab 来说是个问题，因为这个节拍的时间突然变成了负数，导致播放和光标放置不正确。通常，乐谱作者需要重写音符，以便有某种节拍可以窃取时值（例如，通过弱起/先现小节或改为拍上装饰音）。
+如果输入文件来自外部源，这种个性化并不总是可能的。
 
-We now internally handle this negative underflow and ensure the playback and display works as a user would expect it. 
+我们现在在内部处理这种负下溢，并确保播放和显示按用户的预期工作。
 
 export function enableMetronome(api) {
     api.metronomeVolume = 1;
 }
 
 <AlphaTexSample tex={true} player={true} init={enableMetronome}>{`
-\\subtitle "Before-Beat Grace Note"
+\subtitle "拍前装饰音"
 C4 {gr bb} C4 C4 C4 C4       
 `}</AlphaTexSample>
 
 <AlphaTexSample tex={true} player={true} init={enableMetronome}>{`
-\\subtitle "On-Beat Grace Note"
+\subtitle "拍上装饰音"
 C4 {gr ob} C4 C4 C4 C4       
 `}</AlphaTexSample>
 
-#### player: smooth cursor and scrolling
+#### 播放器：平滑光标和滚动
 https://github.com/CoderLine/alphaTab/pull/2447
 
-This feature adds a brand new scroll mode allowing a continuous smooth scrolling experience. 
-The previously available modes were scrolling when the played bar changed and the related positioning condition was met (e.g. the bar was out-of-screen).
+此功能添加了一种全新的滚动模式，允许连续的平滑滚动体验。
+以前可用的模式是在播放的小节发生变化且满足相关的定位条件时滚动（例如，小节超出屏幕）。
 
-For horizontal layouts this allows a steady-cursor at a fixed position. 
-For vertical layouts it allows a more relaxed scrolling without main jumps making it easier to follow the playback. 
+对于水平布局，这允许光标固定在固定位置。
+对于垂直布局，它允许更放松的滚动，没有主要的跳跃，使其更容易跟随播放。
 
-On top of that devs can now implement a custom scrolling logic. We extracted the current scrolling logic into 
-dedicated components and allow devs to set their own implementations. 
+此外，开发者现在可以实现自定义滚动逻辑。我们将当前的滚动逻辑提取到专门的组件中，并允许开发者设置自己的实现。
 
-This way new extended scrolling systems can be built. 
+这样，就可以构建新的扩展滚动系统。
 
 <div id="smooth-scroll-h" className="horizontal-player-wrap">
 
 <AlphaTab tex={true} player={true} settings={{player: {scrollElement: '#smooth-scroll-h .alphaTab', scrollOffsetX: -100, scrollMode: "smooth"}, display: {layoutMode: 'horizontal'}}}>{`
-\\title "Prelude in D Minor"
-\\artist "J.S. Bach (1685-1750)"
-\\copyright "Public Domain"
-\\tempo 80
+\title "D小调前奏曲"
+\artist "J.S. Bach (1685-1750)"
+\copyright "公有领域"
+\tempo 80
 .
-\\ts 3 4
+\ts 3 4
 0.4.16 (3.2 -.4) (1.1 -.4) (5.1 -.4) 1.1 3.2 1.1 3.2 2.3.8 (3.2 3.4) |
 (3.2 0.4).16 (3.2 -.4) (1.1 -.4) (5.1 -.4) 1.1 3.2 1.1 3.2 2.3.8 (3.2 3.4) | 
 (3.2 0.4).16 (3.2 -.4) (3.1 -.4) (6.1 -.4) 3.1 3.2 3.1 3.2 3.3.8 (3.2 0.3) | 
@@ -423,14 +398,14 @@ This way new extended scrolling systems can be built.
 <div id="smooth-scroll-v" className="vertical-player-wrap">
 
 <AlphaTab tex={true} player={true} settings={{player: {scrollElement: '#smooth-scroll-v .alphaTab', scrollOffsetY: -200, scrollMode: "smooth"}, display: {layoutMode: 'parchment'}}}>{`
-\\artist "Johann Pachelbel"
-\\title "Canon in D"
-\\track ("Piano" "Pno.") {instrument acousticgrandpiano}
-  \\staff
-    \\tempo 100
-    \\accidentals auto
-    \\clef g2
-    \\ks d
+\artist "Johann Pachelbel"
+\title "D大调卡农"
+\track ("Piano" "Pno.") {instrument acousticgrandpiano}
+  \staff
+    \tempo 100
+    \accidentals auto
+    \clef g2
+    \ks d
       r.1{dy p instrument acousticgrandpiano} | 
       r | 
       r|
@@ -451,9 +426,9 @@ This way new extended scrolling systems can be built.
       (D5 Gb5) D5 (Db5 Gb5){d} E5.8 |
       (B4 D5).4 B4 (A4 D5) Gb5 |
       (B4 G5) B5 (Db5 A5){d} G5.8
-  \\staff
-      \\clef f4
-      \\ks d
+  \staff
+      \clef f4
+      \ks d
         :8
         D3{dy p} A3 D4 Gb4 A2 E3 A3 Db4 |
         B2 Gb3 B3 D4 Gb2 Db3 Gb3 A3 |
@@ -478,239 +453,217 @@ This way new extended scrolling systems can be built.
 `}</AlphaTab>
 </div>
 
-This feature can be used via 
+此功能可以通过以下方式使用：
 
-* [`settings.player.scrollMode`](/docs/reference/settings/player/scrollmode) set to [`ScrollMode.Smooth`](/docs/reference/types/scrollmode)
-* [`api.customScrollHandler`](/docs/reference/api/customscrollhandler) and [`IScrollHandler`](/docs/reference/types/iscrollhandler)
+* [`settings.player.scrollMode`](/docs/reference/settings/player/scrollmode) 设置为 [`ScrollMode.Smooth`](/docs/reference/types/scrollmode)
+* [`api.customScrollHandler`](/docs/reference/api/customscrollhandler) 和 [`IScrollHandler`](/docs/reference/types/iscrollhandler)
 
-#### integration: Selection API
+#### 集成：选择 API
 https://github.com/CoderLine/alphaTab/pull/2418
 
-This change extends the public APIs around the interactive selection of the playback range. 
-Previously devs needed to rely on some internal behaviors to extend the alphaTab selection logic
-with custom parts. This made it close to impossible to cleanly implement extensions like custom 
-selection handles. 
+此改动扩展了围绕播放范围交互式选择的公共 API。
+以前，开发者需要依赖一些内部行为来扩展 alphaTab 的选择逻辑
+使用自定义部分。这使得干净地实现扩展（如自定义选择手柄）几乎不可能。
 
-With these changes developers can now subscribe to events during the interactive selection of a user
-and create new UI elements as needed (e.g. to create extended selection handles). 
+通过这些改动，开发者现在可以订阅用户交互式选择期间的事件，并根据需要创建新的 UI 元素（例如，创建扩展选择手柄）。
 
-Additionally we ensure now to snap the selection start to the beginning of the bar if the selection starts
-on the first beat.
+此外，我们现在确保如果选择在第一个节拍上开始，则将选择开始对齐到小节的开始。
 
 import { SelectionHandleDemo } from '@site/src/components/SelectionHandleDemo';
 
 <SelectionHandleDemo>{`
-\\title "Prelude in D Minor"
-\\artist "J.S. Bach (1685-1750)"
-\\copyright "Public Domain"
-\\tempo 80
+\title "D小调前奏曲"
+\artist "J.S. Bach (1685-1750)"
+\copyright "公有领域"
+\tempo 80
 .
-\\ts 3 4
+\ts 3 4
 0.4.16 (3.2 -.4) (1.1 -.4) (5.1 -.4) 1.1 3.2 1.1 3.2 2.3.8 (3.2 3.4) |
 (3.2 0.4).16 (3.2 -.4) (1.1 -.4) (5.1 -.4) 1.1 3.2 1.1 3.2 2.3.8 (3.2 3.4) | 
 (3.2 0.4).16 (3.2 -.4) (3.1 -.4) (6.1 -.4) 3.1 3.2 3.1 3.2 3.3.8 (3.2 0.3) | 
 (3.2 0.4).16 (3.2 -.4) (3.1 -.4) (6.1 -.4) 3.1 3.2 3.1 3.2 3.3.8 (3.2 0.3) |
 `}</SelectionHandleDemo>
 
-This feature can be used via: 
+此功能可以通过以下方式使用：
 
 * [`api.playbackRangeHighlightChanged`](/docs/reference/api/playbackrangehighlightchanged)
 * [`api.highlightPlaybackRange`](/docs/reference/api/highlightplaybackrange)
 * [`api.applyPlaybackRangeFromHighlight`](/docs/reference/api/applyplaybackrangefromhighlight)
 
-A simple demo of the usage is also part of the [development playground](https://github.com/CoderLine/alphaTab/blob/develop/packages/playground/select-handles.ts). 
+[开发环境游乐场](https://github.com/CoderLine/alphaTab/blob/develop/packages/playground/select-handles.ts) 中也包含了一个简单的使用演示。
 
-### Guitar Pro extensions
+### Guitar Pro 扩展
 
-#### exporter: improved RSE compatibility
+#### 导出器：改进的 RSE 兼容性
 https://github.com/CoderLine/alphaTab/pull/2456
 https://github.com/CoderLine/alphaTab/pull/2477
 
-Thanks [@L-Sun](https://github.com/CoderLine/alphaTab/pull/2456) for your contributions around this topic. 
+感谢 [@L-Sun](https://github.com/CoderLine/alphaTab/pull/2456) 在此主题上的贡献。
 
-With these improvements alphaTab does now write extended RSE information into the exported Guitar Pro files.
-This way the playback mode in Guitar Pro can be changed to RSE resulting in proper playback. 
+通过这些改进，alphaTab 现在将扩展的 RSE 信息写入导出的 Guitar Pro 文件中。
+这样，Guitar Pro 中的播放模式可以更改为 RSE，从而实现正确的播放。
 
-RSE is quite a complex feature of Guitar Pro allowing advanced effect and soundbank configurations. alphaTab tries
-to write at least the minimum amount of information to achieve correct playback.
+RSE 是 Guitar Pro 的一个相当复杂的功能，允许高级效果和音色库配置。alphaTab 尝试写入至少最少量的信息以实现正确的播放。
 
-#### importer: detect bass clef (Guitar Pro 3-5)
+#### 导入器：检测低音谱号（Guitar Pro 3-5）
 https://github.com/CoderLine/alphaTab/pull/2483
 
-Older Guitar Pro files did not always contain the exact information on what clef should be shown on the staves. 
-While some information can be contained, it was not fully working as expected and for older formats always a treble clef was shown.
+较旧的 Guitar Pro 文件并不总是包含谱表上应显示什么谱号的精确信息。
+虽然可以包含一些信息，但它并没有完全按预期工作，对于较旧的格式，总是显示高音谱号。
 
-We now follow the Guitar Pro 5 behavior of switching to the a bass clef based on the configured string tuning. 
+我们现在遵循 Guitar Pro 5 的行为，根据配置的琴弦调音切换到低音谱号。
 
-### alphaTex Extensions
+### alphaTex 扩展
 
-#### alphaTex: bar-wise voices
+#### alphaTex：按小节声部
 https://github.com/CoderLine/alphaTab/pull/2429
 
-While writing various test-cases for multi-voice music sheets I realized that writing
-the notation voice-by-voice does not feel very natural. 
+在编写多声部乐谱的各种测试用例时，我意识到按声部编写记谱感觉不太自然。
 
-By default in alphaTex, to write multiple voices, you first write the whole notation for the first voice,
-then you start a new voice with `\voice` and begin again writing the second voice at bar 1. 
+默认情况下，在 alphaTex 中，要编写多个声部，你先编写第一个声部的完整记谱，然后用 `\voice` 开始新的声部，并再次从小节 1 开始编写第二个声部。
 
-With this new mode, we stay in the metal model of writing notation "bar-by-bar". The `\voice` tag starts a new
-voice on the current bar until we reach the end of the bar. Thanks to this you can only add a second voice to the
-bars which actually have a second voice and keep the other bars simple as single voice bars. 
+通过这种新模式，我们保持在"按小节"编写记谱的思维模型中。`\voice` 标签在当前小节上开始一个新的声部，直到我们到达小节的末尾。因此，你只需要在实际有第二个声部的小节中添加第二个声部，并保持其他小节为简单的单声部小节。
 
-alphaTab takes care of the internal consolidation of voices. 
+alphaTab 负责声部的内部整合。
 
 <AlphaTexSample tex={true}>{`
-\\subtitle "Staff-Wise Voices"
-\\voiceMode staffWise
-\\voice
+\subtitle "按谱表声部"
+\voiceMode staffWise
+\voice
     C4 | C5
-\\voice
+\voice
     C3 | C4
 `}</AlphaTexSample>
 
 <AlphaTexSample tex={true}>{`
-\\voiceMode barWise
-// Bar 1
-    \\voice C4 
-    \\voice C3
+\voiceMode barWise
+// 小节 1
+    \voice C4 
+    \voice C3
 |
-// Bar 2
-    \\voice C5 
-    \\voice C4
+// 小节 2
+    \voice C5 
+    \voice C4
 `}</AlphaTexSample>
 
-This feature can be used via:
+此功能可以通过以下方式使用：
 
-* [`\voiceMode`](/docs/alphatex/bar-metadata#voicemode) in alphaTex.
+* alphaTex 中的 [`\voiceMode`](/docs/alphatex/bar-metadata#voicemode)。
 
-### Improvements & Bugfixes
+### 改进与错误修复
 
-#### alphaTex: Fixed diagnostics in Monaco integration
+#### alphaTex：修复 Monaco 集成中的诊断信息
 https://github.com/CoderLine/alphaTab/pull/2413
 
-Some last minute changes in the 1.7.0 release caused a problem that the Monaco Editor integration
-didn't correctly display diagnostics. Due to both pull&pull diagnostics being used, all diagnostics were
-listed twice. 
+1.7.0 版本发布前的一些最后时刻的改动导致 Monaco 编辑器集成无法正确显示诊断信息。由于同时使用了 pull 和 push 诊断，所有诊断都被列出了两次。
 
-#### alphaTex: Missing metadata tags in LSP completion
+#### alphaTex：LSP 补全中缺少的元数据标签
 https://github.com/CoderLine/alphaTab/pull/2413
 
-Some metadata tags were not included in the list for code completions. Any staff-level metadata tags were missing
-in the code completions. 
+一些元数据标签没有包含在代码补全列表中。任何谱表级别的元数据标签在代码补全中都缺失了。
 
-Now they are included as expected.
+现在它们已按预期包含在内。
 
-#### playground: Improvements in the development playground
+#### 游乐场：开发游乐场的改进
 https://github.com/CoderLine/alphaTab/pull/2410
 
-The development playground was improved with some more convenience features like:
+开发游乐场通过一些更方便的功能进行了改进：
 
-1. When importing any file into the alphaTex editor, we use the new exporter to fill the code editor with the alphaTex code for further editing.
-2. Drag and drop of files now works on the whole page 
-3. alphaTab is now exposed on the `window` object for easy fiddling in the browser dev tools.
+1. 将任何文件导入 alphaTex 编辑器时，我们使用新的导出器用 alphaTex 代码填充代码编辑器，以便进一步编辑。
+2. 现在可以在整个页面上拖放文件
+3. alphaTab 现在暴露在 `window` 对象上，以便在浏览器开发者工具中轻松调试。
 
-#### render: Effect bands merged into main renderers
+#### 渲染：将效果带合并到主渲染器中
 https://github.com/CoderLine/alphaTab/pull/2414
 
-This is mainly a preparation for future improvements but still worth mentioning in this release. 
-Until this release effects&annotations like vibratos, dynamics, lyrics etc. were rendered in own 
-`EffectBarRenderers`. 
+这主要是为未来改进做准备，但仍值得在此版本中提及。
+在此版本之前，颤音、力度、歌词等效果和注释都在自己的 `EffectBarRenderers` 中渲染。
 
-Internally this means there were own visual "staves" for the various effects and these staves were tricky to manage. 
+在内部，这意味着各种效果有独立的视觉"谱表"，这些谱表很难管理。
 
-With this change we merged these effects into the main renderers bringing following improvements: 
+通过此改动，我们将这些效果合并到主渲染器中，带来了以下改进：
 
-1. We laid the foundation to eventually align effects more efficiently with the notes contained in the bars allowing a more dense layout.
-   Currently there can be quite a lot of white-space (especially in the horizontal layout).
-2. When the main staves (standard notation, tabs, slash notation and numbered notation) are shown/hidden we tell the next main staff to show the effect instead. 
-   Thanks to this all relevant effects are now shown for notes. 
-3. Internally there is less complexity and overhead resulting in a slightly better performance.
+1. 我们为最终更有效地将效果与小节中包含的音符对齐奠定了基础，从而实现更紧凑的布局。
+   目前可能存在相当多的空白（特别是在水平布局中）。
+2. 当主谱表（标准记谱、制表谱、斜线记谱和简谱）显示/隐藏时，我们告诉下一个主谱表改为显示效果。
+   因此，现在所有相关效果都会显示在音符上。
+3. 内部复杂性和开销减少，性能略有提升。
 
-As part of this various alignment issues have been fixed and we improved the general behavior of reserving paddings for overlaps.
+作为此改动的一部分，各种对齐问题已得到修复，我们改进了为重叠预留填充的一般行为。
 
-#### alphaTex: load alphaTex from the `textContent` of DOM elements.
+#### alphaTex：从 DOM 元素的 `textContent` 加载 alphaTex。
 https://github.com/CoderLine/alphaTab/pull/2417
 https://github.com/CoderLine/alphaTab/commit/962b45b98b751003dcee47f5c3b557350e44ee13
 
-alphaTab previously used the `.innerHTML` property of DOM elements to load the initial alphaTex code to render.
-Due to this HTML entities were escaped and a text like `alpha & tab` would result in `alpha &amp; tab`. 
+alphaTab 以前使用 DOM 元素的 `.innerHTML` 属性来加载要渲染的初始 alphaTex 代码。
+因此，HTML 实体被转义了，像 `alpha & tab` 这样的文本会变成 `alpha &amp; tab`。
 
-With the change to `textContent` this problem does not exist anymore and whitespace is still preserved for parsing mitigating
-expected side-effects.
+通过改用 `textContent`，这个问题不再存在，并且空白仍然被保留用于解析，缓解了预期的副作用。
 
-#### rendering: improved beaming helpers
+#### 渲染：改进的符杠辅助工具
 https://github.com/CoderLine/alphaTab/pull/2427
 
-The beaming helpers are responsible for grouping beats which can be beamed together and take care of various
-calculations around this. 
+符杠辅助工具负责将可以连在一起的节拍分组，并处理与此相关的各种计算。
 
-Historically a lot of logic around the positioning of beams and related elements (tuplets, flags etc) was scattered
-across different places. With this improvement we have now a proper centralized handling of these aspects allowing easier 
-adaptions and extensions for future features. 
+从历史上看，关于符杠和相关元素（三连音、符尾等）定位的大量逻辑分散在不同的地方。通过此改进，我们现在对这些方面有了适当的集中处理，允许更容易的适应和未来功能的扩展。
 
-#### bundlers: warn about missing plugin usage
+#### 打包器：警告缺少插件使用
 https://github.com/CoderLine/alphaTab/pull/2436
 
-We now detect during runtime if alphaTab was bundled via WebPack or Vite but our bundler plugins were not used. 
-This mitigates problems when devs forget to setup the bundlers correctly.
+我们现在在运行时检测 alphaTab 是否通过 WebPack 或 Vite 打包，但没有使用我们的打包器插件。
+这缓解了开发者忘记正确设置打包器时的问题。
 
-Unless alphaTab logs are disabled in the browser, the browser console will print a warning if the plugins need to be activated.
+除非在浏览器中禁用 alphaTab 日志，否则如果插件需要激活，浏览器控制台将打印警告。
 
-#### rendering: always apply `systemLabelPaddingLeft`
+#### 渲染：始终应用 `systemLabelPaddingLeft`
 https://github.com/CoderLine/alphaTab/pull/2448
 
-alphaTab only applied the padding `systemLabelPaddingLeft` if the tracks had a label. Now this padding is always applied ensuring a 
-consistent display regardless of track names being set. 
+alphaTab 仅在音轨有标签时才应用填充 `systemLabelPaddingLeft`。现在，无论是否设置了音轨名称，都会始终应用此填充，以确保一致的显示。
 
 <div style={{border: "1px solid var(--ifm-toc-border-color)"}}>
 <AlphaTab tex={true} settings={{display: { padding: [5,5], systemLabelPaddingLeft: 100}}}>{`
-\\hideDynamics
+\hideDynamics
 C4 * 4
 `}</AlphaTab>
 </div>
 
 <div style={{border: "1px solid var(--ifm-toc-border-color)"}}>
 <AlphaTab tex={true} settings={{display: { padding: [5,5], systemLabelPaddingLeft: 100}}}>{`
-\\hideDynamics
-\\track "Track1"
+\hideDynamics
+\track "Track1"
 C4 * 4
 `}</AlphaTab>
 </div>
 
-#### web: print dialog 
+#### Web：打印对话框
 https://github.com/CoderLine/alphaTab/pull/2480
 
-When we introduced the SMuFL font customization the print dialog got broken. The fonts were not registered in the
-print dialog and therefore no symbols were shown. This problem is now fixed. Try it out on the landing page.
+当我们引入 SMuFL 字体自定义时，打印对话框被破坏了。字体没有在打印对话框中注册，因此没有显示符号。此问题现已修复。在首页上试用。
 
-#### audio: handle invalid BPMs
+#### 音频：处理无效 BPM
 https://github.com/CoderLine/alphaTab/pull/2484
 
-There were some edge-cases where invalid files could lead to a hang inside alphaTab. If BPMs were set to a value &lt;1 (e.g. 0.111), 
-alphaTab cropped it to 0. A BPM=0 then caused a range of internal problems in the player. 
+存在一些边缘情况，无效文件可能导致 alphaTab 内部挂起。如果 BPM 设置为小于 1 的值（例如 0.111），alphaTab 会将其截断为 0。然后 BPM=0 会在播放器中引起一系列内部问题。
 
-alphaTab now forces the BPM to 1 inside the player to avoid any problems. 
+alphaTab 现在强制播放器中的 BPM 为 1，以避免任何问题。
 
-#### rendering: prevent wobbly beam rendering
+#### 渲染：防止符杠渲染抖动
 https://github.com/CoderLine/alphaTab/pull/2494
 
-alphaTab tried to handle certain subpixel related problems by rounding coordinates. This had the negative effect of 
-beams not aligning to a clean slope but they appeared "wobbly" when spanning multiple beats. 
+alphaTab 尝试通过四舍五入坐标来处理某些子像素相关问题。这产生了负面影响，即符杠无法对齐到干净的斜率，而是在跨越多个节拍时显得"抖动"。
 
-We fixed the rendering of these beams aiming for a clean display of slopes and avoiding sub-pixel related artifacts.
+我们修复了这些符杠的渲染，旨在实现斜率的干净显示，并避免与子像素相关的伪影。
 
-On standard-DPI monitors there might still be slight artifacts due to subpixel-rendering and the related anti-aliasing.
+在标准 DPI 显示器上，由于子像素渲染和相关的抗锯齿，可能仍然存在轻微的伪影。
 
-#### rendering: avoid flickering and wrong notation display on layout changes
+#### 渲染：避免布局变化时的闪烁和错误记谱显示
 https://github.com/CoderLine/alphaTab/pull/2495
 
-When switching between layouts, alphaTab tried to keep the existing notation displayed.
-This optimization was mainly in place for dynamic resizing. When switching between layouts or loading new files,
-this could lead to wrong elements being displayed on screen temporarily until they were re-rendered using the new information.
+在切换布局时，alphaTab 尝试保留现有的记谱显示。
+此优化主要适用于动态调整大小。在切换布局或加载新文件时，这可能导致在重新使用新信息渲染之前，屏幕上暂时显示错误的元素。
 
-alphaTab now tries to detect whether the current viewport elements can be reused and clears the content if required. 
+alphaTab 现在尝试检测当前视口元素是否可以重用，并在需要时清除内容。
 
-Devs can supply new `renderingHints` in a range of API methods for scenarios where the data model is dynamically changing but generally
-the displayed notation stays similar. 
+开发者可以在一系列 API 方法中提供新的 `renderingHints`，用于数据模型动态变化但通常显示的记谱保持相似的场景。
 
-e.g. when providing live editors a clearing of the viewport would have negative flickering effects when clearing all rendered notation.
+例如，在提供实时编辑器时，清除视口会产生负面的闪烁效果，因为会清除所有渲染的记谱。

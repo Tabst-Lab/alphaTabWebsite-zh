@@ -6,489 +6,479 @@ import { AlphaTab } from '@site/src/components/AlphaTab/';
 
 ## 1.4.0
 
-Time flies and its been almost one year since 1.3.0 was released. Hence it is already long overdue to have an official alphaTab release. 
+时光飞逝，距离 1.3.0 发布已经快一年了。因此，早就该有一个正式的 alphaTab 版本了。
 
-v1.4.0 brings again a lot of new features mainly centered around extending the file format support.
+v1.4.0 再次带来了许多新功能，主要围绕扩展文件格式支持。
 
-### Music Notation
+### 音乐记谱
 
-This version of alphaTab adds quite a range of new music notation features and rendering adaptions. 
-The following list is (roughly) sorted by the visual impact of the added feature.
+此版本的 alphaTab 添加了一系列新的音乐记谱功能和渲染调整。
+以下列表（大致）按添加功能的视觉影响排序。
 
-#### rendering: Change on Paddings and Margins
+#### 渲染：填充和边距的更改
 https://github.com/CoderLine/alphaTab/pull/1524
 
-Up to v1.3 alphaTab was fairly generious with the paddings and margins it defined and there was no possibility to adjust these sizes. 
-This way alphaTab required quite a bit of screen space, even for small music sheets. With this feature we introduced configurable
-paddings and margins for all general spacings that affect the system and stave placement. At the same time we reduced the paddings
-to some more reasonable defaults resulting in a more concise display.
+在 v1.3 之前，alphaTab 对其定义的填充和边距相当慷慨，并且没有调整这些大小的可能性。
+这样，即使是小型乐谱，alphaTab 也需要相当多的屏幕空间。通过此功能，我们为影响系统和谱表放置的所有通用间距引入了可配置的填充和边距。同时，我们将填充减少到更合理的默认值，从而实现更紧凑的显示。
 
 <img src="/img/release/v14/concise.png" />
 
-There is a range of new settings allowing to configure the paddings. 
+有一系列新设置允许配置填充。
 
-#### notation: Slash Notation
+#### 记谱：斜线记谱
 https://github.com/CoderLine/alphaTab/pull/1511
 
-alphaTab can now display additionally a slash notation staff. On Guitar Pro 6-8 files the configured staves are respected,
-on alphaTex the new `slash` staff option can be used. Or the staff can be enabled on the data model via `score.track[].staves[].showSlash`.
+alphaTab 现在可以额外显示斜线记谱谱表。在 Guitar Pro 6-8 文件中，配置的谱表会被遵循，
+在 alphaTex 中，可以使用新的 `slash` 谱表选项。或者可以通过数据模型上的 `score.track[].staves[].showSlash` 启用谱表。
 
 <AlphaTab tex="true">{`
-\\bracketextendmode nobrackets
+\bracketextendmode nobrackets
 .
-\\staff {score tabs slash}
+\staff {score tabs slash}
 1.6.4 1.6.8 1.6.8 1.6.2 |
 1.6.4 {tu 3} 1.6.4 {tu 3} 1.6.4 {tu 3} r.2 |
 5.5.1 | r.1
 `}</AlphaTab>
 
-#### notation: Add numbered notation (Jianpu)
+#### 记谱：添加简谱（Jianpu）
 https://github.com/CoderLine/alphaTab/pull/1628
 
-alphaTab can now display additionally a numbered notation staff (aka. Jianpu). On Guitar Pro 6-8 files the configured staves are respected,
-on alphaTex the new `numbered` staff option can be used. Or the staff can be enabled on the data model via `score.track[].staves[].showNumbered`.
+alphaTab 现在可以额外显示简谱谱表（又称 Jianpu）。在 Guitar Pro 6-8 文件中，配置的谱表会被遵循，
+在 alphaTex 中，可以使用新的 `numbered` 谱表选项。或者可以通过数据模型上的 `score.track[].staves[].showNumbered` 启用谱表。
 
 <AlphaTab tex="true">{`
-\\bracketextendmode nobrackets
+\bracketextendmode nobrackets
 .
-\\staff {score tabs numbered}
+\staff {score tabs numbered}
 1.6.4 2.6.8 3.6.8 4.6.2 |
 5.6.4 {tu 3} 10.6.4 {tu 3} 12.6.4 {tu 3} r.2 |
 5.5.1 | r.1
 `}</AlphaTab>
 
-#### notation: System Brackets & Braces
+#### 记谱：系统括号和花括号
 https://github.com/CoderLine/alphaTab/pull/1730
 
-Up to alphaTab 1.3 there was always a rectangular bracket drawn across the staves of one track. With alphaTab 1.4 the display is now configurable 
-in multiple modes. See [Brackets and Braces](/docs/showcase/general#brackets-and-braces) for more details. 
+在 alphaTab 1.3 之前，总是有一个矩形括号跨过一个音轨的谱表绘制。在 alphaTab 1.4 中，显示现在可以在多种模式下配置。参见[括号与花括号](/docs/showcase/general#brackets-and-braces)了解更多详情。
 
 <AlphaTab tex="true" tracks="all">{`
-\\bracketextendmode GroupStaves
+\bracketextendmode GroupStaves
 .
-\\track 
-    \\staff {score}
+\track 
+    \staff {score}
     C4 D4 E4 F4
-    \\staff {score}
-    \\clef f4 C3 D3 E3 F3
-\\track 
-    \\staff { score tabs }
+    \staff {score}
+    \clef f4 C3 D3 E3 F3
+\track 
+    \staff { score tabs }
     0.3.4 2.3.4 5.3.4 7.3.4 
 `}</AlphaTab>
 
-#### notation: Track Name Display
+#### 记谱：音轨名称显示
 https://github.com/CoderLine/alphaTab/pull/1895
 
-alphaTab has now multiple modes on how to display the track names. The settings are adopted from Guitar Pro and allow a variety of display formats.
+alphaTab 现在有多种模式来显示音轨名称。这些设置借鉴自 Guitar Pro，允许各种显示格式。
 
 <AlphaTab tex="true" tracks="all">{`
-\\singletracktracknamepolicy AllSystems
-\\firstsystemtracknamemode fullname
-\\othersystemstracknamemode shortname
-\\firstsystemtracknameorientation horizontal
-\\othersystemstracknameorientation vertical
+\singletracktracknamepolicy AllSystems
+\firstsystemtracknamemode fullname
+\othersystemstracknamemode shortname
+\firstsystemtracknameorientation horizontal
+\othersystemstracknameorientation vertical
 .
-\\track "Piano 1" "pno1" { defaultsystemslayout 3 }
-    \\staff {score}
+\track "Piano 1" "pno1" { defaultsystemslayout 3 }
+    \staff {score}
     C4 D4 E4 F4 | C4 D4 E4 F4 | C4 D4 E4 F4 | C4 D4 E4 F4 | C4 D4 E4 F4 |
 `}</AlphaTab>
 
-#### notation: Directions (aka. Jumps)
+#### 记谱：方向（又称跳转）
 https://github.com/CoderLine/alphaTab/pull/1852
 
-Support for directions (aka. jumps) was added in alphaTab v1.4.0. 
+在 alphaTab v1.4.0 中添加了对方向（又称跳转）的支持。
 
 <AlphaTab tex="true" player="true">{`
-\\tempo 240
+\tempo 240
 .
-\\ro \\rc 2 3.3*4 | 
+\ro \rc 2 3.3*4 | 
 3.3*4 | 
-\\jump Segno 3.3*4 |
-\\ro \\rc 2 3.3*4 | 
-\\jump DaCoda 3.3*4 |
+\jump Segno 3.3*4 |
+\ro \rc 2 3.3*4 | 
+\jump DaCoda 3.3*4 |
 3.3*4 | 3.3*4
-\\jump DalSegnoAlCoda 3.3*4 |
+\jump DalSegnoAlCoda 3.3*4 |
 3.3*4 |
-\\jump Coda 3.3*4 |
+\jump Coda 3.3*4 |
 3.3*4 |
 3.3*4
 `}
 </AlphaTab>
-#### notation: Support for multiple tempo changes in one Bar
+#### 记谱：支持一个小节内的多个速度变化
 https://github.com/CoderLine/alphaTab/pull/1600
 
-Starting with v1.4.0 alphaTab respects multiple tempo changes within a single bar.
+从 v1.4.0 开始，alphaTab 遵循单个小节内的多个速度变化。
 
 <AlphaTab tex="true" tracks="all" player="true">{`
 .
 C4 {tempo 120} D4 E4 {tempo 140} F4 | C4.8 {tempo 80} C4 D4 {tempo 100} D4 E4 {tempo 120} E4 F4 {tempo 240} F4
 `}</AlphaTab>
 
-#### notation: Ornaments (turn, inverted-turn, upper-mordent, lower-mordent)
+#### 记谱：装饰音（回音、逆回音、上波音、下波音）
 https://github.com/CoderLine/alphaTab/pull/1746
 
-Ornaments like turns are respected in both display and playback of notes. 
+回音等装饰音在音符的显示和播放中都会被遵循。
 
 <AlphaTab tex="true" tracks="all" player="true">{`
 .
 C4 {turn} D4 E4 {umordent} F4
 `}</AlphaTab>
 
-#### notation: Rasgueado Patterns
+#### 记谱：扫弦模式
 https://github.com/CoderLine/alphaTab/pull/1748
 
-The exact Rasgueado patterns are now read from input formats and considered during playback. 
+现在从输入格式中读取精确的扫弦模式，并在播放期间考虑。
 
 <AlphaTab tex="true" tracks="all" player="true">{`
 (1.1 3.2 2.3 0.4) * 4 {rasg amii}
 `}</AlphaTab>
 
 
-#### notation: Inline Fingering
+#### 记谱：内联指法
 https://github.com/CoderLine/alphaTab/pull/1645
 
-In alphaTab 1.3.1 the finger numbers were shown above the stem which did not allow mapping the individual notes to the fingers. 
-With this release the numbers are now displayed beside the respective note head. 
+在 alphaTab 1.3.1 中，手指数字显示在符干上方，这无法将单个音符映射到手指。
+在此版本中，数字现在显示在相应音符头的旁边。
 
 <AlphaTab tex="true">{`
 :8 3.3{lf 1} 3.3{lf 2} 3.3{lf 3} 3.3{lf 4} 3.3{lf 5} (2.2{lf 4} 2.3{lf 3} 2.4{lf 2}) |
 :8 3.3{rf 1} 3.3{rf 2} 3.3{rf 3} 3.3{rf 4} 3.3{lf 5}
 `}</AlphaTab>
 
-#### notation: Slashed Beats
+#### 记谱：斜线节拍
 https://github.com/CoderLine/alphaTab/pull/1646
 
-Support for Slashed Beats were added where note heads are shown with slash notation.
+添加了对斜线节拍的支持，其中音符头以斜线记谱显示。
 
 <AlphaTab tex="true">{`
 C4.4 {slashed} C4.8 {slashed} C4.8 {slashed} C4.4 {slashed}
 `}</AlphaTab>
 
-#### notation: Dead Slap
+#### 记谱：死拍
 https://github.com/CoderLine/alphaTab/pull/1742
 
-Support for Dead Slaps were added where instead of playing any sound, a dead note is played on all strings.
+添加了对死拍的支持，其中不播放任何声音，而是在所有琴弦上播放闷音。
 
 <AlphaTab tex="true">{`
 ().4 {ds} ().4 {ds}
 `}</AlphaTab>
 
-#### notation: Beat Timer
+#### 记谱：节拍计时器
 https://github.com/CoderLine/alphaTab/pull/1896
 
-Support for beat timers where added. On any beat the absolute playback position can be added.
+添加了对节拍计时器的支持。在任何节拍上，都可以添加绝对播放位置。
 
 <AlphaTab tex="true">{`
 :2 C4 { timer } C4  |
-\\ro C4 { timer } C4 |
-\\ae 1 C4 C4 { timer }  |
-\\rc 3 \\ae (2 3) C4 { timer } C4 { timer } |
+\ro C4 { timer } C4 |
+\ae 1 C4 C4 { timer }  |
+\rc 3 \ae (2 3) C4 { timer } C4 { timer } |
 C4 { timer } C4
 `}</AlphaTab>
 
-#### notation: Free Time
+#### 记谱：自由拍子
 https://github.com/CoderLine/alphaTab/pull/1643
 
-Support for free time bars was added.
+添加了对自由拍子小节的支持。
 
 <AlphaTab tex="true">{`
 :2 
 C4*2 |
-\\ft C4*2 |
-\\ft C4*2 |
+\ft C4*2 |
+\ft C4*2 |
 C4*2 |
 `}</AlphaTab>
 
-#### notation: Tenuto
+#### 记谱：保持音
 https://github.com/CoderLine/alphaTab/pull/1645
 
-Support for tenuto accentuation was added.
+添加了对保持音重音的支持。
 
 <AlphaTab tex="true">{`
 3.3{ac} 3.3{hac} 3.3{ten}
 `}</AlphaTab>
 
-#### notation: String Numbers
+#### 记谱：弦号
 https://github.com/CoderLine/alphaTab/pull/1645
 
-Support for displaying string numbers was added.
+添加了对显示弦号的支持。
  
 <AlphaTab tex="true">{`
 3.3{string} 3.4{string} 3.5{string}
 `}</AlphaTab>
 
-#### notation: Sustain Pedal
+#### 记谱：延音踏板
 https://github.com/CoderLine/alphaTab/pull/1730
 
-Support for displaying sustain petal was added, this currently does not affect the playback. 
+添加了对显示延音踏板的支持，这目前不影响播放。
  
 <AlphaTab tex="true">{`
 3.3 3.3{spd} 3.3 3.3 {spu}
 `}</AlphaTab>
 
-#### notation: Golpe
+#### 记谱：敲击
 https://github.com/CoderLine/alphaTab/pull/1743
 
-Support for displaying golpe was added, this currently does not affect the playback. 
+添加了对显示敲击的支持，这目前不影响播放。
 
 <AlphaTab tex="true">{`
 3.3{glpf} 3.3{glpt}
 `}</AlphaTab>
 
-#### notation: Fading Styles (fade-in, fade-out, volume-swell)
+#### 记谱：渐弱样式（渐强、渐弱、音量渐增）
 https://github.com/CoderLine/alphaTab/pull/1744
 
-The fading styles were extended to support fade-in, fade-out and volume swells on notes.
+渐弱样式已扩展为支持音符上的渐强、渐弱和音量渐增。
 
 <AlphaTab tex="true" player="true">{`
 :1 3.3{f} | 3.3{fo} | 3.3{vs}
 `}</AlphaTab>
 
-#### notation: Wah-Pedal
+#### 记谱：哇音踏板
 https://github.com/CoderLine/alphaTab/pull/1745
 
-Support for displaying Wah pedal was added, this currently does not affect the playback. 
+添加了对显示哇音踏板的支持，这目前不影响播放。
 
 <AlphaTab tex="true">{`
 3.3 3.3{waho} 3.3 3.3 {wahc}
 `}</AlphaTab>
 
-#### notation: Barré
+#### 记谱：横按
 https://github.com/CoderLine/alphaTab/pull/1746
 
-Support for displaying barré chord notation was added. 
+添加了对显示横按和弦记谱的支持。
 
 <AlphaTab tex="true">{`
 1.1 {barre 24} 2.1 {barre 24} 3.1 {barre 24} 4.1 |
 1.1 {barre 4 half} 2.1 {barre 4 half} 3.1 {barre 4 half} 4.1 {barre 4 half} |
 `}</AlphaTab>
 
-### Player
+### 播放器
 
-#### player: SoundFont3 Support (Experimental)
+#### 播放器：SoundFont3 支持（实验性）
 https://github.com/CoderLine/alphaTab/pull/1807
 
-alphaTab 1.4.0 added experiemntal support for SoundFont3 files. In SF3 files audio samples are encoded as OGG Vorbis which allows
-a smaller footprint when transferring soundfonts over network. This allows using higher quality sounds without a direct increase of file size transferred to clients. 
+alphaTab 1.4.0 添加了对 SoundFont3 文件的实验性支持。在 SF3 文件中，音频样本编码为 OGG Vorbis，这允许在通过网络传输音色库时占用更小的空间。这允许使用更高质量的音色，而不会直接增加传输给客户端的文件大小。
 
-The decoding of the audio samples requires additional CPU time which might affect users. Only the samples required by the song played will be decoded to reduce load. 
+音频样本的解码需要额外的 CPU 时间，这可能会影响用户。只有歌曲播放所需的样本才会被解码以减少负载。
 
-alphaTab ships now a SF3 flavor of the Sonivox soundfont but still has enabled by default the use of the SF2 file (where embedded).
+alphaTab 现在附带了一个 SF3 版本的 Sonivox 音色库，但默认情况下仍启用 SF2 文件的使用（如果已嵌入）。
 
-We did not thoroughly test yet the decoding of many files and the impact of the decoding time. Therefore the support is still considered experimental.
+我们尚未彻底测试许多文件的解码以及解码时间的影响。因此，该支持仍被认为是实验性的。
 
-#### player: Live Change of Transposition Pitches
+#### 播放器：实时更改移调音高
 https://github.com/CoderLine/alphaTab/pull/1642
 
-The [`changeTrackTranspositionPitch`](/docs/reference/api/changetracktranspositionpitch) and [`setChannelTranspositionPitch`](/docs/reference/types/synth/ialphasynth#setchanneltranspositionpitch) APIs allow changing transposition pitches of individual tracks (or midi channels) on-the-fly 
-while the song is being played. 
+[`changeTrackTranspositionPitch`](/docs/reference/api/changetracktranspositionpitch) 和 [`setChannelTranspositionPitch`](/docs/reference/types/synth/ialphasynth#setchanneltranspositionpitch) API 允许在播放歌曲时实时更改各个音轨（或 MIDI 通道）的移调音高。
 
-### alphaTex Extensions
+### alphaTex 扩展
 
-#### alphaTex: Support for Percussion Tabs
+#### alphaTex：支持打击乐制表谱
 https://github.com/CoderLine/alphaTab/pull/1493
 
-With alphaTab 1.4.0 you can finally also express percussion tabs. [Learn more here](/docs/alphatex/staff-metadata.mdx#articulation)
+在 alphaTab 1.4.0 中，你终于可以表达打击乐制表谱了。[在此了解更多](/docs/alphatex/staff-metadata.mdx#articulation)
 
 <AlphaTab tex="true" player="true">{`
-\\track "Drums"
-\\instrument percussion
-\\tempo 120
-\\clef neutral
-\\articulation defaults
+\track "Drums"
+\instrument percussion
+\tempo 120
+\clef neutral
+\articulation defaults
 (KickHit RideBell).16 r KickHit KickHit (KickHit RideBell).16 r KickHit KickHit (KickHit RideBell).16 r KickHit KickHit (KickHit RideBell).16 r KickHit KickHit |
 (KickHit HiHatOpen) KickHit KickHit KickHit (KickHit HiHatOpen) KickHit KickHit KickHit (KickHit SnareHit HiHatOpen) KickHit KickHit.32 KickHit KickHit.16 (KickHit HiHatOpen) KickHit KickHit KickHit |
 (KickHit HiHatOpen).8{tu 3} KickHit{tu 3} KickHit{tu 3} (KickHit SnareHit HiHatOpen){tu 3} KickHit.16{tu 3} KickHit{tu 3} KickHit.8{tu 3} (KickHit HiHatOpen).8{tu 3} KickHit{tu 3} KickHit{tu 3} (KickHit SnareHit HiHatOpen).8{tu 3} KickHit{tu 3} KickHit{tu 3}
 `}</AlphaTab>
 
-#### alphaTex: Add Support for all Notation Elements
+#### alphaTex：支持所有记谱元素
 https://github.com/CoderLine/alphaTab/pull/1853
 
-With this release alphaTex closes the gaps between other file formats by adding support for all elements alphaTab supports across other formats.
-All elements are now described respectively in the [alphaTex documentation](/docs/alphatex/introduction).
-Some key changes beside larger features already mentioned here: 
+通过此版本，alphaTex 通过添加对 alphaTab 在其他格式中支持的所有元素的支持，缩小了与其他文件格式之间的差距。
+所有元素现在都在 [alphaTex 文档](/docs/alphatex/introduction) 中分别描述。
+除了此处已提及的较大功能外，还有一些关键变化：
 
-* Escape sequences (like `\n`) can now be used in strings.
-* Score metadata was extended for all fields. 
-* Tempo labels can now be specified
-* System Layout details can be configured
-* [Stylesheet](/docs/reference/score) details can be specified.
-* Transpose information can be specified. 
-* Specify track properties (volume, mute, solo)
-* Specify the number of standard notation lines in standard music notation staves.
-* Beat Vibrato Types
-* Custom tuplets
-* Whammy bar types and styles
-* Bend types and styles
-* Beat Ottava
-* Legatos
-* Instrument Automations
-* Fermata
-* Custom Beaming Modes and Stem directions.
-* Show String Numbers
-* Invisible Notes
-* Slurs
-* Common Time Signatures
-* Key Signature Types
-* Double Bars
-* Ottava
-* Bar Scale (for system layouts)
-* Fixed Bar Widths (for system layouts)
-* Simile Marks
+* 现在可以在字符串中使用转义序列（如 `\n`）。
+* 乐谱元数据已扩展为所有字段。
+* 现在可以指定速度标签
+* 可以配置系统布局详情
+* 可以指定[样式表](/docs/reference/score)详情。
+* 可以指定移调信息。
+* 指定音轨属性（音量、静音、独奏）
+* 指定标准音乐记谱谱表中的标准记谱线数量。
+* 节拍颤音类型
+* 自定义三连音
+* 摇把类型和样式
+* 推弦类型和样式
+* 节拍八度
+* 连音
+* 乐器自动化
+* 延长记号
+* 自定义符杠模式和符干方向。
+* 显示弦号
+* 不可见音符
+* 连音线
+* 常用拍号
+* 调号类型
+* 双小节线
+* 八度
+* 小节缩放（用于系统布局）
+* 固定小节宽度（用于系统布局）
+* 反复记号
 
-#### alphaTex: Multi-Voice Notation
+#### alphaTex：多声部记谱
 https://github.com/CoderLine/alphaTab/pull/1853
 
-Adding multiple voices to a single staff in alphaTex can now be done via the new `\voice` command.
+现在可以通过新的 `\voice` 命令在 alphaTex 中向单个谱表添加多个声部。
 
 <AlphaTab tex="true">{`
-\\track "Piano"
-    \\staff{score} \\tuning piano \\instrument acousticgrandpiano
-        \\voice 
+\track "Piano"
+    \staff{score} \tuning piano \instrument acousticgrandpiano
+        \voice 
             c4 d4 e4 f4 | c4 d4 e4 f4
-        \\voice 
+        \voice 
             c3 d3 e3 f3 | c3 d3 e3 f3
 `}</AlphaTab>
 
-#### alphaTex: Specify Accidentals
+#### alphaTex：指定变音记号
 https://github.com/CoderLine/alphaTab/pull/1729
 
-With v1.4.0 alphaTab tries to respect the accidentals as specified when writing pitched notes. 
-Additionally accidentals can be forced to the desired one. 
+在 v1.4.0 中，alphaTab 尝试遵循编写有音高音符时指定的变音记号。
+此外，可以强制使用所需的变音记号。
 
 <AlphaTab tex="true" tracks="all">{`
-\\track "Piano"
+\track "Piano"
     C#4 Db4 C##4 Dbb4 | 
-    \\accidentals auto
+    \accidentals auto
     C#4 Db4 C##4 Dbb4 |
     C#4 { acc forceFlat } C4 { acc forceSharp } C4 { acc forceDoubleSharp } C4 { acc forceDoubleFlat } 
-\\track "Guitar"
+\track "Guitar"
     :4 2.2 { acc forceFlat } 5.3 { acc forceSharp } 5.3 { acc forceDoubleSharp } 5.3 { acc forceDoubleFlat }
 `}</AlphaTab>
             
-### Guitar Pro Extensions
+### Guitar Pro 扩展
 
-#### Guitar Pro 3-8: Respect Beaming Modes and Directions
+#### Guitar Pro 3-8：遵循符杠模式和方向
 https://github.com/CoderLine/alphaTab/pull/1892
 
-alphaTab loads now all stem directions and beaming modes from Guitar Pro 3 up to 8.
+alphaTab 现在加载 Guitar Pro 3 到 8 的所有符干方向和符杠模式。
 
-#### Guitar Pro 6-8: Track Visibility Information
+#### Guitar Pro 6-8：音轨可见性信息
 https://github.com/CoderLine/alphaTab/pull/1491
 
-alphaTab loads now track visibility information from the `LayoutConfiguration` file and makes
-it available via `track.isVisibleOnMultiTrack`.
+alphaTab 现在从 `LayoutConfiguration` 文件中加载音轨可见性信息，并通过 `track.isVisibleOnMultiTrack` 提供。
 
-#### Guitar Pro 3-5: Respect Staff Visibility
+#### Guitar Pro 3-5：遵循谱表可见性
 https://github.com/CoderLine/alphaTab/pull/1888
 
-alphaTab loads now loads the activated staves from Guitar Pro 3-5 files and shows the respective staffs
-when rendering the music notation.
+alphaTab 现在从 Guitar Pro 3-5 文件中加载激活的谱表，并在渲染音乐记谱时显示相应的谱表。
 
-#### Guitar Pro 3-8: Respect Tuning Visibility
+#### Guitar Pro 3-8：遵循调音可见性
 https://github.com/CoderLine/alphaTab/pull/1889
 
-alphaTab loads now loads the tuning visibility information from Guitar Pro 3-8 files and shows the guitar tunings
-accordingly.
+alphaTab 现在从 Guitar Pro 3-8 文件中加载调音可见性信息，并相应地显示吉他调音。
 
-#### Guitar Pro 3-8: Respect Chord Diagram List Visibility
+#### Guitar Pro 3-8：遵循和弦图列表可见性
 https://github.com/CoderLine/alphaTab/pull/1890
 
-alphaTab loads now loads the information whether to display chord diagrams for a track in the chord list from 
-from Guitar Pro 3-8 files.
+alphaTab 现在从 Guitar Pro 3-8 文件中加载是否在和弦列表中显示音轨的和弦图的信息。
 
-#### Guitar Pro 3-5: Beat Ottava
+#### Guitar Pro 3-5：节拍八度
 https://github.com/CoderLine/alphaTab/pull/1892
 
-alphaTab loads now loads beat ottava information from Guitar Pro 3-5 files.
+alphaTab 现在从 Guitar Pro 3-5 文件中加载节拍八度信息。
 
-### MusicXML Extensions
+### MusicXML 扩展
 
-#### musicxml: Support for Compressed MusicXML Files
+#### musicxml：支持压缩的 MusicXML 文件
 https://github.com/CoderLine/alphaTab/pull/1492
 
-alphaTab can now unzip compressed MusicXML files before reading.
+alphaTab 现在可以在读取之前解压压缩的 MusicXML 文件。
 
-#### musicxml: Support for Guitar Bends
+#### musicxml：支持吉他推弦
 https://github.com/CoderLine/alphaTab/pull/1462
 
-alphaTab can now parse guitar bends from MusicXML files.
+alphaTab 现在可以从 MusicXML 文件中解析吉他推弦。
 
-Thanks [@ldupouey](https://github.com/ldupouey) for this contribution.
+感谢 [@ldupouey](https://github.com/ldupouey) 的贡献。
 
-### Improvements & Bugfixes
+### 改进与错误修复
 
-#### API: TypeScript definitions for JSON Settings
+#### API：JSON 设置的 TypeScript 定义
 https://github.com/CoderLine/alphaTab/pull/1562
 https://github.com/CoderLine/alphaTab/pull/1578
 
-alphaTab ships now TypeScript type definitions for the JSON flavor of the settings for better
-type safety and coding assistence when using APIs like `settings.fillFromJson`, `new AlphaTabApi()` 
+alphaTab 现在为设置的 JSON 风格提供 TypeScript 类型定义，以便在使用 `settings.fillFromJson`、`new AlphaTabApi()` 等 API 时获得更好的类型安全和编码辅助。
 
-#### docs: File Format Compatiblity
-We invested quite some effort in documenting the currently supported file formats and features.
-For every format we now try to list out what features this format provides and what alphaTab understands from it. 
+#### 文档：文件格式兼容性
+我们在记录当前支持的文件格式和功能方面投入了大量精力。
+对于每种格式，我们现在都尝试列出该格式提供的功能以及 alphaTab 从中理解了什么。
 
-Head over to the [format docs](/docs/category/formats) to learn more about the feature coverage.
+前往[格式文档](/docs/category/formats)了解更多关于功能覆盖范围的信息。
 
-#### rendering: Central Scaling of Music Sheet
+#### 渲染：乐谱的中央缩放
 https://github.com/CoderLine/alphaTab/pull/1772
 
-Up to this release alphaTab was handling the scaling of the music sheet across the different places where we draw items. 
-This was prone to errors if for some paddings or sizes the zoom scale was applied wrongly. 
-To eliminate this problem we moved the scaled rendering into the drawing layer (`ICanvas`). This way
-we do not need to handle the zoom level anymore across the whole codebase.
+在此版本之前，alphaTab 在绘制项目的不同位置处理乐谱的缩放。
+如果某些填充或大小的缩放比例应用错误，这很容易出错。
+为了消除这个问题，我们将缩放渲染移到了绘图层（`ICanvas`）。这样
+我们就不再需要在整个代码库中处理缩放级别。
 
-This should result in a more consistent zooming experience and less overlaps.
+这应该会带来更一致的缩放体验和更少的重叠。
 
-#### rendering: Tempo Automation rendering (label, positioning and scale)
+#### 渲染：速度自动化渲染（标签、定位和缩放）
 https://github.com/CoderLine/alphaTab/pull/1906
 
-In this release we improved the rendering of tempo information. Beside the addition of rendering the tempo label again,
-we also improved the placement of tempo changes above beats. This was crucial for the `Support for multiple tempo changes in one Bar`.
+在此版本中，我们改进了速度信息的渲染。除了再次添加渲染速度标签外，
+我们还改进了节拍上方速度变化的放置。这对`支持一个小节内的多个速度变化`至关重要。
 
-##### bundlers: Node20+ compatibility for Vite & WebPack Integrations
+##### 打包器：Vite & WebPack 集成的 Node20+ 兼容性
 https://github.com/CoderLine/alphaTab/pull/1579
 
-With Node20 there were some changes in copying files we had to adapt for the Vite and WebPack plugins. This could lead to wrong file copy steps.
+随着 Node20 的出现，我们在复制文件方面进行了一些更改，必须适应 Vite 和 WebPack 插件。这可能导致错误的文件复制步骤。
 
-##### audio: Prevent Audio Clipping Noises
+##### 音频：防止音频削波噪声
 https://github.com/CoderLine/alphaTab/pull/1607
 https://github.com/CoderLine/alphaTab/pull/1609
 
-A really hard-to-catch problem was the generation of strange clipping sounds in some repeat and ending scenarios. 
-We improved various bits which could lead to this clipping problem.
+一个非常难以捕捉的问题是在某些重复和结尾场景中产生奇怪的削波声音。
+我们改进了各种可能导致此削波问题的部分。
 
-#### rendering: Ensure correct effect band sizing on line breaks
+#### 渲染：确保换行时效果带的正确大小
 https://github.com/CoderLine/alphaTab/pull/1621
 https://github.com/CoderLine/alphaTab/pull/1641
 
-When during layouting it is detected that a bar doesn't fit anymore into the system (line), it is removed from the system again. 
-There was a problem that these "reverted" bars had already reserved some spacings and those were not reverted resulting in strange whitespace. 
-This problem was fixed. 
+在布局过程中，如果检测到某个小节不再适合系统（行），它会从系统中移除。
+存在一个问题是，这些"恢复"的小节已经预留了一些间距，而这些间距没有被恢复，导致出现奇怪的空白。
+此问题已修复。
 
-#### player: Scrolling Issue with `ScrollMode.OffScreen`
+#### 播放器：`ScrollMode.OffScreen` 的滚动问题
 https://github.com/CoderLine/alphaTab/pull/1771
 
-There was a problem fixed that scrolling with `ScrollMode.OffScreen` was not working as expected. This was due to wrong scroll properties being used. 
+修复了使用 `ScrollMode.OffScreen` 滚动未按预期工作的问题。这是由于使用了错误的滚动属性。
 
-#### notation: Vibratos on Tied Notes with Bends
+#### 记谱：连音推弦上的颤音
 https://github.com/CoderLine/alphaTab/pull/1843
 
-There was a problem fixed that vibratos could not be combined with bends resulting in wrong display and audio generation. 
+修复了颤音无法与推弦组合的问题，导致显示和音频生成错误。
 
-#### notation: Bends on Tied Notes
+#### 记谱：连音上的推弦
 https://github.com/CoderLine/alphaTab/issues/1825
 
-There was a problem fixed that bends were not working when applied to tied notes.
+修复了应用于连音的推弦无法工作的问题。
 
-#### alphaTex: Remember Clefs
+#### alphaTex：记住谱号
 https://github.com/CoderLine/alphaTab/pull/1905
 
-Before this change clefs had to be specified on every single bar because alphaTab used some defaults on new bars. 
-With this change alphaTab takes over the clef from previous bars.
+在此更改之前，必须在每个小节上指定谱号，因为 alphaTab 在新小节上使用了一些默认值。
+通过此更改，alphaTab 会接管前一个条形的谱号。
 
-#### bundler: Vite upgraded to v6
+#### 打包器：Vite 升级到 v6
 https://github.com/CoderLine/alphaTab/pull/1913
 
-The Vite bundler plugin was upgraded from v5 to v6.
+Vite 打包器插件已从 v5 升级到 v6。

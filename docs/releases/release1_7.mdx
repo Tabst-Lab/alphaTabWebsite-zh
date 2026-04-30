@@ -9,39 +9,37 @@ import { AlphaTexExporterSample } from '@site/src/components/AlphaTexExporterSam
 
 ## 1.7.0
 
-Half a year has passed since 1.6.0 and again a new release of alphaTab with new features is available.
-I always hope to pace up the release cycles but it always depends on much time I can actually invest into development. 
-After all, alphaTab is still mainly a solo project 😁
+自 1.6.0 发布以来已过去半年，alphaTab 再次带来了包含新功能的版本。
+我一直希望加快发布周期，但这总是取决于我能投入多少时间进行开发。
+毕竟，alphaTab 仍然主要是一个个人项目 😁
 
-This release focused on two main areas shipping a great range of new things. 
+本次发布聚焦于两个主要领域，带来了一系列新功能。
 
-A special thing about this release is that I developed most changes during my travels this year. That's why some features might 
-have taken a bit longer than they would have while developing focused at home. As you might expect, progress is slow if you travel 
-through beautiful countries like Scotland , Wales and Japan. 😆
+本次发布的一个特别之处在于，我今年大部分改动都是在旅途中完成的。这就是为什么某些功能的开发时间可能比在家专注开发时要长一些。正如你所料，当你在苏格兰、威尔士和日本等美丽国家旅行时，进度自然会慢一些。😆
 
-### Music Notation
+### 音乐记谱
 
-#### render: Improve SmuFL Spec Compliance
+#### 渲染：改进 SmuFL 规范兼容性
 https://github.com/CoderLine/alphaTab/pull/2257
 
-> SMuFL is a specification that provides a standard way of mapping the thousands of musical symbols required by conventional music notation into the Private Use Area in Unicode’s Basic Multilingual Plane for a single (format-independent) font.
+> SMuFL 是一种规范，提供了一种标准方式，将传统音乐记谱所需的数千个音乐符号映射到 Unicode 基本多文种平面中的专用区，用于单个（与格式无关的）字体。
 > https://www.smufl.org/
 
-For years alphaTab was using the SmuFL font Bravura to render the music notation symbols. But historically a lot of the visual aspects like spacings, paddings and other arrangements were a custom development originating in the roots of alphaTab.
-While music sheets were generally looking good, various aspects of the SmuFL specification were not followed leading into "incorrect" display according to this spec. 
+多年来，alphaTab 一直使用 SmuFL 字体 Bravura 来渲染音乐记谱符号。但从历史上看，很多视觉方面的东西，如间距、填充和其他排列，都是源自 alphaTab 早期的自定义开发。
+虽然乐谱看起来通常不错，但 SmuFL 规范的各个方面并未被遵循，导致按照该规范显示"不正确"。
 
-With these changes we have cleaned years of accumulated customizations in layouting the music sheet bringing things closer to the spec.
-Not only brings this change alphaTab closer too the expected look&feel compared to other music notation software, it also allows the usage of custom SmuFL compliant fonts.
+通过这些改动，我们清理了多年来在音乐记谱排版中积累的自定义设置，使显示更接近规范。
+这一改动不仅使 alphaTab 的外观和感觉更接近其他音乐记谱软件，还允许使用自定义的 SmuFL 兼容字体。
 
-SMuFl fonts consist of two main parts: 
+SMuFL 字体由两个主要部分组成：
 
-1. The Font itself holding drawing and text-layout information of the glyphs
-2. A separate metadata.json holding SMuFL spec specific details on sizes to use.
+1. 字体本身，包含字形的绘制和文本布局信息
+2. 一个单独的 metadata.json，包含 SMuFL 规范特定的尺寸使用细节
 
-To activate a custom font these two things have to be provided to alphaTab. The following example shows the same music sheet with different SMuFL fonts: 
+要激活自定义字体，需要向 alphaTab 提供这两个部分。下面的示例展示了使用不同 SMuFL 字体的同一份乐谱：
 
 <AlphaTab tex={true}>{`
-\\title "With Bravura"
+\\title "使用 Bravura"
 5.3{h}.8{beam Down}
 7.3{sl}.8{beam Down}
 8.3{sl acc #}.8{beam Down}
@@ -61,7 +59,7 @@ r.2
 `}</AlphaTab>
 
 <AlphaTabPetaluma>{`
-\\title "With Petaluma"
+\\title "使用 Petaluma"
 5.3{h}.8{beam Down}
 7.3{sl}.8{beam Down}
 8.3{sl acc #}.8{beam Down}
@@ -80,41 +78,40 @@ r.2
 r.2
 `}</AlphaTabPetaluma>
 
-In [this post](https://github.com/CoderLine/alphaTab/discussions/2258) you can find a more direct before-after comparison. 
+在[这篇帖子](https://github.com/CoderLine/alphaTab/discussions/2258)中，你可以找到更直接的前后对比。
 
-#### render: Score Tempo Visibility
+#### 渲染：乐谱速度可见性
 https://github.com/CoderLine/alphaTab/pull/2340
 
-This feature is a side-product of the general alphaTex improvements. With this change the individual tempo change markers can be shown or hidden. 
-alphaTab will now respect the visibility information specified in Guitar Pro files, and new a alphaTex syntax allows hiding tempo markers.
+这个功能是 alphaTex 整体改进的副产品。通过此改动，可以单独显示或隐藏速度变化标记。
+alphaTab 现在会遵循 Guitar Pro 文件中指定的可见性信息，并且新的 alphaTex 语法允许隐藏速度标记。
 
-This feature can be useful if you only show small music sheet snippets on your website or in cases the information about the tempo is 
-described differently to your users. 
+如果你只在网站上显示小型乐谱片段，或者速度信息以其他方式向用户描述时，这个功能会很有用。
 
 <AlphaTexSample player={true}>{`
-// this tempo is visible
+// 此速度可见
 \\tempo 120 
     C4 * 4 
 |
-// this tempo change is invisibile
+// 此速度变化不可见
 \\tempo (60 hide)
     C4 * 4
 |
 `}</AlphaTexSample>
 
-Check out the related [`\tempo`](/docs/alphatex/bar-metadata#tempo) and [`tempo` property](/docs/alphatex/beat-properties#tempo) syntax docs for the details.
+查看相关的 [`\tempo`](/docs/alphatex/bar-metadata#tempo) 和 [`tempo` 属性](/docs/alphatex/beat-properties#tempo) 语法文档了解详情。
 
-### Player
+### 播放器
 
-#### player: Midi Bank Support
+#### 播放器：MIDI 库支持
 https://github.com/CoderLine/alphaTab/pull/2286
 
-With this change alphaTab now provides MIDI bank support for Guitar Pro files, MusicXML files and alphaTex. 
-SoundFonts, used by the synthesizer, can contain multiple variations of the same instrument providing different sounds. 
-Both the program number and the bank are now respected to select the right sounds in the loaded sound font. 
+通过此改动，alphaTab 现在为 Guitar Pro 文件、MusicXML 文件和 alphaTex 提供了 MIDI 库支持。
+合成器使用的 SoundFont 可以包含同一乐器的多种变体，提供不同的音色。
+现在程序号和库号都会被考虑，以在加载的 SoundFont 中选择正确的音色。
 
-If you are using special SoundFonts in your app or website, you can now benefit from these additional sounds. 
-For the demo below we merged the Sonivox and the [FluidR3Mono_GM.sf3 (MIT)](https://github.com/musescore/MuseScore/blob/master/share/sound/).
+如果你在应用或网站中使用特殊的 SoundFont，现在可以受益于这些额外的音色。
+下面的演示中，我们合并了 Sonivox 和 [FluidR3Mono_GM.sf3 (MIT)](https://github.com/musescore/MuseScore/blob/master/share/sound/)。
 
 
 <AlphaTexSample player={true} settings={{player: {soundFont: '/files/sonivox_musescore.sf2'}}}>{`
@@ -137,141 +134,132 @@ For the demo below we merged the Sonivox and the [FluidR3Mono_GM.sf3 (MIT)](http
     (3.2 0.4).16 (3.2 -.4) (1.1 -.4) (5.1 -.4) 1.1 3.2 1.1 3.2 2.3.8 (3.2 3.4) | 
 `}</AlphaTexSample>
 
-### alphaTex Extensions
+### alphaTex 扩展
 
-#### alphaTex: Exporter
+#### alphaTex：导出器
 https://github.com/CoderLine/alphaTab/pull/2262
 
 https://github.com/CoderLine/alphaTab/pull/2281
 
 https://github.com/CoderLine/alphaTab/pull/2282
 
-Similar to the Guitar Pro export, alphaTab can now also export the whole data model into an alphaTex document.
-This opens the door for a variety of use cases like:
+类似于 Guitar Pro 导出，alphaTab 现在也可以将整个数据模型导出为 alphaTex 文档。
+这为各种用例打开了大门，例如：
 
-* Providing editing capabilities for any input file (for users able to write alphaTex)
-* Using alphaTex as easy-to-use exchange format. 
-* Saving music notation in a compact, user editable format to files or your backend. 
+* 为任何输入文件提供编辑功能（面向能够编写 alphaTex 的用户）
+* 使用 alphaTex 作为易于使用的交换格式。
+* 以紧凑的、用户可编辑的格式将音乐记谱保存到文件或后端。
 
-In alphaTab 1.6 we layed the foundation with adding a lot of missing features to the language. In 1.7 we completed these
-efforts ensuring that all data model elements can be expressed in alphaTex allowing us to read & write all (almost) information without data loss.
+在 alphaTab 1.6 中，我们通过为语言添加许多缺失的功能奠定了基础。在 1.7 中，我们完成了这些工作，确保所有数据模型元素都可以用 alphaTex 表达，使我们能够读取和写入所有（几乎所有）信息而不会丢失数据。
 
-See [alphaTex Exporter](/docs/guides/exporter#alphatex-exporter-since-170)
+参见 [alphaTex 导出器](/docs/guides/exporter#alphatex-exporter-since-170)
 
-In the following demo the song was loaded from a Guitar Pro file, the alphaTex code below was generated via the exporter.
-You can drag&drop (or double click) any custom file on top of this demo to update the file and alphaTex displayed.
+在下面的演示中，歌曲是从 Guitar Pro 文件加载的，下面的 alphaTex 代码是通过导出器生成的。
+你可以将任何自定义文件拖放（或双击）到此演示上以更新文件和显示的 alphaTex。
 
 <AlphaTexExporterSample />
 
-#### alphaTex: New AST based Parser
+#### alphaTex：基于 AST 的新解析器
 https://github.com/CoderLine/alphaTab/pull/2339
 
 https://github.com/CoderLine/alphaTab/pull/2340
 
 <img src="/img/release/v17/ast.png" />
 
-While this is a fairly technical change, it is the foundation for the other great features added in this release. 
+虽然这是一个相当技术性的改动，但它是本次发布中添加的其他重要功能的基础。
 
-One (rather spontaneous) initiative is improving alphaTex as a language bringing it closer to the users allowing them to write alphaTex
-in the editors of their choice using plugins and extension you might develop.
+一个（相当自发的）举措是改进 alphaTex 作为一门语言，使其更接近用户，允许他们在自己选择的编辑器中使用你可能开发的插件和扩展来编写 alphaTex。
 
-To build new and better tooling which can provide better alphaTex writing assistence, the old importer which was reading alphaTex,
-was not suitable. The old importer took the input text, and tried to read it directly into the alphaTab data model. 
-It provided some basic error information if something in the alphaTex code was invalid. 
+为了构建新的更好的工具，提供更好的 alphaTex 编写辅助，旧的导入器（用于读取 alphaTex）不再适用。旧的导入器获取输入文本，并尝试直接将其读入 alphaTab 数据模型。
+如果 alphaTex 代码中有无效内容，它会提供一些基本的错误信息。
 
-The new parser is closer to what you might have seen from programming/scripting languages like TypeScript, C# or Python. 
-Borrowing aspects from the compiler construction alphaTab has now a separate lexer, parser (compiler frontend) and importer (compiler backend).
+新的解析器更接近你在 TypeScript、C# 或 Python 等编程/脚本语言中看到的内容。
+借鉴编译器构造的各个方面，alphaTab 现在有了独立的词法分析器、解析器（编译器前端）和导入器（编译器后端）。
 
-* The lexer and parser translate alphaTex code, into a tree structure holding detailed information about where in the code which element is described: an abstract syntax tree (AST).
-For experts under you: It is close to a concrete syntax tree as it holds information about punctuation and comments, but it does not retain any whitespace information.
-* The importer then translates this AST into the alphaTab data model.
-* In any phase the components might report diagnostics (warnings, errors, hints) for document ranges.
+* 词法分析器和解析器将 alphaTex 代码翻译成树形结构，其中包含代码中各个元素所在位置的详细信息：抽象语法树（AST）。
+对于专家来说：它接近具体语法树，因为它保留了标点和注释的信息，但不保留任何空白信息。
+* 然后导入器将此 AST 翻译成 alphaTab 数据模型。
+* 在任何阶段，组件都可能为文档范围报告诊断信息（警告、错误、提示）。
 
-During this rework we noticed a range of potential improvements which directly landed in the new parser. 
+在这次重构过程中，我们注意到一系列潜在的改进，这些改进直接融入了新的解析器中。
 
-alphaTex was a rather "loose" language, having some language constructs defined, but not used consistently. Now alphaTex has more clearly defined how elements are described and values are specified. 
-The details are now documented in the new [language documentation](/docs/alphatex/syntax).
+alphaTex 曾经是一门相当"松散"的语言，定义了一些语言结构，但使用不一致。现在 alphaTex 更清晰地定义了如何描述元素和指定值。
+详细信息现在记录在新的[语言文档](/docs/alphatex/syntax)中。
 
-Two key changes in the language, compared to 1.6, are:
+与 1.6 相比，语言的两个关键变化是：
 
-* The documents do not need to be separated with dots into 3 sections anymore. See [Document Structure](/docs/alphatex/document-structure).
-* Metadata tags and properties now follow more a function call approach where values are passed as arguments into them. Single values do not need parenthesis but multiple values should be wrapped. [See Parameters](/docs/alphatex/syntax#parameters--argument-lists).
+* 文档不再需要用小圆点分隔成 3 个部分。参见[文档结构](/docs/alphatex/document-structure)。
+* 元数据标签和属性现在更遵循函数调用方式，值作为参数传递给它们。单个值不需要括号，但多个值应该用括号包裹。[参见参数](/docs/alphatex/syntax#parameters--argument-lists)。
 
-#### alphaTex: Language Server and Monaco Integration
+#### alphaTex：语言服务器和 Monaco 集成
 https://github.com/CoderLine/alphaTab/pull/2379
 
-To provide the best end-user experience for alphaTex, having some sort of editor assistence is the key. Having only a plain textbox,
-makes it hard to write alphaTex correctly and efficiently.
+为了为 alphaTex 提供最佳的用户体验，拥有某种编辑器辅助是关键。只有一个纯文本框，很难正确高效地编写 alphaTex。
 
-##### Language Server
+##### 语言服务器
 
 <img src="/img/release/v17/editor.png" />
 
-Many years ago, Microsoft invented a protocol named "Language Server Protocol" (LSP) which defines a unified way, how (programming/scripting) language authors, can provide
-additional editor features to text and code editors like Visual Studio Code. 
+多年前，微软发明了一种名为"语言服务器协议"（LSP）的协议，它定义了一种统一的方式，让（编程/脚本）语言作者可以向文本和代码编辑器（如 Visual Studio Code）提供额外的编辑器功能。
 
-With having the new language parsing capabilities in place, creating a language server was the next logical step. 
+在具备了新的语言解析能力之后，创建语言服务器是下一个合乎逻辑的步骤。
 
 https://www.npmjs.com/package/@coderline/alphatab-language-server
 
-Long-story-short: This module provides advanced capabilities to LSP compatible editors including: 
+长话短说：此模块为兼容 LSP 的编辑器提供高级功能，包括：
 
-1. Syntax Highlighting via a TextMate grammar giving the elements different colors like when writing code.
-2. Showing diagnotics like warnings and errors in the editor
-3. Hover documentation showing the documentation about the alphaTex language elements
-4. Code completion providing contextual items 
-5. Signature Help for values that can be passed to metadata tags and properties. 
+1. 通过 TextMate 语法进行语法高亮，为元素提供不同的颜色，就像编写代码时一样。
+2. 在编辑器中显示诊断信息，如警告和错误
+3. 悬停文档，显示 alphaTex 语言元素的文档
+4. 代码补全，提供上下文相关的项目
+5. 元数据标签和属性可传递值的签名帮助。
 
 
-Learn more in-depth about this feature [here](/docs/alphatex/lsp.mdx)
+在此深入了解此功能 [here](/docs/alphatex/lsp.mdx)
 
-##### Monaco Integration
+##### Monaco 集成
 
 <img src="/img/release/v17/playground-editor.png" />
 
-[Monaco](https://microsoft.github.io/monaco-editor/) is the code editor used in Visual Studio Code. It provides advanced editor capabilities
-allowing you to integrate an advanced code editor into your web application.
+[Monaco](https://microsoft.github.io/monaco-editor/) 是 Visual Studio Code 中使用的代码编辑器。它提供高级编辑器功能，允许你将高级代码编辑器集成到你的 Web 应用程序中。
 
-Unfortunately Monaco itself does not have built-in support for the Language Server Protocol but it provides its own (very similar) API for integrating those parts. 
+不幸的是，Monaco 本身没有内置的语言服务器协议支持，但它提供了自己的（非常相似的）API 来集成这些部分。
 
-To make it easier to use the alphaTex language server together with Monaco in your app we created an own basic LSP integration. With this integration you can 
-spawn a language server as a web worker, and connect it to your Monaco editor providing a rich editing experience with all features like you would expect from a code editor.
+为了让你更容易在应用中将 alphaTex 语言服务器与 Monaco 一起使用，我们创建了自己的基本 LSP 集成。通过这个集成，你可以将语言服务器作为 Web Worker 启动，并将其连接到你的 Monaco 编辑器，提供丰富的编辑体验，具备你期望代码编辑器拥有的所有功能。
 
-We also use this integration now in the alphaTex editor of the development playground.
+我们现在也在开发环境的 alphaTex 编辑器中使用此集成。
 
-Learn more in-depth about this feature [here](/docs/alphatex/monaco.mdx)
+在此深入了解此功能 [here](/docs/alphatex/monaco.mdx)
 
-#### alphaTex: VS Code Extension (prototype)
+#### alphaTex：VS Code 扩展（原型）
 https://github.com/CoderLine/alphaTab/pull/2379
 
 <img src="/img/release/v17/vscode.png" />
 
-To develop and test the language server we created a basic Visual Studio Code extension allowing you to write alphaTex right within this IDE. 
-It provides all editor capabilities you'd expect and even a live preview of the music notation you write. 
+为了开发和测试语言服务器，我们创建了一个基本的 Visual Studio Code 扩展，允许你在此 IDE 中直接编写 alphaTex。
+它提供了你期望的所有编辑器功能，甚至还可以实时预览你编写的音乐记谱。
 
-Up to now this extension is more of an experiement or proof-of-concept. In its state it is not intended to be really a product that we maintain and provide 
-alphaTab as end-user feature via a VS Code Extension. 
+到目前为止，这个扩展更像是一个实验或概念验证。就其现状而言，它并不打算成为一个我们维护并提供 alphaTab 作为最终用户功能的 VS Code 扩展产品。
 
-This goal might change in future when alphaTab aims to ship own apps, not "only" an SDK. 
+当 alphaTab 目标是发布自己的应用程序，而不仅仅是 SDK 时，这个目标可能会改变。
 
-### Guitar Pro Extensions
+### Guitar Pro 扩展
 
-#### guitarpro: adjust key signature to match "c played as"
+#### guitarpro：调整调号以匹配"C 演奏为"
 https://github.com/CoderLine/alphaTab/pull/2283
 
-alphaTab now respects correctly the setting `C played as` configurable for every track in Guitar Pro. 
-This setting serves special transposition needs for instruments. alphaTab now also adjusts the key signature
-of the track according to this setting. 
+alphaTab 现在正确遵循 Guitar Pro 中为每个音轨配置的 `C played as` 设置。
+此设置服务于乐器的特殊转调需求。alphaTab 现在还根据此设置调整音轨的调号。
 
-### Improvements & Bugfixes
+### 改进与错误修复
 
-#### alphaTex: Tenor and alt clef swapped
+#### alphaTex：次中音和 alto 谱号互换
 https://github.com/CoderLine/alphaTab/pull/2282
 
-A simple but significant problem existed in alphaTex since a long time. alphaTab mapped clef names wrongly. alphaTab 
-has some aliases for the same clef which were incorrectly handled:
+alphaTex 中存在一个简单但重要的问题由来已久。alphaTab 错误地映射了谱号名称。alphaTab
+有一些相同谱号的别名，这些别名被错误地处理了：
 
-| alphaTex      | Old wrong clef | New correct clef |
+| alphaTex      | 旧的错误谱号 | 新的正确谱号 |
 |---------------|----------------|------------------|
 | `\clef tenor` | `Clef.C3`      | `Clef.C4`        |
 | `\clef alto`  | `Clef.C4`      | `Clef.C4`        |
@@ -280,85 +268,78 @@ has some aliases for the same clef which were incorrectly handled:
 \\clef tenor C4 | \\clef alto C4 | \\clef C3 C4 | \\clef C4 C4
 `}</AlphaTexSample>
 
-#### development: Monorepo Setup
+#### 开发：Monorepo 设置
 https://github.com/CoderLine/alphaTab/pull/2304
 
-The git repository of alphaTab was reorganized to follow a more common monorepo structure known from web projects. 
-As we grow in the NPM and other packages we ship, the old structure was not suitable anymore.
+alphaTab 的 git 仓库被重新组织，以遵循 Web 项目中更常见的 monorepo 结构。
+随着我们发布的 NPM 和其他包的增长，旧的结构不再适用。
 
-The individual modules are now nested into the `packages` folder using NPM workspaces. 
-Some common configurations have been extracted for easier use across all packages we produce.
+各个模块现在嵌套在使用 NPM 工作区的 `packages` 文件夹中。
+一些通用配置已被提取出来，以便在我们生产的所有包中更容易使用。
 
-The new structure now allows better code sharing and producing a variety of different outputs as needed by the individual package.
+新的结构现在允许更好的代码共享，并根据各个包的需要生成各种不同的输出。
 
-At this point alphaTab is not using any special mono repo tooling like Lerna or NX but we rather have our own set of scripts and try to keep things
-simple. The toolchain we have with Vite and our transpiler is already complex enough to handle. We don't need even more tools and dependencies just to build alphaTab. 
+在这一点上，alphaTab 没有使用任何特殊的 monorepo 工具，如 Lerna 或 NX，而是使用我们自己的一套脚本，并尽量保持简单。我们使用 Vite 和转译器的工具链已经足够复杂了。我们不需要更多的工具和依赖项来构建 alphaTab。
 
-#### build: Toolchain modernization
+#### 构建：工具链现代化
 https://github.com/CoderLine/alphaTab/pull/2349
 
-On top of the monorepo reorganization we also extended a bit the tooling and building of alphaTab. Some also have an impact to the consumer side of alphaTab: 
+在 monorepo 重组的基础上，我们还扩展了 alphaTab 的工具和构建。其中一些也对 alphaTab 的使用者产生了影响：
 
-##### ES2022 output
+##### ES2022 输出
 
-We decided to upgrade our compilation to EcmaScript2022. This allows using some new browser APIs which are already supported in all major browser. 
+我们决定将编译升级到 EcmaScript2022。这允许使用一些已经在所有主流浏览器中支持的新浏览器 API。
 
-##### Naming Convention Linting and Private Name Mangling
+##### 命名约定检查和私有名称混淆
 
-We activated some naming convention checks in our linter (Biome) and all private members are now prefixed with an underscore `_`.
-Additionally when we are producing our minimized outputs `.min.mjs` we also mangle the names of these private members.
+我们在 linter（Biome）中激活了一些命名约定检查，所有私有成员现在都以下划线 `_` 为前缀。
+此外，当我们生成最小化输出 `.min.mjs` 时，我们也会混淆这些私有成员的名称。
 
-This has the benefit of reduced code size as the member names can be shorted. 
+这有利于减小代码大小，因为成员名称可以缩短。
 
-If you were using private members of alphaTab classes and APIs, you might need to update your code. You will need to use the unmangled versions 
-to avoid naming mismatches on updates if you still want to access the private members and you have to update the member names. 
+如果你一直在使用 alphaTab 类和 API 的私有成员，你可能需要更新你的代码。如果你仍然想访问私有成员，你需要使用未混淆的版本以避免更新时的命名不匹配，并且你必须更新成员名称。
 
-If you are using private APIs, we recommend to rather open a request to expose APIs in future releases for your needs. 
+如果你在使用私有 API，我们建议提出请求，以便在未来的版本中为你的需求公开 API。
 
-##### Snapshot Testing
+##### 快照测试
 
-Historically we had written a lot of manual test assertions in our unit tests. For the visual regression tests we already used snapshot testing where 
-a golden reference image is checked against new outputs. 
+从历史上看，我们在单元测试中编写了大量手动测试断言。对于视觉回归测试，我们已经使用了快照测试，其中将黄金参考图像与新输出进行检查。
 
-Now we also have support for such tests for other data objects. While we use jest-snapshot as a base there, only limited assertions are actually available. 
-As we also need to be able to run the tests in C# and Kotlin, we cannot just pass any special object in and expect things to work. 
+现在我们也为其他数据对象提供了此类测试支持。虽然我们在那里使用 jest-snapshot 作为基础，但实际上只有有限的断言可用。
+由于我们还需要能够在 C# 和 Kotlin 中运行测试，我们不能只是传入任何特殊对象并期望它能工作。
 
-But we created a variety of custom serializers that allow easier testing against snapshot references instead of writing manual checks.
+但我们创建了各种自定义序列化器，允许更容易地针对快照引用进行测试，而不是编写手动检查。
 
-### Website
+### 网站
 
-#### search: Use Algolia Search
+#### 搜索：使用 Algolia 搜索
 https://github.com/CoderLine/alphaTabWebsite/pull/150
 
-We decided to move from the "offline search" to Algolia for our search box on the website to provide better search results pointing
-to the pages you are actually looking for.
+我们决定将网站上的搜索框从"离线搜索"迁移到 Algolia，以提供更好的搜索结果，指向你实际寻找的页面。
 
-We might still need to fine tune the search results over time.
+我们可能仍需要随着时间的推移微调搜索结果。
 
-#### Dark Mode (experimental)
+#### 深色模式（实验性）
 
-I personally use dark mode almost everywhere on my devices, but still alphaTab remained a bright white counterpart to that.
-Not only does this attract software bugs, I was against actual mosquitos while developing alphaTab in the evenings. 🦟🤪
+我个人几乎在所有设备上都使用深色模式，但 alphaTab 仍然是与之相反的明亮白色。
+这不仅会吸引软件错误，我在晚上开发 alphaTab 时还会被真正的蚊子攻击。🦟🤪
 
-At some point I simply activated the dark-mode switcher of Docusaurus again and tweaked a range of styles to make the website available in a dark mode. 
-Some pages and demos still need fine-tuning. 
+在某个时刻，我简单地重新激活了 Docusaurus 的深色模式切换器，并调整了一系列样式，使网站能够以深色模式使用。
+一些页面和演示仍需要微调。
 
-Test it live on the top right.
+在右上角实时测试。
 
-#### alphaTex: New generated documentation
+#### alphaTex：新的生成文档
 https://github.com/CoderLine/alphaTabWebsite/pull/153
 
-With all the changes to alphaTex a new documentation was needed too. Especially as the alphaTex documentation 
-is also needed in the language server to provide documentation hovers and code completions, maintaining it manually
-on the website didn't seem feasible anymore. 
+随着 alphaTex 的所有变化，也需要新的文档。特别是由于 alphaTex 文档
+也需要在语言服务器中提供文档悬停和代码补全，在网站上手动维护它似乎不再可行。
 
-Instead most of the refeference documentation listing all metadata tags, properties etc. is now auto-generated
-from the central language definition of alphaTex. 
+相反，现在大部分列出所有元数据标签、属性等的参考文档都是从 alphaTex 的中央语言定义自动生成的。
 
-Thanks to this, the documentation will automatically update as we also add new features to the code. Reducing the effort and
-mitigating the risk of the documentation being outdated. 
+感谢这一点，当我们向代码中添加新功能时，文档将自动更新。减少了工作量，并降低了文档过时的风险。
 
-The documentation might appear a bit more technical now, but once you get the hang of how to read and use things,
-looking up information will be a lot easier than before. 
+文档现在可能看起来更技术性一些，但一旦你掌握了如何阅读和使用它，
+查找信息将比以前容易得多。
 
-[Head over to the new documentation pages](http://localhost:3000/docs/alphatex/score-metadata) to see the result.
+[前往新的文档页面](http://localhost:3000/docs/alphatex/score-metadata)查看结果。

@@ -6,311 +6,309 @@ import { AlphaTab } from '@site/src/components/AlphaTab/';
 
 ## 1.5.0
 
-### Music Notation
+### 音乐记谱
 
-#### rendering: Multi-Bar Rests
+#### 渲染：多小节休止符
 https://github.com/CoderLine/alphaTab/pull/1934
 
-We added support for merging rests spanning multi-bars together (aka. multi.bar rests).
-Supported for alphaTex and Guitar Pro.
+我们添加了对将跨越多小节的休止符合并在一起的支持（又称多小节休止符）。
+支持 alphaTex 和 Guitar Pro。
 
 <AlphaTab tex={true} tracks="all" player={true}>{`
-\\multiBarRest
+\multiBarRest
 .
-\\track "Piano 1" "pno1"
-    \\staff {score}
+\track "Piano 1" "pno1"
+    \staff {score}
     C4 D4 E4 F4 | r | r | C4 D4 E4 F4 | r | r | r | C4
 
-\\track "Piano 2" "pno1"
-    \\staff {score}
+\track "Piano 2" "pno1"
+    \staff {score}
     C4 D4 E4 F4 | r | r | C4 D4 E4 F4 | r | r | r | r |
 `}</AlphaTab>
 
-#### rendering: Coloring of individual notation elements
+#### 渲染：单个记谱元素的着色
 https://github.com/CoderLine/alphaTab/pull/1936
 
-With this release we added a long requested feature to allow styling of individual notation elements.
-There is quite a list of individual items which might want to be colored and defining the colors accordingly
-can be tricky. If done wrong it can have a significant impact to rendering performance. 
+通过此版本，我们添加了一个长期要求的功能，允许对单个记谱元素进行样式设置。
+有一系列可能需要着色的单个项目，相应地定义颜色可能很棘手。如果操作不当，可能会对渲染性能产生重大影响。
 
-We think we solved this challenge and now you can color individual items of beats, bars etc. as you prefer. 
+我们认为我们解决了这个挑战，现在你可以按喜好为节拍、小节等的单个项目着色。
 
-This feature is useful when you want to color elements in lessons to give hints to the player what to pay attention to.
+当你想在课程中为元素着色，给演奏者提示需要注意什么时，此功能很有用。
 
-[Learn more about this feature here](/docs/guides/coloring)
+[在此了解更多关于此功能的信息](/docs/guides/coloring)
 
 import { ColoringExample } from '@site/src/components/ColoringExample';
 
 <ColoringExample />
 
-#### rendering: Score Info - Formatting templates 
+#### 渲染：乐谱信息 - 格式化模板
 https://github.com/CoderLine/alphaTab/pull/2002
 
-Until this release the formatting of the score information like title and artist were hard-coded.
-Only the font size could be adjusted. 
+在此版本之前，乐谱信息（如标题和艺术家）的格式是硬编码的。
+只能调整字体大小。
 
-With alphaTab 1.5 you can now customize additional aspects like the displayed text and alignment of the items.
-Additionally we now display the contained copyright information of the file. For Guitar Pro we read the templates from the input files.
+在 alphaTab 1.5 中，你现在可以自定义项目的显示文本和对齐方式等其他方面。
+此外，我们现在显示文件中包含的版权信息。对于 Guitar Pro，我们从输入文件中读取模板。
 
-[Learn more about this feature here](/docs/guides/formatting-templates)
+[在此了解更多关于此功能的信息](/docs/guides/formatting-templates)
 
 import { FormattingTemplateSample } from '@site/src/components/FormattingTemplateSample';
 
 <FormattingTemplateSample />
 
-#### rendering: Bar Line customizations
+#### 渲染：小节线自定义
 https://github.com/CoderLine/alphaTab/pull/2031
 
-This feature was added as part of extending the MusicXML support but also has landed for alphaTex.
-It allows adjusting the bar lines for every individual bar. 
+此功能是作为扩展 MusicXML 支持的一部分添加的，但也已落地到 alphaTex 中。
+它允许为每个单独的小节调整小节线。
 
 <AlphaTab tex="true" tracks="all">{`
-\\instrument piano
+\instrument piano
 .
-\\track "Overlapping"
-    \\staff 
-        \\barlineleft dashed 
-        \\barlineright dotted 
+\track "重叠"
+    \staff 
+        \barlineleft dashed 
+        \barlineright dotted 
         | 
-        \\barlineleft heavyheavy
-        \\barlineright heavyheavy
+        \barlineleft heavyheavy
+        \barlineright heavyheavy
         
-    \\staff 
-        \\barlineleft lightlight 
-        \\barlineright lightheavy 
+    \staff 
+        \barlineleft lightlight 
+        \barlineright lightheavy 
         | 
-        \\barlineleft heavylight
-        \\barlineright dashed
-\\track "All Styles"
-    \\staff 
-        \\barlineright dashed |
-        \\barlineright dotted |
-        \\barlineright heavy |
-        \\barlineright heavyHeavy |
-        \\barlineright heavyLight |
-        \\barlineright lightHeavy |
-        \\barlineright lightlight |
-        \\barlineright none |
-        \\barlineright regular |
-        \\barlineright short |
-        \\barlineright tick |
+        \barlineleft heavylight
+        \barlineright dashed
+\track "所有样式"
+    \staff 
+        \barlineright dashed |
+        \barlineright dotted |
+        \barlineright heavy |
+        \barlineright heavyHeavy |
+        \barlineright heavyLight |
+        \barlineright lightHeavy |
+        \barlineright lightlight |
+        \barlineright none |
+        \barlineright regular |
+        \barlineright short |
+        \barlineright tick |
 `}</AlphaTab>
 
-#### rendering: More Dynamic Values
+#### 渲染：更多力度值
 https://github.com/CoderLine/alphaTab/pull/2030
 
-This feature was added as part of extending the MusicXML support but also has landed for alphaTex.
-It extends the range of dynamic values to the full predefined range defined by [MusicXML](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/dynamics/)
+此功能是作为扩展 MusicXML 支持的一部分添加的，但也已落地到 alphaTex 中。
+它将力度值的范围扩展到 [MusicXML](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/dynamics/) 定义的完整预定义范围
 
 <AlphaTab tex="true" tracks="all" player={true}>{`
-\\instrument piano
+\instrument piano
 .
 C4 {dy ffffff} C4 {dy mp}
 `}</AlphaTab>
 
 
-#### rendering: Different key signatures across staves
+#### 渲染：跨谱表的不同调号
 https://github.com/CoderLine/alphaTab/pull/2034
 
-Up to this release alphaTab had the same restriction as Guitar Pro that key signatures had to be the same across all tracks and staves.
-In this release we allow now different key signatures on every staff and track. 
+在此版本之前，alphaTab 与 Guitar Pro 有相同的限制，即所有音轨和谱表的调号必须相同。
+在此版本中，我们现在允许每个谱表和音轨使用不同的调号。
 
 <AlphaTab tex="true" tracks="all" player={true}>{`
-\\track T1
-  \\staff 
-    \\ks D
+\track T1
+  \staff 
+    \ks D
     C4 D4 E4 F4
-  \\staff
-    \\clef F4
-    \\ks E
+  \staff
+    \clef F4
+    \ks E
     C3 D3 E3 F3
-\\track T2
-  \\staff 
-    \\ks C
+\track T2
+  \staff 
+    \ks C
     C4 D4 E4 F4
 `}</AlphaTab>
 
-#### rendering: Use alphaSkia 3.x.135
+#### 渲染：使用 alphaSkia 3.x.135
 https://github.com/CoderLine/alphaTab/pull/2052
 
-We integrated alphaSkia 3.x.135 in alphaTab which brings a variety of improvements for C# and Kotlin rendering. 
+我们在 alphaTab 中集成了 alphaSkia 3.x.135，为 C# 和 Kotlin 渲染带来了各种改进。
 
-Highlights:
+亮点：
 
-* Underneath is upgrades Skia m120 to m135.
-* alphaSkia can now use font fallbacks on texts allowing to render special unicode fonts and emojis if fonts are registered and specified accordingly.
-* alphaSkia can now measure texts precisely (including the height) allowing more concise music sheets without overlaps on texts. 
+* 底层将 Skia 从 m120 升级到 m135。
+* alphaSkia 现在可以在文本上使用字体回退，如果字体已注册并相应指定，则可以渲染特殊 unicode 字体和表情符号。
+* alphaSkia 现在可以精确测量文本（包括高度），从而实现更紧凑的乐谱，文本不会重叠。
 
 <img src="/img/release/v15/emojis.png" />
 
-### Player
+### 播放器
 
-### player: Allow Changing of output device
+### 播放器：允许更改输出设备
 https://github.com/CoderLine/alphaTab/pull/1924
 
-alphaTab exposes now an API to get a list of available output devices for playback and changing the used device. 
-If required by the platform the required permissions are requested.
+alphaTab 现在公开了一个 API，用于获取播放可用输出设备的列表并更改使用的设备。
+如果平台需要，将请求所需的权限。
 
-* On browsers it depends on a currently experimental API with only limited support. https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/setSinkId#browser_compatibility
-* On C# (Windows) it will load all system output devices via NAudio.
-* On Android it will request permissions and load all audio sinks. 
+* 在浏览器上，它取决于一个目前具有有限支持的实验性 API。https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/setSinkId#browser_compatibility
+* 在 C# (Windows) 上，它将通过 NAudio 加载所有系统输出设备。
+* 在 Android 上，它将请求权限并加载所有音频接收器。
 
-New APIs:
+新 API：
 
 * [`enumerateOutputDevices`](/docs/reference/api/enumerateoutputdevices/)
 * [`setOutputDevice`](/docs/reference/api/enumerateoutputdevices/)
 * [`getOutputDevice`](/docs/reference/api/enumerateoutputdevices/)
 
-### alphaTex Extensions
+### alphaTex 扩展
 
-### alphatex: Score Info - Formatting templates
+### alphatex：乐谱信息 - 格式化模板
 https://github.com/CoderLine/alphaTab/pull/2002
 
-Text templates and alignments for song info can be specified via alphaTex. 
+歌曲信息的文本模板和对齐方式可以通过 alphaTex 指定。
 
-See [AlphaTex Score Metadata](/docs/alphatex/score-metadata.mdx).
+参见 [AlphaTex 乐谱元数据](/docs/alphatex/score-metadata.mdx)。
 
-### alphatex: Bar Line customizations
+### alphatex：小节线自定义
 https://github.com/CoderLine/alphaTab/pull/2031
 
-The new barlines styles can also be activated via alphaTex.
+新的小节线样式也可以通过 alphaTex 激活。
 
-See [AlphaTex Bar Metadata](/docs/alphatex/bar-metadata.mdx#barlineleft).
+参见 [AlphaTex 小节元数据](/docs/alphatex/bar-metadata.mdx#barlineleft)。
 
-### alphatex: More Dynamic Values
+### alphatex：更多力度值
 https://github.com/CoderLine/alphaTab/pull/2030
 
-The list of possible dynamic values (as defined by MusicXML) can also be specified in alphaTex.
+力度值列表（如 MusicXML 所定义）也可以在 alphaTex 中指定。
 
-See [AlphaTex Beat Effects](/docs/alphatex/beat-properties.mdx#dy).
+参见 [AlphaTex 节拍效果](/docs/alphatex/beat-properties.mdx#dy)。
 
-### alphatex: Different key signatures across staves
+### alphatex：跨谱表的不同调号
 https://github.com/CoderLine/alphaTab/pull/2034
 
-The possiblity to define key signatures per staff / track is also available in alphaTex. 
+定义每个谱表/音轨调号的可能性在 alphaTex 中也可用。
 
-The `\ks` bar meta now only impacts the current bar not all.
+`\ks` 小节元数据现在只影响当前小节，而不是所有小节。
 
-### MusicXML Extensions
+### MusicXML 扩展
 
-### musicxml: Reimplemented Base Parser
+### musicxml：重新实现基础解析器
 https://github.com/CoderLine/alphaTab/pull/1977
 
-This is one of the highlight features in this release. We reimplemented the whole base parser of MusicXML files ensuring
-we are following the specification accordingly. This rewrite brings improvements like:
+这是此版本的亮点功能之一。我们重新实现了 MusicXML 文件的整个基础解析器，确保
+我们相应地遵循规范。此次重写带来了如下改进：
 
-* We now support partwise and timewise files 
-* We respect aspects like `backup` and `forward` when writing multi staff and multi voice files.
-* We ensure `measure` tags result in the expected order across parts. 
-* We try to detect and fill the song information from a variety of tags (e.g. `credit` and `identification`)
-* We try to respect instrument details like midi programs, channels etc. closer.
+* 我们现在支持 partwise 和 timewise 文件
+* 我们在编写多谱表和多声部文件时尊重 `backup` 和 `forward` 等方面。
+* 我们确保 `measure` 标签在声部之间产生预期的顺序。
+* 我们尝试从各种标签中检测和填充歌曲信息（例如 `credit` 和 `identification`）
+* 我们尝试更密切地尊重乐器细节，如 MIDI 程序、通道等。
 
-See [Music XML Compatibility](/docs/formats/musicxml) for more details on what we support.
+参见 [Music XML 兼容性](/docs/formats/musicxml) 了解更多关于我们支持的内容。
 
-### musicxml: Read supported notation elements
+### musicxml：读取支持的记谱元素
 https://github.com/CoderLine/alphaTab/pull/1994
 
-On top of the new parser we aimed to increase the support of the music notation contained in MusicXML. 
-If alphaTab supports a certain music notation, we now fill it from MusicXML accordingly. 
-MusicXML supports a lot more than alphaTab does, so there is still a lot to do to have full support of the format. We hope to gradually extend alphaTab itself to support more music notation to eventually fill it from formats like MusicXML but also alphaTex.
+在新的解析器之上，我们旨在增加对 MusicXML 中包含的音乐记谱的支持。
+如果 alphaTab 支持某种音乐记谱，我们现在会相应地从 MusicXML 中填充它。
+MusicXML 支持的内容比 alphaTab 多得多，因此要完全支持该格式还有很多工作要做。我们希望逐步扩展 alphaTab 本身以支持更多的音乐记谱，以便最终从 MusicXML 和 alphaTex 等格式中填充它。
 
-We still primarily focus on loading the **semantic** music notation information from MusicXML but have only sparse support for adjusting only visual or sound aspects. 
-e.g. we do not support yet aspects where elements are visually shifted in the layout or sizes are customized. 
+我们仍然主要关注从 MusicXML 加载**语义**音乐记谱信息，但对仅调整视觉或声音方面的支持很少。
+例如，我们还不支持元素在布局中视觉移动或大小自定义的方面。
 
-See [Music XML Compatibility](/docs/formats/musicxml) for more details on what we support.
+参见 [Music XML 兼容性](/docs/formats/musicxml) 了解更多关于我们支持的内容。
 
-### musicxml: Percussion Support
+### musicxml：打击乐支持
 https://github.com/CoderLine/alphaTab/pull/2009
 
-Percussion in MusicXML needs special considerations in the data model and reading of the information. MusicXML uses the `unpitched` element in combination with `notehead` to define how 
-the notes are visually represented on the staff. Additionally the played midi key is separately defined (e.g. as `instrument`).
+MusicXML 中的打击乐需要在数据模型和读取信息方面进行特殊考虑。MusicXML 使用 `unpitched` 元素结合 `notehead` 来定义音符在谱表上的视觉表示方式。此外，播放的 MIDI 键是单独定义的（例如作为 `instrument`）。
 
-We now use the information contained MusicXML files to show and play drums correctly. With this we added some general features to alphaTab which we plan to also bring for other formats:
+我们现在使用 MusicXML 文件中包含的信息来正确显示和播放鼓。为此，我们向 alphaTab 添加了一些通用功能，我们计划也为其他格式带来这些功能：
 
-* Separation of displayed note from played note information.  
-* Customization of Note Heads
+* 显示音符与播放音符信息的分离。
+* 音符头的自定义
 
-### Improvements & Bugfixes
+### 改进与错误修复
 
-#### player: Broken Cursor Display for repeats
+#### 播放器：重复时光标显示损坏
 https://github.com/CoderLine/alphaTab/pull/1934
 
-On repeats the bar cursor could behave rather strange moving back to the repeat start instead of transitioning to the end of the bar to the repeat end sign.
-With this fix the beat cursor should correctly move again in such scenarios.
+在重复时，小节光标可能会表现得很奇怪，回到重复开始处，而不是过渡到小节末尾到重复结束符号。
+通过此修复，节拍光标应该再次在这种场景中正确移动。
 
-#### player: Wrong beat cursor placement when scaling score
+#### 播放器：缩放乐谱时节拍光标放置错误
 https://github.com/CoderLine/alphaTab/pull/1934
 
-When drawing scores at non 100%, the beat cursor was placed wrongly.
+当以非 100% 绘制乐谱时，节拍光标放置错误。
 
-#### tooling: Version and Environment Info
+#### 工具：版本和环境信息
 https://github.com/CoderLine/alphaTab/pull/2015
 
-alphaTab has now a special API to print detailed information about the environment. With the new `alphaTab.Environment.printEnvironmentInfo()` all important details about the used version, browser, operating system etc. is printed to the console.
-And the info is printed always if the log level is increased to `debug`. 
+alphaTab 现在有一个特殊的 API 来打印有关环境的详细信息。使用新的 `alphaTab.Environment.printEnvironmentInfo()`，有关使用的版本、浏览器、操作系统等所有重要详细信息都会打印到控制台。
+如果日志级别提高到 `debug`，信息将始终打印。
 
-This should make it easier to provide the correct information about the platform when reporting bugs or asking questions.
+这应该会使报告错误或提问时提供有关平台的正确信息变得更加容易。
 
-#### rendering: Wrong staff ID for numbered bar renderer
+#### 渲染：编号小节渲染器的错误谱表 ID
 https://github.com/CoderLine/alphaTab/pull/2057
 
-Internally the bar renderer for numbered notations was registered wrongly. In some scenarios this could lead to wrong placement of music notation (like ties).
+在内部，编号记谱的小节渲染器注册错误。在某些场景中，这可能导致音乐记谱（如连音线）的放置错误。
 
-#### export: Wrong instrument articulations in Guitar Pro exported from alphaTex 
+#### 导出：从 alphaTex 导出的 Guitar Pro 中的错误乐器演奏法
 https://github.com/CoderLine/alphaTab/pull/2058
 
-With the addition of percussion tabs in v1.4 we didn't consider correctly the export into Guitar Pro files. 
-We wrote wrong information about the instrument articulations defining details like the used note head, note placement and played midi key.
+随着 v1.4 中打击乐制表谱的添加，我们没有正确考虑导出到 Guitar Pro 文件。
+我们写入了关于乐器演奏法的错误信息，定义了使用的音符头、音符位置和播放的 MIDI 键等细节。
 
-This was fixed and exported files now show correct percussion tabs in Guitar Pro. 
-Unfortunately Guitar Pro is very sensitive to the used names for articulations and will not display the elements in the "Drumkit view".
-They already do not show all items of their own drumkit in the rendered staff. 
+此问题已修复，导出的文件现在在 Guitar Pro 中显示正确的打击乐制表谱。
+不幸的是，Guitar Pro 对演奏法使用的名称非常敏感，不会在"鼓组视图"中显示元素。
+它们已经在渲染的谱表中不显示自己的鼓组的所有项目。
 
-### Infrastructure
+### 基础设施
 
-#### docs: Move reference documentation into code
+#### 文档：将参考文档移入代码
 https://github.com/CoderLine/alphaTab/pull/1960
 
-We hope with this change keeping the reference docs up-to-date is a lot easier. Previously we were writing the docs for all APIs, settings and data model manually. 
-This had two problems:
+我们希望此更改能使参考文档保持最新变得容易得多。以前我们手动编写所有 API、设置和数据模型的文档。
+这有两个问题：
 
-* The code documentation in the IDE was lacking information.
-* The website documentation was potentially out-of-date or incomplete. 
+* IDE 中的代码文档缺乏信息。
+* 网站文档可能已过时或不完整。
 
-With this item we moved all markdown docs into the code. At the same time we now generate the reference documentation from the compile output (TSDoc). 
+通过此项，我们将所有 Markdown 文档移入了代码。同时，我们现在从编译输出（TSDoc）生成参考文档。
 
-This has now following benefits and improvements to our docs:
+这现在为我们的文档带来了以下好处和改进：
 
-* All API properties and settings are guaranteed to be listed in the docs. 
-* We can now generate docs for all our classes, enums and interfaces we have, and we can cross reference to them in our docs. 
+* 所有 API 属性和设置都保证列在文档中。
+* 我们现在可以为所有类、枚举和接口生成文档，并且可以在文档中交叉引用它们。
 
-Even if we have not advanced examples or full descriptions for the whole codebase, it helps checking what is be available. 
-We have plans to generally improve marking what docs are considered public (stable), low-level (stable but use at own risk), experimental (subject to change) or internal (not meant to be used by the public).
+即使我们还没有整个代码库的高级示例或完整描述，它也有助于检查有哪些可用。
+我们计划普遍改进标记哪些文档被认为是公开的（稳定的）、低级的（稳定的但使用风险自负）、实验性的（可能会更改）或内部的（不打算供公众使用）。
 
-#### tooling: Use Vite as bundler
+#### 工具：使用 Vite 作为打包器
 https://github.com/CoderLine/alphaTab/pull/1931
 
-We replaced Rollup with Vite as our bundler to build alphaTab. This brings us some benefits during development with the use of the Vite Dev Server allowing faster development (e.g. hot-reload and more incremental compilation).
-It makes our general builds a bit smaller due to some limitations in Vite but its worth the benefit when working on alphaTab itself. 
+我们用 Vite 替换了 Rollup 作为构建 alphaTab 的打包器。这在使用 Vite 开发服务器进行开发时带来了一些好处，允许更快的开发（例如热重载和更多的增量编译）。
+由于 Vite 的一些限制，它使我们的通用构建稍微小了一点，但在处理 alphaTab 本身时，好处是值得的。
 
-#### tooling: Move from Prettier to Biome
+#### 工具：从 Prettier 迁移到 Biome
 https://github.com/CoderLine/alphaTab/pull/2011
 
-We faced quite some issues with using Prettier as formatter for alphaTab due to its opinionated behaviors. These were not only problems on how things are formatted, but also on whether to format at all.
-The underlying `typescript-estree` project decided to add custom semantic checks on top of the TypeScript parser, and do not rely on what the TypeScript compiler offers.
-We have custom transformers and might write special code in TypeScript for the use in C# and Kotlin. While syntactically correct, we mute some parts via `@ts-ignore` or `@ts-expect-error` as we know it will be ultimately valid code in the output. 
+由于 Prettier 固执己见的行为，我们在使用它作为 alphaTab 的格式化程序时遇到了相当多的问题。这些不仅是关于格式的问题，还有关于是否格式化的问题。
+底层的 `typescript-estree` 项目决定在 TypeScript 解析器之上添加自定义语义检查，而不依赖 TypeScript 编译器提供的内容。
+我们有自定义的转换器，可能会为 C# 和 Kotlin 的使用编写特殊的 TypeScript 代码。虽然在语法上是正确的，但我们通过 `@ts-ignore` 或 `@ts-expect-error` 来静音某些部分，因为我们知道它在输出中最终是有效的代码。
 
-Unfortunately Prettier cannot format such semantically invalid (but syntactically valid) files because `typescript-estree` already throws an error while parsing the AST.  
+不幸的是，Prettier 无法格式化这种语义上无效（但语法上有效）的文件，因为 `typescript-estree` 在解析 AST 时已经抛出错误。
 
-Hence we decided to move to Biome, as it:
+因此，我们决定迁移到 Biome，因为它：
 
-1. Offers a way to format files if they are considered invalid by their analyzer. 
-2. Offers also a linter in the same tooling and config (reducing problems with inconsistent checking across tools).
+1. 提供了一种方式，即使文件被其分析器认为无效，也可以格式化文件。
+2. 在同一工具和配置中也提供了 linter（减少了跨工具不一致检查的问题）。
 
-This will become especially relevant when we'll move some runtime type implementations (e.g. Maps and Lists) into the TypeScript codebase instead of maintaining it per-language (C# / Kotlin).
+当我们将一些运行时类型实现（例如 Maps 和 Lists）移入 TypeScript 代码库，而不是按语言（C# / Kotlin）维护时，这将变得特别相关。
 
-#### rendering: Change to OTF Fonts
+#### 渲染：更改为 OTF 字体
 https://github.com/CoderLine/alphaTab/pull/2002
 
-Previously we were using TTF Fonts (like for Bravura or Noto) but it showed that it had some flaws in positioning. Wherever TTFs where used, we use now OTFs if they are available.
-This impacts mainly the .net and Android versions of alphaTab and our internal test setup.
+以前我们使用 TTF 字体（如 Bravura 或 Noto），但事实证明它在定位方面存在一些缺陷。无论在哪里使用 TTF，如果可用，我们现在都使用 OTF。
+这主要影响 alphaTab 的 .net 和 Android 版本以及我们的内部测试设置。

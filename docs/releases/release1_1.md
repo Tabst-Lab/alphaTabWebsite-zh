@@ -2,53 +2,52 @@
 title: v1.1
 ---
 
-The next release of alphaTab is done. The theme of this release was: 
+alphaTab 的下一个版本已完成。此版本的主题是：
 
-> Main focus is some small features requested from various people which are straight forward to achieve.
+> 主要关注点是一些来自各种人的小功能请求，这些功能实现起来很直接。
  
-This release brings you:
+此版本为你带来：
 
-## New Features 💡 
+## 新功能 💡 
 
-- [File Formats] Add basic support for Capella file format (Issue: #392, PR: #375)
+- [文件格式] 添加对 Capella 文件格式的基本支持（Issue: #392, PR: #375）
 <br/>
 
-- [Rendering] Add support for percussion instruments with 1,2 or 3 staff lines (Issue: #94, PR: #382)
-- [Rendering] Add support for percussion instruments with 1,2 or 3 staff lines (Issue: #94, PR: #382)
+- [渲染] 添加对具有 1、2 或 3 行谱表的打击乐器的支持（Issue: #94, PR: #382）
+- [渲染] 添加对具有 1、2 或 3 行谱表的打击乐器的支持（Issue: #94, PR: #382）
 <br/>
 
-- [Audio] Add support for loading multiple soundfonts (Issue: #302, PR: #380)
-- [Audio] Added API for playing a single beat or note (Issue: #187, PR: #428)
-- [Audio] Added new count-in option to play one bar with metronome before actual playback starts (Issue: #242, PR: #432)
+- [音频] 添加对加载多个音色库的支持（Issue: #302, PR: #380）
+- [音频] 添加了用于播放单个节拍或音符的 API（Issue: #187, PR: #428）
+- [音频] 添加了新的预备拍选项，在实际播放开始前用节拍器播放一小节（Issue: #242, PR: #432）
 
-## Improvements 🚀 
+## 改进 🚀 
 
-- [General] Updated development dependencies and upgraded to TypeScript 4 (Issue: #424, #423, PR: #431, #426, thanks to @wassertim for the contribution)
+- [通用] 更新开发依赖项并升级到 TypeScript 4（Issue: #424, #423, PR: #431, #426, 感谢 @wassertim 的贡献）
 <br/>
 
-- [File Formats] Respect accidentals as noted in Guitar Pro 6 and 7 files (Issue: #365, PR: #381)
-- [File Formats] Respect parsed lyrics information in Guitar Pro 6 and 7 files (Issue: #220, PR: #429)
+- [文件格式] 遵循 Guitar Pro 6 和 7 文件中记录的变音记号（Issue: #365, PR: #381）
+- [文件格式] 遵循 Guitar Pro 6 和 7 文件中解析的歌词信息（Issue: #220, PR: #429）
 <br/>
 
-- [Rendering] Improvements on the spacing algorithm (Issue: #394, PR: #397)
-- [Rendering] Ensure cursor selection is updated visually when the playbackRange is set via API (Issue: #412, PR: #419)
+- [渲染] 间距算法的改进（Issue: #394, PR: #397）
+- [渲染] 确保当通过 API 设置 playbackRange 时，光标选择会视觉更新（Issue: #412, PR: #419）
 <br/>
 
-- [Audio] Allow playback of songs without soundfont loaded (Issue: #403, PR: #404)
-- [Audio] Improved looping logic to make it more seamless (Issue: #410, PR: #420)
+- [音频] 允许在没有加载音色库的情况下播放歌曲（Issue: #403, PR: #404）
+- [音频] 改进循环逻辑使其更无缝（Issue: #410, PR: #420）
 
-## Bug Fixes 🕷️ 
+## 错误修复 🕷️ 
 
-- [File Formats] Proper support of harmonics in Guitar Pro 3 (Issue: #388, PR: #389)
-- [File Formats] Fixed issue on tempo automations of files by Guitar Pro 7.5 for MacOS (Issue: #391)
-- [File Formats] Fixed issue Guitar Pro files having the lyrics start bar beyond the last bar (PR: #439, thanks to @thoun for the contribution)
+- [文件格式] 正确支持 Guitar Pro 3 中的泛音（Issue: #388, PR: #389）
+- [文件格式] 修复 Guitar Pro 7.5 for MacOS 文件的速度自动化问题（Issue: #391）
+- [文件格式] 修复歌词起始小节超出最后一个小节的 Guitar Pro 文件的问题（PR: #439, 感谢 @thoun 的贡献）
 <br/>
 
-- [Rendering] Bend Slur was rendered as filled triangle instead of edged line (Issue: #405, PR: #418)
+- [渲染] 推弦连音被渲染为填充三角形而不是带边缘的线（Issue: #405, PR: #418）
 <br/>
 
-- [Audio] Setting of the master volume did not work (Issue: #399)
-- [Audio] Wrong metronome calculation on tempo changes (Issues: #408, #400, PR: #414)
-- [Audio] Ensure metronome plays when some tracks are set to solo (Issue: #434, PR: #440)
-
+- [音频] 主音量设置不起作用（Issue: #399）
+- [音频] 速度变化上的错误节拍器计算（Issues: #408, #400, PR: #414）
+- [音频] 确保当某些音轨设置为独奏时节拍器播放（Issue: #434, PR: #440）
 

@@ -2,170 +2,170 @@
 title: v1.3
 ---
 
-## v1.3.1 - Bugfix Release
+## v1.3.1 - 错误修复版本
 
-This is a bugfix release improving the integration with WebPack and Next.js
+这是一个错误修复版本，改进了与 WebPack 和 Next.js 的集成
 
-## Bug Fixes 🕷️ 
-fix(webpack): Use webpack instance passed to plugin by @Danielku15 in https://github.com/CoderLine/alphaTab/pull/1539
-fix: Source Maps should not be shipped in NPM package by @Danielku15 https://github.com/CoderLine/alphaTab/pull/1540
+## 错误修复 🕷️ 
+fix(webpack): 使用传递给插件的 webpack 实例，由 @Danielku15 在 https://github.com/CoderLine/alphaTab/pull/1539 中完成
+fix: 源映射不应包含在 NPM 包中，由 @Danielku15 在 https://github.com/CoderLine/alphaTab/pull/1540 中完成
 
-**Full Changelog**: https://github.com/CoderLine/alphaTab/compare/v1.3.0...v1.3.1
+**完整变更日志**: https://github.com/CoderLine/alphaTab/compare/v1.3.0...v1.3.1
 
 ## v1.3.0
 
-Finally a new release of alphaTab. The highlight feature of this release is native Android support allowing you to use alphaTab directly in your Android Views applications as a Kotlin library. 
+alphaTab 终于发布了新版本。此版本的亮点功能是原生 Android 支持，允许你直接在 Android Views 应用程序中将 alphaTab 用作 Kotlin 库。
 
-A big "Thank You" to all people contributing to alphaTab through reporting bugs, bringing in feature ideas and contributing code changes to alphaTab!
+衷心感谢所有通过报告错误、提出功能想法和贡献代码更改来为 alphaTab 做出贡献的人！
 
-Due to a merge mistake in the previous releases creating a reliably diff between the previous and this release was a bit cumbersome. I hope I didn't miss any features or changes worth mentioning in these release notes.
+由于之前版本中的合并错误，创建此版本与之前版本的可靠差异有点麻烦。我希望我没有在发布说明中遗漏任何值得一提的功能或更改。
 
-## New Features 💡 
+## 新功能 💡 
 
-### Support for Native Android Apps
+### 支持原生 Android 应用
 
-This is the highlight feature of this release. We added a "Kotlin for Android" target to our compilation pipeline and ship now a native Android (Views) control to be used in Android apps. the feature range is similar to what we support already in .net WPF with rendering, interactivity, player, playback cursors etc. all built-in. 
+这是此版本的亮点功能。我们在编译管道中添加了"用于 Android 的 Kotlin"目标，现在提供了一个原生 Android (Views) 控件，可在 Android 应用中使用。功能范围类似于我们在 .net WPF 中已经支持的内容，包括渲染、交互性、播放器、播放光标等，全部内置。
 
-We rely on your feedback to improve the platform support in terms of stability, features and performance.
+我们依赖你的反馈来改进平台支持的稳定性、功能和性能。
 
 * https://alphatab.net/docs/getting-started/installation-android
 * https://alphatab.net/docs/tutorial-android/introduction
 * https://github.com/CoderLine/alphaTabSamplesAndroid
 
-### Bundler and Frontend Framework Support
-> Add Full WebPack Support in https://github.com/CoderLine/alphaTab/pull/1386 by @Danielku15
-> Add Vite Plugin in in https://github.com/CoderLine/alphaTab/pull/1386 by @Danielku15
+### 打包器和前端框架支持
+> 在 https://github.com/CoderLine/alphaTab/pull/1386 中添加完整的 WebPack 支持，由 @Danielku15 完成
+> 在 https://github.com/CoderLine/alphaTab/pull/1386 中添加 Vite 插件，由 @Danielku15 完成
 
-With this release we finally achieved compatibility with modern bundlers like WebPack and Vite used in frontend Frameworks like Angular, React and Vue. 
+通过此版本，我们最终实现了与现代打包器（如 WebPack 和 Vite）的兼容性，这些打包器用于 Angular、React 和 Vue 等前端框架。
 
-For this we created bundler plugins which take care of the right configuration and bundling aspects so that all features like Web Workers and Audio Worklets work quasi out-of-the-box. Look at our guides and samples to learn about how to integrate alphaTab in your frontend app. 
+为此，我们创建了打包器插件，负责正确的配置和打包方面，以便所有功能（如 Web Workers 和 Audio Worklets）都能 quasi 开箱即用。查看我们的指南和示例，了解如何将 alphaTab 集成到你的前端应用中。
 
 * https://alphatab.net/docs/getting-started/installation-webpack
 * https://alphatab.net/docs/getting-started/installation-vite
 * https://github.com/CoderLine/alphaTabSamplesWeb
 
-### System Layout Customization
+### 系统布局自定义
 
-> Add Support for system layout customization. in https://github.com/CoderLine/alphaTab/pull/1197 by @Danielku15
+> 在 https://github.com/CoderLine/alphaTab/pull/1197 中添加对系统布局自定义的支持，由 @Danielku15 完成
 
-With this new option you can tell alphaTab to use the layout information which is embedded in the data model and might be read from formats like Guitar Pro. This information might include information like how many bars are in a system (single row with multiple staves) and a relative scaling of these bars within the system. #
+通过这个新选项，你可以告诉 alphaTab 使用嵌入在数据模型中的布局信息，这些信息可能从 Guitar Pro 等格式中读取。此信息可能包括系统（单行包含多个谱表）中有多少小节以及这些小节在系统内的相对缩放等信息。
 
-See https://alphatab.net/docs/reference/settings/display/systemslayoutmode for more details
+参见 https://alphatab.net/docs/reference/settings/display/systemslayoutmode 了解更多详情
 
-### Allow justification of last system
+### 允许最后一行对齐
 
-> Add option to allow justification of last system in https://github.com/CoderLine/alphaTab/pull/1240 @Danielku15
+> 在 https://github.com/CoderLine/alphaTab/pull/1240 中添加允许最后一行对齐的选项，由 @Danielku15 完成
 
-With this new option you can choose that the last system is also justified to the page width. Normaly bars are only justified in a system when it is considered full and we have a line wrap. But this option allows you to also justify this last system which might still have space. 
+通过这个新选项，你可以选择最后一行也对齐到页面宽度。通常，小节只在一行被认为已满且我们进行换行时才会对齐。但此选项允许你也对齐这最后一行，它可能仍有空间。
 
-See https://next.alphatab.net/docs/reference/settings/display/justifylastsystem#description for more details
+参见 https://next.alphatab.net/docs/reference/settings/display/justifylastsystem#description 了解更多详情
 
-### alphaSkia as render engine
+### alphaSkia 作为渲染引擎
 
-> Integrate alphaSkia in https://github.com/CoderLine/alphaTab/pull/1292 by @Danielku15
+> 在 https://github.com/CoderLine/alphaTab/pull/1292 中集成 alphaSkia，由 @Danielku15 完成
 
-With [alphaSkia](https://github.com/CoderLine/alphaSkia) we created our own cross platform drawing library to achieve a consistent renedring experience across all platforms of alphaTab. This engine wraps [Skia](https://skia.org/), the popular 2D Graphics library developed by Google, used in many products like Google Chrome, Android and Mozilla Firefox. 
+通过 [alphaSkia](https://github.com/CoderLine/alphaSkia)，我们创建了自己的跨平台绘图库，以实现 alphaTab 在所有平台上的一致渲染体验。此引擎包装了 [Skia](https://skia.org/)，这是 Google 开发的流行 2D 图形库，用于 Google Chrome、Android 和 Mozilla Firefox 等许多产品中。
 
-This engine is available for: 
+此引擎可用于：
 
-* .net (where it replaces SkiaSharp)
-* Java/Kotlin (where it replaces Skija)
-* Node.js (where it replaces libraries like node-canvas).
+* .net（替代 SkiaSharp）
+* Java/Kotlin（替代 Skija）
+* Node.js（替代 node-canvas 等库）。
 
-alphaSkia currently has an alphaTab focus but depending on the interest it might evolve to a full HTML5 canvas alike library for many platforms. 
+alphaSkia 目前专注于 alphaTab，但根据兴趣，它可能会发展成为一个适用于许多平台的完整 HTML5 画布类库。
 
-## Improvements 🚀 
+## 改进 🚀 
 
-### Reworked Midi Tick Lookup
+### 重新设计的 Midi Tick 查找
 
-> Rework Tick Lookup mechanism for cursor placement and highlighting. in https://github.com/CoderLine/alphaTab/pull/1328 by @Danielku15
-> Additional cases for new tick lookup in https://github.com/CoderLine/alphaTab/pull/1334 by @Danielku15
-> fix: Start and end times have to be relative to the masterbar not absolute in https://github.com/CoderLine/alphaTab/pull/1393 by @Danielku15
+> 重新设计用于光标放置和高亮的 Tick 查找机制。在 https://github.com/CoderLine/alphaTab/pull/1328 中，由 @Danielku15 完成
+> 在 https://github.com/CoderLine/alphaTab/pull/1334 中处理新的 tick 查找的附加情况，由 @Danielku15 完成
+> fix: 开始和结束时间必须相对于 masterbar 而不是绝对的，在 https://github.com/CoderLine/alphaTab/pull/1393 中，由 @Danielku15 完成
 
-A key improvement and change in this release is the reworked "Midi Tick Lookup". This component is responsible to translate efficiently a given midi tick position during playpack, into the bar and beat being played. This component is key part to place the cursors during playback and highlight any currently played elements. 
+此版本中的一个关键改进和更改是重新设计的"Midi Tick 查找"。此组件负责在播放期间高效地将给定的 midi tick 位置转换为正在播放的小节和节拍。此组件是播放期间放置光标和突出显示任何当前播放元素的关键部分。
 
-With this improvement you should not experience any misplaced cursors, skipped items or not highlighted notes anymore. 
+通过此次改进，你应该不会再遇到任何光标位置错误、跳过项目或未突出显示音符的情况。
 
-### alphaTex extensions
+### alphaTex 扩展
 
-Special thanks to @jonaro00 who contributed various improvements around alphaTex adding improvements around error reporting and some extension around supported elements. 
+特别感谢 @jonaro00 对 alphaTex 的各种改进，包括错误报告方面的改进和一些支持元素的扩展。
 
-* Various code improvements. Small AlphaTexImporter bugfix. in https://github.com/CoderLine/alphaTab/pull/1043 by @jonaro00 
-* AlphaTex Error improvements. Line/col numbers. in https://github.com/CoderLine/alphaTab/pull/1059 by  @jonaro00 
-* feat(alphaTex): allow specifying tempo as a float in a string in https://github.com/CoderLine/alphaTab/pull/1356 by @jonaro00
+* 各种代码改进。AlphaTexImporter 小错误修复。在 https://github.com/CoderLine/alphaTab/pull/1043 中，由 @jonaro00 完成
+* AlphaTex 错误改进。行/列号。在 https://github.com/CoderLine/alphaTab/pull/1059 中，由 @jonaro00 完成
+* feat(alphaTex): 允许将速度指定为字符串中的浮点数，在 https://github.com/CoderLine/alphaTab/pull/1356 中，由 @jonaro00 完成
 
-### Improved Grace Note Positioning
+### 改进的装饰音定位
 
-We also had to fight again our old rival, the grace notes. With their special needs in positioning and time handling they are a regular cause of problems in the positioning of notes. We tackled again some positioning related problems around grace notes.
+我们再次不得不与我们的老对手——装饰音作斗争。由于它们在定位和时值处理方面的特殊需求，它们是音符定位问题的常见原因。我们再次解决了一些与装饰音定位相关的问题。
 
-* Adjust grace positioning to utilize free space in https://github.com/CoderLine/alphaTab/pull/1094 by  @Danielku15  
-* Handle empty bars and pre-beat grace notes on new lookup logic in https://github.com/CoderLine/alphaTab/pull/1347 by @Danielku15
+* 调整装饰音定位以利用空闲空间，在 https://github.com/CoderLine/alphaTab/pull/1094 中，由 @Danielku15 完成
+* 处理新查找逻辑中的空小节和拍前装饰音，在 https://github.com/CoderLine/alphaTab/pull/1347 中，由 @Danielku15 完成
 
-### MusicXML extensions
+### MusicXML 扩展
 
-Our MusicXML support also got some improvements with new features or adjustments around existing features. Beside the display of chord diagrams there were some improvements on handling ties. 
+我们的 MusicXML 支持也通过新功能或现有功能的调整得到了一些改进。除了和弦图的显示外，还对连音的处理进行了一些改进。
 
-* Handle correctly the ChordCollection items which have no diagram element. in https://github.com/CoderLine/alphaTab/pull/1211 by @Danielku15
-* Improve tie handling for mxml in https://github.com/CoderLine/alphaTab/pull/1219 by @Danielku15
-* Adds support for chords in MusicXML importer in https://github.com/CoderLine/alphaTab/pull/1299 by  @coluzziandrea
+* 正确处理没有 diagram 元素的 ChordCollection 项目。在 https://github.com/CoderLine/alphaTab/pull/1211 中，由 @Danielku15 完成
+* 改进 mxml 的连音处理，在 https://github.com/CoderLine/alphaTab/pull/1219 中，由 @Danielku15 完成
+* 在 https://github.com/CoderLine/alphaTab/pull/1299 中，由 @coluzziandrea 完成，为 MusicXML 导入器添加了对和弦的支持
 
-### SMF1.0 compliant MIDI file export 
+### SMF1.0 兼容的 MIDI 文件导出
 
-> Add SMF1.0 compliant MIDI file export in https://github.com/CoderLine/alphaTab/pull/1239 by @Danielku15
+> 在 https://github.com/CoderLine/alphaTab/pull/1239 中添加 SMF1.0 兼容的 MIDI 文件导出，由 @Danielku15 完成
 
-alphaTab internally uses a MIDI standard aligned structure to handle the playback of the song. To handle all playbacks correctly we also use some events and structures from Midi 2.0 (per note pitch bends). But unfortunately this caused incompatibility with Standard Midi File Format 1.0. The SMF2.0 file standard was still not ready after many years and there is no real support for these events in the market. 
+alphaTab 在内部使用与 MIDI 标准对齐的结构来处理歌曲的播放。为了正确处理所有播放，我们还使用了一些来自 Midi 2.0 的事件和结构（每个音符的弯音）。但不幸的是，这导致了与标准 MIDI 文件格式 1.0 的不兼容。SMF2.0 文件标准在许多年后仍未准备好，市场上没有对这些事件的真正支持。
 
-To restore compatibility with applications only supporting SMF 1.0 we added a dedicated export feature for SMF 1.0.
+为了恢复与仅支持 SMF 1.0 的应用程序的兼容性，我们添加了专门的 SMF 1.0 导出功能。
 
 * https://next.alphatab.net/docs/guides/lowlevel-apis#generating-midi-files-via-midifilegenerator
 
-In future if needed, we will also add support for the new Midi 2.0 file formats. 
+如果需要，将来我们还将支持新的 Midi 2.0 文件格式。
 
-### Chord unification
-> Remove duplicate chords in https://github.com/CoderLine/alphaTab/pull/1216 by @AdamSEY
+### 和弦统一
+> 在 https://github.com/CoderLine/alphaTab/pull/1216 中删除重复和弦，由 @AdamSEY 完成
 
-With this improvement we detect now same chords based on their definition and ensure they are only displayed one in the chord diagrams. This should reduce the noise in the chord diagrams where duplicates can happen from the file format design.
+通过此次改进，我们现在根据和弦的定义检测相同的和弦，并确保它们只在和弦图中显示一次。这应该可以减少和弦图中的噪音，因为重复可能由于文件格式设计而发生。
 
-### Dynamic change of transposition pitches
-> Allow dynamic change of transposition pitches. in https://github.com/CoderLine/alphaTab/pull/1309 by  @Danielku15
+### 移调音高的动态更改
+> 允许动态更改移调音高。在 https://github.com/CoderLine/alphaTab/pull/1309 中，由 @Danielku15 完成
 
-With this improvement transposition pitch changes are respected. Before this improvement the separately provided pitches were only applied once on score load. This prevented devs to develop features where a user would dynamically change the transposition to their preference. Now with this improvement pitches are handled in a more dynamic fashion when needed. 
+通过此次改进，移调音高更改得到了遵循。在此之前，单独提供的音高只在加载乐谱时应用一次。这阻止了开发者开发用户可以根据自己的偏好动态更改移调的功能。现在，此改进在需要时以更动态的方式处理音高。
 
-### Others
-* Analyze, Document and Fix PartConfiguration handling in https://github.com/CoderLine/alphaTab/pull/1241 by @Danielku15
-* Fix: allow the import of gpx files that use displayScale as Float xml node in https://github.com/CoderLine/alphaTab/pull/1243 by @allandiego
+### 其他
+* 在 https://github.com/CoderLine/alphaTab/pull/1241 中分析、记录和修复 PartConfiguration 处理，由 @Danielku15 完成
+* 在 https://github.com/CoderLine/alphaTab/pull/1243 中修复：允许导入使用 displayScale 作为 Float xml 节点的 gpx 文件，由 @allandiego 完成
 
-## Bug Fixes 🕷️ 
+## 错误修复 🕷️ 
 
-* Fix null/undefined lyrics which cause GP7 exporter to fail in https://github.com/CoderLine/alphaTab/pull/1026 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1025)
-* Fix wrong reading of alternate endings in GP5 in https://github.com/CoderLine/alphaTab/pull/1028 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1023)
-* Fix wrong repeats on alternate endings in https://github.com/CoderLine/alphaTab/pull/1054 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1046)
-* Ensure we respect repeats on getting beat playback position in https://github.com/CoderLine/alphaTab/pull/1055 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1047)
-* Fix slide rendering on end of staves in https://github.com/CoderLine/alphaTab/pull/1053 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1045)
-* Ensure we do not signal the UI facade for empty partials in https://github.com/CoderLine/alphaTab/pull/1091 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1090)
-* Prevent duplicate render requests of partials in https://github.com/CoderLine/alphaTab/pull/1148 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1147)
-* Fix broken count-in on playback ranges in https://github.com/CoderLine/alphaTab/pull/1149 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1140)
-* Handle missing effect bands on multi voice effect scenarios. in https://github.com/CoderLine/alphaTab/pull/1223 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1200)
-* Fix .net related problems with alphaSkia, fix player related problems in https://github.com/CoderLine/alphaTab/pull/1329 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1288)
-* Fix harsh noise by only synthesizing samples while playing in https://github.com/CoderLine/alphaTab/pull/1330 by @Danielku15 (fixes https://github.com/CoderLine/alphaTab/issues/1298)
+* 在 https://github.com/CoderLine/alphaTab/pull/1026 中修复导致 GP7 导出器失败的空/未定义歌词，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1025）
+* 在 https://github.com/CoderLine/alphaTab/pull/1028 中修复 GP5 中替代结尾的错误读取，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1023）
+* 在 https://github.com/CoderLine/alphaTab/pull/1054 中修复替代结尾上的错误重复，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1046）
+* 在 https://github.com/CoderLine/alphaTab/pull/1055 中确保在获取节拍播放位置时遵循重复，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1047）
+* 在 https://github.com/CoderLine/alphaTab/pull/1053 中修复谱表末尾的滑音渲染，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1045）
+* 在 https://github.com/CoderLine/alphaTab/pull/1091 中确保我们不为空部分向 UI 外观发送信号，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1090）
+* 在 https://github.com/CoderLine/alphaTab/pull/1148 中防止部分的重复渲染请求，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1147）
+* 在 https://github.com/CoderLine/alphaTab/pull/1149 中修复播放范围内的损坏预备拍，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1140）
+* 在 https://github.com/CoderLine/alphaTab/pull/1223 中处理多声部效果场景中缺少的效果带，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1200）
+* 在 https://github.com/CoderLine/alphaTab/pull/1329 中修复与 alphaSkia 相关的 .net 问题，修复播放器相关问题，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1288）
+* 在 https://github.com/CoderLine/alphaTab/pull/1330 中修复仅在播放时合成样本的刺耳噪音，由 @Danielku15 完成（修复 https://github.com/CoderLine/alphaTab/issues/1298）
 
 
-## Maintenance 👷‍♂️
+## 维护 👷‍♂️
 
-### Improved GitHub Actions workflows
-We made various improvements around our build system and kept it up to date regarding any dependencies and new practices. 
+### 改进的 GitHub Actions 工作流
+我们对构建系统进行了各种改进，并使其保持最新，包括任何依赖项和新实践。
 
-* Change runner and update workflows in https://github.com/CoderLine/alphaTab/pull/1027 by @Danielku15 
-* Fix and cleanup Publish workflow in https://github.com/CoderLine/alphaTab/pull/1113 by @jonaro00 (fixes https://github.com/CoderLine/alphaTab/issues/1112)
+* 在 https://github.com/CoderLine/alphaTab/pull/1027 中更改运行者并更新工作流，由 @Danielku15 完成
+* 在 https://github.com/CoderLine/alphaTab/pull/1113 中修复和清理发布工作流，由 @jonaro00 完成（修复 https://github.com/CoderLine/alphaTab/issues/1112）
 
-### Targeting .net 8.0
-> chore: Target net8.0 #1465
+### 面向 .net 8.0
+> chore: 面向 net8.0 #1465
 
-As .net 6.0 is now out of support we target the new LTS version .net 8.0 for our .net Windows Libraries (WPF/WinForms). The core library still targets .netstandard 2.0. 
+由于 .net 6.0 现已停止支持，我们将 .net Windows 库（WPF/WinForms）的目标定为新的 LTS 版本 .net 8.0。核心库仍然面向 .netstandard 2.0。
 
-### Other
+### 其他
 
-* Clean up README in https://github.com/CoderLine/alphaTab/pull/1041 by @jonaro00 
-* Update/simplify npm scripts in https://github.com/CoderLine/alphaTab/pull/1042 by @jonaro00 
-* Optimize TS generator, remove trailing whitespace from generated in https://github.com/CoderLine/alphaTab/pull/1061 by @jonaro00 
-* Export more internals https://github.com/CoderLine/alphaTab/pull/1274 by @Danielku15
+* 在 https://github.com/CoderLine/alphaTab/pull/1041 中清理 README，由 @jonaro00 完成
+* 在 https://github.com/CoderLine/alphaTab/pull/1042 中更新/简化 npm 脚本，由 @jonaro00 完成
+* 在 https://github.com/CoderLine/alphaTab/pull/1061 中优化 TS 生成器，从生成的文件中删除尾随空格，由 @jonaro00 完成
+* 在 https://github.com/CoderLine/alphaTab/pull/1274 中导出更多内部内容，由 @Danielku15 完成

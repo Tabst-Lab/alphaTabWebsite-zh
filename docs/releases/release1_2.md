@@ -4,182 +4,182 @@ title: v1.2
 
 ## v1.2.3
 
-Even though this is "only" a patch release, there is plenty of stuff to discover.🥳🎉
+尽管这"只是"一个补丁版本，但有很多东西可以发现。🥳🎉
 
-This release aims to ship all improvements and bugfixes done as part of 1.3 already in 1.2 to keep the 1.3 theme of official Android and iOS Native support. 
+此版本旨在将 1.3 中已完成的所有改进和错误修复提前发布到 1.2 中，以保持 1.3 的官方 Android 和 iOS 原生支持主题。
 
-A big "Thank You" to all people contributing to alphaTab through reporting bugs, bringing in feature ideas and contributing code changes to alphaTab!
+衷心感谢所有通过报告错误、提出功能想法和贡献代码更改来为 alphaTab 做出贡献的人！
 
 
-# Highlights of this release
+# 此版本的亮点
 
-## New Features 💡 
+## 新功能 💡 
 
-- [General] ES6 module flavor build of alphaTab. (Issue: #666, PR: #678) 
-- [General] New Event whenever the playback range changes. (Issue: #732, PR: #782) 
-- [General] New Event for obtaining the currently played beats across all tracks and voices. (Issue: #722, PR: #878) 
+- [通用] alphaTab 的 ES6 模块风格构建。（Issue: #666, PR: #678）
+- [通用] 每当播放范围更改时的新事件。（Issue: #732, PR: #782）
+- [通用] 用于获取所有音轨和声部中当前播放节拍的新事件。（Issue: #722, PR: #878）
 <br/>
 
-- [File Formats] Unicode Characters support in alphaTex. (Issue: #579, PR: #580) 
-- [File Formats] Alternate Endings support in alphaTex. (Issue: #671, PR: #791) Thanks @jonaro00 for this contribution.
-- [File Formats] Minor Key Signature support in alphaTex. (Issue: #875, PR: #880) Thanks @jonaro00 for this contribution.
-- [File Formats] Brush Stroke and arpeggio support to alphaTex. (Issue: #505, PR: #799) Thanks @jonaro00 for this contribution.
+- [文件格式] alphaTex 中的 Unicode 字符支持。（Issue: #579, PR: #580）
+- [文件格式] alphaTex 中的替代结尾支持。（Issue: #671, PR: #791）感谢 @jonaro00 的贡献。
+- [文件格式] alphaTex 中的小调调号支持。（Issue: #875, PR: #880）感谢 @jonaro00 的贡献。
+- [文件格式] 向 alphaTex 添加刷弦和琶音支持。（Issue: #505, PR: #799）感谢 @jonaro00 的贡献。
 <br/>
 
-- [Rendering] New Options for disabling cursor animations and element highlighting (Issue: #558, PR: #644) 
-- [Rendering] Allow the use of multiple font families with fallbacks. (Issue: #546, PR: #953) 
+- [渲染] 禁用光标动画和元素高亮的新选项（Issue: #558, PR: #644）
+- [渲染] 允许使用多个字体系列并带有回退。（Issue: #546, PR: #953）
 
-- [Audio] Use AudioWorklets for audio playback when available. (Issue: #480, PR: #642)
-- [Audio] Expose MidiTickLookup for manual lookup of elements by a given midi position. (Discussion: #732, Commit: e8b58506190f776b6987cdcddd5d0a48ab7e2ae8)
+- [音频] 在可用时使用 AudioWorklets 进行音频播放。（Issue: #480, PR: #642）
+- [音频] 公开 MidiTickLookup 以通过给定的 midi 位置手动查找元素。（Discussion: #732, Commit: e8b58506190f776b6987cdcddd5d0a48ab7e2ae8）
 <br/>
 
-## Improvements 🚀 
+## 改进 🚀 
 
-- [General] Improved WebPack support. We are not yet at 100% to support everything properly (mainly due to missing features in WebPack like AudioWorklets) but things are getting better. We plan to ship some extended examples over at https://github.com/CoderLine/alphaTabSamplesWeb soon. 
-- [General] Improved Node.js support. (Issue: #542, PR: #544) 
-- [General] Improved module exports to have better TypeScript compatibility. (Issue: #682, PR: #684) 
-- [General] Allow dynamic changing of the display of cursors and the cursor colors. (Issue: #876, PR: #899) 
-- [General] More exposed low-level APIs. (Issue: #897, PR: #956) 
-- [General] Allow dynamic change of the transposition pitches. (Issue: #896, PR: #957) 
+- [通用] 改进的 WebPack 支持。我们还没有达到 100% 正确支持所有内容（主要是由于 WebPack 缺少功能，如 AudioWorklets），但情况正在好转。我们计划很快在 https://github.com/CoderLine/alphaTabSamplesWeb 上发布一些扩展示例。
+- [通用] 改进的 Node.js 支持。（Issue: #542, PR: #544）
+- [通用] 改进的模块导出以获得更好的 TypeScript 兼容性。（Issue: #682, PR: #684）
+- [通用] 允许动态更改光标和光标颜色的显示。（Issue: #876, PR: #899）
+- [通用] 更多公开的底层 API。（Issue: #897, PR: #956）
+- [通用] 允许动态更改移调音高。（Issue: #896, PR: #957）
 <br/>
 
-- [Rendering] Render half-note rhythm notation stems different (Issue: #602, PR: #605, Discussion: #601) 
-- [Rendering] Avoid grace notes sticking fully to the previous note (Issue: #604, PR: #606) 
-- [Rendering] Use of native browser smooth scrolling (Issue: #558, PR: #644) 
-- [Rendering] Improved element positioning to reduce browser CPU load (Issue: #558, PR: #644) 
-- [Rendering] Reduced CPU load on cursor placement (Issue: #558, PR: #645) 
-- [Rendering] Added Virtualized Display of Rendered Partials (Issue: #532, PR: #689) 
+- [渲染] 以不同方式渲染半音符节奏记谱符干（Issue: #602, PR: #605, Discussion: #601）
+- [渲染] 避免装饰音完全粘附在前一个音符上（Issue: #604, PR: #606）
+- [渲染] 使用原生浏览器平滑滚动（Issue: #558, PR: #644）
+- [渲染] 改进元素定位以减少浏览器 CPU 负载（Issue: #558, PR: #644）
+- [渲染] 减少光标放置时的 CPU 负载（Issue: #558, PR: #645）
+- [渲染] 添加渲染部分的虚拟化显示（Issue: #532, PR: #689）
 <br/>
 
-- [Audio] Avoid delayed audio settings due to buffering (Issue: #657, PR: #686) 
-- [Audio] Configurable audio buffer size (Issue: #736, PR: #788) 
-- [Audio] Improved WebAudio context suspend/resume handling (Issue: #760, PR: #768) 
+- [音频] 避免由于缓冲导致的音频设置延迟（Issue: #657, PR: #686）
+- [音频] 可配置的音频缓冲区大小（Issue: #736, PR: #788）
+- [音频] 改进的 WebAudio 上下文暂停/恢复处理（Issue: #760, PR: #768）
 
 <br/>
 
-## Bug Fixes 🕷️ 
+## 错误修复 🕷️ 
 
-- [General] Fixed wrong decoding of Colors (Issue: #387, PR: 543) Thanks @kyledecot for this contribution.
-- [General] Fixed wrong Score model when not sending it through serializer (Issue: #551, PR: #610)
-- [General] Fixed bad detection of note positions (Issue: #744, PR: #746) Thanks @gallegretti for this contribution.
-- [General] Allow loading of alphaTab/Skia in Avalonia (Issue: #774, PR: #789) 
-- [General] Fix beat removeNote function keeping stringLookup reference (Issue #932, PR: #933) Thanks @gallegretti for this contribution.
+- [通用] 修复颜色的错误解码（Issue: #387, PR: 543）感谢 @kyledecot 的贡献。
+- [通用] 修复未通过序列化器发送时的错误乐谱模型（Issue: #551, PR: #610）
+- [通用] 修复音符位置的不良检测（Issue: #744, PR: #746）感谢 @gallegretti 的贡献。
+- [通用] 允许在 Avalonia 中加载 alphaTab/Skia（Issue: #774, PR: #789）
+- [通用] 修复 beat removeNote 函数保留 stringLookup 引用的问题（Issue #932, PR: #933）感谢 @gallegretti 的贡献。
 <br/>
 
-- [File Formats] Allow Sections to start with a rest in alphaTex (Issue: #683, PR: #685)
-- [File Formats] Errornous Slur handling and improved repeat group calculation (Issue: #865, PR: #898)
-- [File Formats] Tempo changes on first bar not handled correctly (Issue: #988, PR: #994)
-- [File Formats] Ensure Correct Vibrato audio for GP5 files (Issue: #1011, PR: #1014)
+- [文件格式] 允许 alphaTex 中的部分以休止符开始（Issue: #683, PR: #685）
+- [文件格式] 错误的连音处理和改进的重复组计算（Issue: #865, PR: #898）
+- [文件格式] 第一小节上的速度变化处理不正确（Issue: #988, PR: #994）
+- [文件格式] 确保 GP5 文件的正确颤音音频（Issue: #1011, PR: #1014）
 <br/>
 
-- [Rendering] Prevent double printing dialogs/events (Issue: #844, PR: #846) 
-- [Rendering] Corrected wrong placement of key signatures (Issue: #872, PR: #881) 
-- [Rendering] Corrected wrong placement of brush strokes (Issue: #935, PR: #955) 
-- [Rendering] Inability to place the cursor on some beats upon clicking (Issue: #959, PR: #960) 
+- [渲染] 防止重复的打印对话框/事件（Issue: #844, PR: #846）
+- [渲染] 修正调号的错误放置（Issue: #872, PR: #881）
+- [渲染] 修正刷弦的错误放置（Issue: #935, PR: #955）
+- [渲染] 无法在某些节拍上放置光标（Issue: #959, PR: #960）
 <br/>
 
-- [Audio] Prevent invalid playback ranges when selecting reverse (Issue: #733, PR: #783)
-- [Audio] Corrected timesignature generation causing metronome behavior (Issue: #567, PR: #574)
-- [Audio] Ensure Player is fully destroyed with the rest of alphaTab (Issue: #594, PR: #595)
-- [Audio] Reworked playback of count-in and individual notes and beats (Issue: #758, PR: #787) 
-- [Audio] Cursor Snaps/Jumps to Next Bar  (Issue: #976, PR: #888) 
+- [音频] 防止选择反向时的无效播放范围（Issue: #733, PR: #783）
+- [音频] 修正导致节拍器行为的时间签名生成（Issue: #567, PR: #574）
+- [音频] 确保播放器与 alphaTab 的其余部分一起完全销毁（Issue: #594, PR: #595）
+- [音频] 重新设计预备拍和单个音符及节拍的播放（Issue: #758, PR: #787）
+- [音频] 光标跳到下一小节（Issue: #976, PR: #888）
 
-## Maintenance 👷‍♂️
+## 维护 👷‍♂️
 
-- [General] TypeScript upgrade, use `override`
-- [General] Update of Dev and Runtime Dependencies to latest versions.
-- [File Formats] AlphaTexImporter corrections and simplifications (PR: #852) Thanks @jonaro00 for this contribution.
-- [Rendering] Update Visual Test Suite to use Free Fonts (Issue: #559, PR: #560)
+- [通用] TypeScript 升级，使用 `override`
+- [通用] 将开发和运行时依赖项更新到最新版本。
+- [文件格式] AlphaTexImporter 的更正和简化（PR: #852）感谢 @jonaro00 的贡献。
+- [渲染] 将视觉测试套件更新为使用免费字体（Issue: #559, PR: #560）
 <br/>
 
-# All Changes 
+# 所有更改
 
 **Issues:** [v1.2.3](https://github.com/CoderLine/alphaTab/issues?q=is%3Aopen%20is%3Aissue%20project%3Acoderline%2F9)
 
-**Full Changelog**: https://github.com/CoderLine/alphaTab/compare/v1.2.2...v1.2.3
+**完整变更日志**: https://github.com/CoderLine/alphaTab/compare/v1.2.2...v1.2.3
 
-## v1.2.2 - Bugfix Release
+## v1.2.2 - 错误修复版本
 
-There was an unintentional breaking change introduced in 1.2.x related to the `Settings.fillFromJson`. This PR restores API compatibility with 1.1.0 
+在 1.2.x 中引入了一个无意的破坏性更改，与 `Settings.fillFromJson` 相关。此 PR 恢复了与 1.1.0 的 API 兼容性
 
-## Bug Fixes 🕷️ 
+## 错误修复 🕷️ 
 
-- [General] Restore API compatibility for Settings.fillFromJson (Issue: #674 , PR: #676) Thanks to @goodgame365 for reporting this
+- [通用] 恢复 Settings.fillFromJson 的 API 兼容性（Issue: #674 , PR: #676）感谢 @goodgame365 报告此问题
 <br/>
 
-## v1.2.1 - Bugfix Release
+## v1.2.1 - 错误修复版本
 
-There were two findings since the 1.2.0 release which made me release an 1.2.1 containing the related fixes:
+自 1.2.0 版本发布以来有两个发现，促使我发布了包含相关修复的 1.2.1：
 
-## Bug Fixes 🕷️ 
+## 错误修复 🕷️ 
 
-- [Rendering]For iOS devices, tab numbers are not vertically centered to the lines (Issue: #556, PR: #570)
-- [Rendering] Ensure Notation and Chord Diagrams are properly rendered when using a `scale` different than 1.0 (#564)
+- [渲染]对于 iOS 设备，制表谱数字未垂直居中对齐到线条（Issue: #556, PR: #570）
+- [渲染] 确保在使用 `scale` 不同于 1.0 时正确渲染记谱和和弦图（#564）
 
 ## v1.2.0
 
-The next release of alphaTab is done. The theme of this release was: 
+alphaTab 的下一个版本已完成。此版本的主题是：
 
-> Main focus will be improving the visual display by avoiding collisions and improving some visual elements.
+> 主要重点将是通过避免碰撞和改进一些视觉元素来改善视觉显示。
  
-We tried to avoid any breaking changes on the API level and upgrades should be possible without any code changes. 
-But there are various behavior changes where you might want to adopt new settings, values etc.  
+我们尽量避免 API 级别的任何破坏性更改，升级应该可以在不进行任何代码更改的情况下进行。
+但存在各种行为更改，你可能希望采用新的设置、值等。
 
-This release brings you:
+此版本为你带来：
 
-## In alphaTab 1.2 we dropped support for Internet Explorer ❗
-One of the biggest changes/decisions we took in version 1.2 is to drop support for Internet Explorer.
-This allowed us to make various improvements in regards to performance and more modern code. 
-We made [a poll](https://github.com/CoderLine/alphaTab/discussions/460) whether dropping IE support is generally accepted, but in case you missed it and have need for Internet Explorer support, reach out to us via [Discussions](https://github.com/CoderLine/alphaTab/discussions) and we will see what we can do. 
+## 在 alphaTab 1.2 中，我们放弃了对 Internet Explorer 的支持 ❗
+我们在 1.2 版本中做出的最大更改/决定之一是放弃对 Internet Explorer 的支持。
+这使我们能够在性能和更现代的代码方面进行各种改进。
+我们进行了一项[投票](https://github.com/CoderLine/alphaTab/discussions/460)，询问放弃 IE 支持是否被普遍接受，但如果你错过了并且需要 Internet Explorer 支持，请通过[讨论](https://github.com/CoderLine/alphaTab/discussions)与我们联系，我们将看看我们能做什么。
 
-## New Features 💡 
+## 新功能 💡 
 
-- [General] JSON Serialization for the .net platform (Issue: #461, PR: #466, [Docs](https://www.alphatab.net/docs/guides/lowlevel-apis/#serialize-data-model-fromto-json)) 
+- [通用] .net 平台的 JSON 序列化（Issue: #461, PR: #466, [文档](https://www.alphatab.net/docs/guides/lowlevel-apis/#serialize-data-model-fromto-json)）
 <br/>
 
-- [File Formats] Guitar Pro 7 Exporter (Issue: #443, PR: #447, [Docs](https://www.alphatab.net/docs/guides/exporter))
-- [File Formats] Detect Lyrics from beat text for Guitar Pro 3-5 files (Issue: #402, PR: #506, [Docs](https://www.alphatab.net/docs/reference/settings/importer/beattextaslyrics/))
+- [文件格式] Guitar Pro 7 导出器（Issue: #443, PR: #447, [文档](https://www.alphatab.net/docs/guides/exporter)）
+- [文件格式] 从 Guitar Pro 3-5 文件的节拍文本中检测歌词（Issue: #402, PR: #506, [文档](https://www.alphatab.net/docs/reference/settings/importer/beattextaslyrics/)）
 <br/>
 
-## Improvements 🚀 
+## 改进 🚀 
 
-- [General] Respect original settings when printing and allow additional print settings (Issue: #469, PR: #486, [Docs](https://www.alphatab.net/docs/reference/api/print/))
-- [General] Compilation of alphaTab to ES6 code for smaller footprint and more modern code (Issue: #508, PR: #512)
-- [General] Smaller copyright watermark (PR: #512)
-- [General] Removed various polyfills, usage of oudated APIs, better SVG generation (Issue: #509, PR: #514)
+- [通用] 打印时遵循原始设置并允许额外的打印设置（Issue: #469, PR: #486, [文档](https://www.alphatab.net/docs/reference/api/print/)）
+- [通用] 将 alphaTab 编译为 ES6 代码以减小体积并获得更现代的代码（Issue: #508, PR: #512）
+- [通用] 更小的版权水印（PR: #512）
+- [通用] 删除了各种 polyfills、过时 API 的使用、更好的 SVG 生成（Issue: #509, PR: #514）
 <br/>
 
-- [File Formats] Respect track volume in Guitar Pro 7 files (Issue: #446, PR: #445 thanks to @jordanske for the contribution)
-- [File Formats] Respect track volume and balance in MusicXML files (Issue: #451, PR: #454 thanks to @jordanske for the contribution)
-- [File Formats] Auto detection of instruments and tunings in alphaTex (Issue: #484, PR: #449)
-- [File Formats] Add support for full bar rests in Capella and MusicXML (Issue: #495, PR: #503)
+- [文件格式] 遵循 Guitar Pro 7 文件中的音轨音量（Issue: #446, PR: #445 感谢 @jordanske 的贡献）
+- [文件格式] 遵循 MusicXML 文件中的音轨音量和平衡（Issue: #451, PR: #454 感谢 @jordanske 的贡献）
+- [文件格式] alphaTex 中的乐器和调音自动检测（Issue: #484, PR: #449）
+- [文件格式] 在 Capella 和 MusicXML 中添加对全小节休止符的支持（Issue: #495, PR: #503）
 <br />
 
-- [Rendering] New Note Beaming algorithm which avoids collisions on rests (Issue: #296, PR: #491)
-- [Rendering] Render multiple tunings in multi-track rendering cases (Issue: #463, PR: #492)
-- [Rendering] New Grace Positioning Logic (Issues: #227, #335, PR: #493)
-- [Rendering] Render HighDPI images for HTML5 Canvas (Issue: #496, PR: #497)
-- [Rendering] Displace Rests in multi-voice scenarios (Issue: #355, PR: #502)
-- [Rendering] Fixed various alignment issues of notes, tuplets and beams (PR: #502)
-- [Rendering] Use of IntersectionObserver for faster lazy loading (Issue: #510, PR: #515)
-- [Rendering] Use of ResizeObserver for faster/more-reliable resize detection (Issue: #511, PR: #516)
+- [渲染] 新的音符符杠算法，避免休止符上的碰撞（Issue: #296, PR: #491）
+- [渲染] 在多音轨渲染情况下渲染多个调音（Issue: #463, PR: #492）
+- [渲染] 新的装饰音定位逻辑（Issues: #227, #335, PR: #493）
+- [渲染] 为 HTML5 Canvas 渲染高 DPI 图像（Issue: #496, PR: #497）
+- [渲染] 在多声部场景中移动休止符（Issue: #355, PR: #502）
+- [渲染] 修复了音符、三连音和符杠的各种对齐问题（PR: #502）
+- [渲染] 使用 IntersectionObserver 实现更快的延迟加载（Issue: #510, PR: #515）
+- [渲染] 使用 ResizeObserver 实现更快/更可靠的调整大小检测（Issue: #511, PR: #516）
 <br/>
 
-- [Audio] Removed max volume limitation (Issue: #453, PR: #487)
-- [Audio] More data on the `midiLoaded` event for synchronization with external audio sources (Discussion: #520, PR: #522)
-- [Audio] New event fors for obtaining midi events like metronome (Issue: #450, PR: #523, [Docs](https://www.alphatab.net/docs/guides/handling-midi-events))
+- [音频] 移除最大音量限制（Issue: #453, PR: #487）
+- [音频] `midiLoaded` 事件上的更多数据，用于与外部音频源同步（Discussion: #520, PR: #522）
+- [音频] 用于获取节拍器等 midi 事件的新事件（Issue: #450, PR: #523, [文档](https://www.alphatab.net/docs/guides/handling-midi-events)）
 
-## Bug Fixes 🕷️ 
+## 错误修复 🕷️ 
 
-- [Rendering] Correct display of accidentals on tied notes across bars (Issue: #472, PR: #485)
-- [Rendering] Various zoom related issues (Issue: #452, PR: #483)
-- [Rendering] Added new property for WinForms control page background (replaces Foreground) (Issue: #503) 
-If you had custom colors before, be sure to set the new `NotationBackColor` property. 
+- [渲染] 修正跨小节连音上的变音记号显示（Issue: #472, PR: #485）
+- [渲染] 各种缩放相关问题（Issue: #452, PR: #483）
+- [渲染] 为 WinForms 控件添加了新的页面背景属性（替换 Foreground）（Issue: #503）
+如果你以前有自定义颜色，请务必设置新的 `NotationBackColor` 属性。
 <br/>
 
-- [Audio] Fixed wrong bend generations on tied bends (Issue: #470, PR: #488)
+- [音频] 修复连音推弦上的错误推弦生成（Issue: #470, PR: #488）
 
-## Maintenance
+## 维护
 
-- [General] Automatic generation of JSON serialization code (Issue: #461, PR: #466)
+- [通用] 自动生成 JSON 序列化代码（Issue: #461, PR: #466）
 <br/>

@@ -6,211 +6,198 @@ import { AlphaTab } from '@site/src/components/AlphaTab/';
 
 ## 1.6.0
 
-Another fresh release for alphaTab mainly focusing on two new features around the player. 😎🎉
-Want to integrate alphaTab with YouTube Videos or audio recordings? Now you can.
+alphaTab 的又一次全新发布，主要聚焦于播放器的两个新功能。😎🎉
+想要将 alphaTab 与 YouTube 视频或音频录音集成？现在你可以了。
 
-### Player
+### 播放器
 
-#### External Cursor API
+#### 外部光标 API
 
 https://github.com/CoderLine/alphaTab/issues/1961
 
 <video src='/img/landing/audio.mp4' autoPlay={true} muted={true} loop={true} controls={false} style={{maxWidth: "100%"}} />
 
-This is the highlight feature of this release. It covers all extensions needed to synchronize the music sheet shown by alphaTab 
-with an external media like audio backing tracks and videos. 
+这是此版本的亮点功能。它涵盖了将 alphaTab 显示的乐谱
+与外部媒体（如音频伴奏和视频）同步所需的所有扩展。
 
-The foundation of this feature is a "sync point" system which configures any time differences between an external media and how
-alphaTab would play it precisely via the synthesizer. With this information configured, there are two options:
+此功能的基础是一个"同步点"系统，它配置了外部媒体与 alphaTab 通过合成器精确播放之间的任何时间差异。配置好此信息后，有两个选项：
 
-1. Pass in a supported audio file and let alphaTab handle the media control for you. 
-2. Provide a custom handler which receives calls from alphaTab, and provides to alphaTab any information to synchronize with the external media. 
-
-
-For 1. we also added support for Guitar Pro 8 Backing Tracks. alphaTab can use audio backing tracks embedded into Guitar Pro 8 files including the synchronization details. 
-With this alphaTab can play the integrated audio instead of using the synthesizer bringing an amazing sound experience to your music sheets. 
+1. 传入一个支持的音频文件，让 alphaTab 为你处理媒体控制。
+2. 提供一个自定义处理程序，接收来自 alphaTab 的调用，并向 alphaTab 提供与外部媒体同步所需的任何信息。
 
 
-For 2. you can control yourself what external media system is used instead of the synthesized audio. With the synchronization information provided 
-through the data model, you can supply custom logic to alphaTab telling it about the state of your media like whether it is playing and its current time.
-Via this system you can integrate with player like the YouTube iFrame API for which we even provide a small example. 
+对于 1.，我们还添加了对 Guitar Pro 8 伴奏音轨的支持。alphaTab 可以使用嵌入到 Guitar Pro 8 文件中的音频伴奏音轨，包括同步细节。
+这样，alphaTab 可以播放集成的音频，而不是使用合成器，为你的乐谱带来惊人的声音体验。
 
 
-Enrich your alphaTab music sheets with your own video or audio recordings or generated audio tracks using high quality sound synthesizers.
+对于 2.，你可以自己控制使用什么外部媒体系统，而不是使用合成音频。通过数据模型提供的同步信息，你可以向 alphaTab 提供自定义逻辑，告诉它媒体的状态，例如它是否正在播放以及当前时间。
+通过此系统，你可以与 YouTube iFrame API 等播放器集成，我们甚至为此提供了一个小示例。
+
+
+使用你自己的视频或音频录音或使用高质量声音合成器生成的音轨来丰富你的 alphaTab 乐谱。
 
 import { ExternalMediaSample } from '@site/src/components/ExternalMediaSample';
 
 <ExternalMediaSample showCode={false} />
 
-Use our new [Playground](/docs/playground/playground.mdx) with the Media Sync Editor to synchronize your external audio tracks or videos with your input files. 
+使用我们新的[游乐场](/docs/playground/playground.mdx)中的媒体同步编辑器来同步你的外部音轨或视频与输入文件。
 
-Dive deeper on this feature with our new guides: 
+通过我们的新指南深入了解此功能：
 
-* [Audio & Video Sync](/docs/guides/audio-video-sync.mdx)
-* [Media Sync Editor](/docs/guides/media-sync-editor.mdx)
+* [音频与视频同步](/docs/guides/audio-video-sync.mdx)
+* [媒体同步编辑器](/docs/guides/media-sync-editor.mdx)
 
-Under the hood we made various improvements to the cursor placement to ensure a smooth display and animation.
+在底层，我们对光标放置进行了各种改进，以确保平滑的显示和动画。
 
-#### Audio Export API
+#### 音频导出 API
 
-The second big feature in this release is the possibility to obtain the raw audio data alphaTab synthesizes with its internal player, allowing 
-you to build new features like "Export Audio" options or feeding the audio into other media systems. 
+此版本中的第二个大功能是获取 alphaTab 使用其内部播放器合成的原始音频数据的可能性，允许你构建"导出音频"等新功能，或将音频输入到其他媒体系统中。
 
-Unfortunately there is not much to show visually, but to learn more about this feature head to [the related feature guide](/docs/guides/audio-export.mdx).
+不幸的是，视觉上没有太多可展示的，但要了解更多关于此功能的信息，请前往[相关功能指南](/docs/guides/audio-export.mdx)。
 
-With the raw audio available in a new asynchronous streaming API, you can pull individual chunks of audio for custom processing. 
+通过新的异步流式 API，原始音频可用，你可以拉取单个音频块进行自定义处理。
 
-Build your own audio pipelines:
+构建你自己的音频管道：
 
-* Compress the audio by sending the samples into audio codecs (MP3, OGG Vorbis, whatever library you have) with keeping the memory usage low. 
-* Send the audio to any custom target. Let your users share parts of the song with others (live through web platform features like WebRTC) or by sending the audio to your server. 
-* Combine the audio samples of alphaTab with other systems like mixing it together with other audio, sending it through further audio processors or splitup the playback of separate tracks to separate output devices. 
+* 通过将样本发送到音频编解码器（MP3、OGG Vorbis，无论你有什么库）来压缩音频，同时保持较低的内存使用量。
+* 将音频发送到任何自定义目标。让你的用户与他人分享歌曲的部分内容（通过 WebRTC 等 Web 平台功能实时进行），或者将音频发送到你的服务器。
+* 将 alphaTab 的音频样本与其他系统组合，例如将其与其他音频混合，通过进一步的音频处理器发送，或将单独音轨的播放拆分到单独的输出设备。
 
-With the new audio export API you can obtain the audio as you need it. 
+通过新的音频导出 API，你可以按需获取音频。
 
-### Website
+### 网站
 
-#### Playground
+#### 游乐场
 
-In this release we added a [more advanced playground](/docs/playground/) to our website. 
-Long time ago we had a similar playground already but it didn't survive. Now was time to revive this feature
-allowing users to explore alphaTab more deeply before actually developing an app. 
+在此版本中，我们在网站上添加了一个[更高级的游乐场](/docs/playground/)。
+很久以前我们已经有类似的游乐场了，但它没有坚持下来。现在是时候恢复此功能了，
+允许用户在真正开发应用之前更深入地探索 alphaTab。
 
-The main trigger for the playground was to have a home for the new Media Sync Editor, but it felt 
-wrong to only build the editor and miss the opportunity to show the other alphaTab capabilities. 
+游乐场的主要触发点是新的媒体同步编辑器的归宿，但只构建编辑器而错过展示 alphaTab 其他功能的机会，感觉是不对的。
 
-The playground is really meant as such and it's main purpose is to explore the functional capabilities 
-of alphaTab. Some features are still missing but might come in future (like advanced coloring). 
-It is currently not the plan that this area becomes like an end-user app. There are other plans for that.  
+游乐场确实如其名，其主要目的是探索 alphaTab 的功能能力。
+一些功能仍然缺失，但可能会在未来出现（如高级着色）。
+目前没有这个区域会变成最终用户应用的计划。有其他计划。
 
-It complements the first demo on the homepage and we hope that it can also act as a bug reporting tool at some point.
+它补充了首页上的第一个演示，我们希望它也能在某个时候充当错误报告工具。
 
-**Settings**
+**设置**
 
-Most of the available settings can be changed via the settings side panel to explore.
+大多数可用设置可以通过设置侧面板进行更改以进行探索。
 
-![Settings](/img/release/v16/playground-settings.png)
+![设置](/img/release/v16/playground-settings.png)
 
-**Tracks**
+**音轨**
 
-The track selector also allows some more customizations to dynamically show/hide staves and transpose them. 
+音轨选择器还允许一些更多的自定义，以动态显示/隐藏谱表并对它们进行移调。
 
-![Tracks](/img/release/v16/playground-tracks.png)
+![音轨](/img/release/v16/playground-tracks.png)
 
 
-#### Media Sync Editor
+#### 媒体同步编辑器
 
-THe media sync editor is one of the highlight pieces from this release. It complements the new features to synchronize alphaTab 
-with external media like audio tracks or videos. It allows online editing of sync points for media synchronization and downloading of
-the synchronized file or code to synchronize the song within the app code. 
+媒体同步编辑器是此版本的亮点之一。它补充了将 alphaTab
+与外部媒体（如音轨或视频）同步的新功能。它允许在线编辑媒体同步的同步点，并下载同步后的文件或代码以在应用代码中同步歌曲。
 
-![Media Sync Editor](/img/release/v16/media-sync-editor.png)
+![媒体同步编辑器](/img/release/v16/media-sync-editor.png)
 
-It also offers synchronization with YouTube videos if you decide to integate with the YouTube iFrame API to synchronize alphaTab with online videos.
+如果你决定使用 YouTube iFrame API 将 alphaTab 与在线视频同步，它还提供与 YouTube 视频的同步。
 
-![Media Sync Editor YouTube](/img/release/v16/media-sync-editor-youtube.png)
+![媒体同步编辑器 YouTube](/img/release/v16/media-sync-editor-youtube.png)
 
-[Learn more about the editor here](/docs/guides/media-sync-editor.mdx)
+[在此了解更多关于编辑器的信息](/docs/guides/media-sync-editor.mdx)
 
-### Rendering
+### 渲染
 
-#### web: Allow customization of Web Font Sources
+#### Web：允许自定义 Web 字体源
 
 https://github.com/CoderLine/alphaTab/issues/2113
 https://github.com/CoderLine/alphaTab/discussions/2112
 https://github.com/CoderLine/alphaTab/pull/2114
 
-Historically alphaTab expected the Bravura font to be placed at a configurable URL, but with fixed file names and formats. 
-The [`fontDirectory`](/docs/reference/settings/core/fontdirectory.mdx) allowed changing the some base URL and path, but not more. 
+从历史上看，alphaTab 期望 Bravura 字体放置在一个可配置的 URL 上，但文件名和格式是固定的。
+[`fontDirectory`](/docs/reference/settings/core/fontdirectory.mdx) 允许更改一些基本 URL 和路径，但仅此而已。
 
-With this new feature, devs can now specify more precisely what formats and URLs should be used to load Web Fonts. 
+通过此新功能，开发者现在可以更精确地指定应使用什么格式和 URL 来加载 Web 字体。
 
-This also allows an easier use in more isolated environments where the fonts have to be embedded into the app itself.
-By using data or blob urls fonts can not be loaded through custom means and then passed to alphaTab for usage. 
+这也允许在更隔离的环境中更轻松地使用，其中字体必须嵌入到应用本身中。
+通过使用数据或 blob URL，字体可以通过自定义方式加载，然后传递给 alphaTab 使用。
 
-The [smuflFontSources](/docs/reference/settings/core/smuflfontsources/) option is also a first preparation to allow the use of alternative
-[SMuFL](https://www.smufl.org/) compliant fonts. 
+[smuflFontSources](/docs/reference/settings/core/smuflfontsources/) 选项也是允许使用替代 [SMuFL](https://www.smufl.org/) 兼容字体的第一个准备。
 
-Full support will come with [#1949](https://github.com/CoderLine/alphaTab/issues/1949) where we will add support of reading the required
-sizes, paddings and other metadata to really align symbols correctly. 
+完整支持将随 [#1949](https://github.com/CoderLine/alphaTab/issues/1949) 一起到来，届时我们将添加读取所需大小、填充和其他元数据的支持，以真正正确对齐符号。
 
-### Improvements & Bugfixes
+### 改进与错误修复
 
-#### player: Ensure synth stops voices when end is reached
+#### 播放器：确保合成器在到达末尾时停止声音
 
 https://github.com/CoderLine/alphaTab/pull/2080
 https://github.com/CoderLine/alphaTab/issues/2076
 https://github.com/CoderLine/alphaTab/issues/1803
 
-There was a problem in the synthesizer which caused it to "continue playing" even though it was supposed to stop. 
-Internally it can happen that voices stay active and produce audio samples (typically silence only). 
+合成器中存在一个问题，导致它"继续播放"，即使它应该停止。
+在内部，可能会发生声音保持活动并产生音频样本（通常只是静音）的情况。
 
-This fix ensures that alphaTab additionally requests a stop of these voices so that the playback fully stops. 
+此修复确保 alphaTab 额外请求停止这些声音，以便播放完全停止。
 
-In cases of count-in this could cause delays until the real audio started. 
-In cases where only a limited time range should be played this caused the player to continue.
+在预备拍的情况下，这可能导致实际音频开始前的延迟。
+在只应播放有限时间范围的情况下，这会导致播放器继续播放。
 
-#### kotlin: Android platform OutOfMemory crash
+#### Kotlin：Android 平台 OutOfMemory 崩溃
 
 https://github.com/CoderLine/alphaTab/pull/2085
 https://github.com/CoderLine/alphaTab/issues/1959
 
-We had some problematic list implementation on the Kotlin platform which was mainly causing 
-problems on the `Queue` datastructure we used in the area of the synthesizer. 
+我们在 Kotlin 平台上有一个有问题的列表实现，主要在我们用于合成器区域的 `Queue` 数据结构中引起问题。
 
-The `java.util.ArrayList.subList()` method in the Java platform behaved different than we expected. Instead of giving us a copy, 
-it created a `java.util.ArrayList$SubList` sharing the internal storage with the main list. If you then make modifications on the two lists separately,
-the lists can get corrupt. 
+Java 平台上的 `java.util.ArrayList.subList()` 方法的行为与我们预期的不同。它没有给我们一个副本，而是创建了一个与主列表共享内部存储的 `java.util.ArrayList$SubList`。如果你然后对两个列表分别进行修改，列表可能会损坏。
 
-The docs mention: 
+文档提到：
 
-> Returns a **view** of the portion of this list ... The semantics of the list returned by this method become undefined if the backing list 
-(i.e., this list) is structurally modified in any way other than via the returned list. 
+> 返回此列表一部分的**视图**...如果支持列表（即此列表）以除通过返回列表以外的任何方式进行结构修改，则此方法返回的列表的语义将变为未定义。
 
-We now avoid this problem by making proper copies of the ArrayList where needed.
+我们现在通过在需要的地方制作 ArrayList 的适当副本来避免此问题。
 
-#### musicxml: Allow empty direction-type
+#### musicxml：允许空 direction-type
 
 https://github.com/CoderLine/alphaTab/pull/2111
 https://github.com/CoderLine/alphaTab/issues/2102
 
-If the MusicXML spec is not followed, this can lead to wrong expectations in the MusicXML importer of alphaTab. 
-In this case MuseScore had a bug that it did not write a required child tag. Due to this we improved the MusicXML importer
-to handle such cases more gracefully. We now try to always check if certain tags and attributes are really there and try to mitigate
-any problems if the spec is not followed.
+如果未遵循 MusicXML 规范，这可能导致 alphaTab 的 MusicXML 导入器产生错误的预期。
+在这种情况下，MuseScore 有一个 bug，它没有写入必需的子标签。因此，我们改进了 MusicXML 导入器
+以更优雅地处理此类情况。我们现在尝试始终检查某些标签和属性是否确实存在，并尝试缓解
+如果未遵循规范可能产生的任何问题。
 
-#### api: Dynamic setting changes
+#### API：动态设置更改
 
 https://github.com/CoderLine/alphaTab/pull/2098
 
-While building the new playground for the website we noticed that some dynamic setting changes did not result in the expected behavior. 
-With these changes we now allow dynamic switching of all settings more gracefully. 
+在为网站构建新游乐场时，我们注意到某些动态设置更改未产生预期的行为。
+通过这些更改，我们现在允许更优雅地动态切换所有设置。
 
-e.g. switching from HTML5 to SVG and back could lead to problems that alphaTab stopped working. 
+例如，从 HTML5 切换到 SVG 再切换回来可能会导致 alphaTab 停止工作的问题。
 
-#### vue: Unwrap Vue Proxies when possible
+#### Vue：尽可能解包 Vue 代理
 
 https://github.com/CoderLine/alphaTab/issues/2097
 https://github.com/CoderLine/alphaTab/pull/2132
 
-The reactivity system of Vue wraps all objects into proxies. When using alphaTab in such a setup, 
-you always needed to call [`toRaw`](https://vuejs.org/api/reactivity-advanced#toraw) to avoid proxies
-being passed to areas where they lead to problems.
+Vue 的响应式系统将所有对象包装成代理。在这样的设置中使用 alphaTab 时，
+你总是需要调用 [`toRaw`](https://vuejs.org/api/reactivity-advanced#toraw) 以避免代理
+被传递到会导致问题的区域。
 
-With these changes we try to unwrap the proxies for Vue automatically where needed, avoiding problems when 
-sending objects to workers.
+通过这些更改，我们尝试在需要的地方自动解包 Vue 的代理，避免将对象发送到工作者时出现问题。
 
-On the web platform `alphaTab.Environment.prepareForPostMessage` can be replaced if a custom mechanism for another framework is needed. 
-e.g. for Solidjs a call to `unwrap` would be needed.
+在 Web 平台上，如果需要为另一个框架使用自定义机制，可以替换 `alphaTab.Environment.prepareForPostMessage`。
+例如，对于 Solidjs，需要调用 `unwrap`。
 
-#### platform: Electron and Obsidian compatibility
+#### 平台：Electron 和 Obsidian 兼容性
 
 https://github.com/CoderLine/alphaTab/discussions/1933
 https://github.com/CoderLine/alphaTab/issues/2151
 https://github.com/CoderLine/alphaTab/pull/2152
 
-Electron injects some globals into the renderer process (browser) which are normally only available in Node.js.
-Due to this alphaTab wrongly detected the environment as Node.js and blocked the use of `AlphaTabApi`. 
+Electron 向渲染器进程（浏览器）注入了一些全局变量，这些变量通常只在 Node.js 中可用。
+因此，alphaTab 错误地将环境检测为 Node.js，并阻止了 `AlphaTabApi` 的使用。
 
-With the improvements done here, we now better detect if we're running in a browser window allowing easier usage in Electron apps. 
-
+通过此处完成的改进，我们现在更好地检测是否在浏览器窗口中运行，允许在 Electron 应用中更轻松地使用。

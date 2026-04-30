@@ -2,45 +2,44 @@
 title: v1.0
 ---
 
-It is time! 🎉🎵 
+时候到了！🎉🎵 
 
-After almost exactly 10 years alphaTab has really reached the maturity to ship 
-a stable release 1.0.0. Contains all the good things of alphaTab that riped over the last 10 years.
+经过近 10 年的时间，alphaTab 终于达到了发布稳定版本 1.0.0 的成熟度。包含了 alphaTab 在过去 10 年中积累的所有好东西。
 
-This means: 
+这意味着：
 
-- [File Formats] Support for Guitar Pro 3-5 Files (Binary Format)
-- [File Formats] Support for Guitar Pro 6 Files (Proprietary Container)
-- [File Formats] Support for Guitar Pro 7 Files (Zip)
-- [File Formats] Support for alphaTex an own text based format for writing music notation
-- [File Formats] Basic Support of MusicXML
+- [文件格式] 支持 Guitar Pro 3-5 文件（二进制格式）
+- [文件格式] 支持 Guitar Pro 6 文件（专有容器）
+- [文件格式] 支持 Guitar Pro 7 文件（Zip）
+- [文件格式] 支持 alphaTex，一种用于编写音乐记谱的自有文本格式
+- [文件格式] 基本支持 MusicXML
 <br/>
 
-- [Data Model] A huge bunch of effects and annotations that can be applied to notes and beats. 
+- [数据模型] 可以应用于音符和节拍的大量效果和注释。
 <br/>
 
-- [Rendering] Rendering of Standard Music Notation
-- [Rendering] Rendering of Guitar Tablatures
-- [Rendering] Rendering of Drum Tabs
-- [Rendering] Rendering of multiple staves (Grand Staff)
-- [Rendering] Rendering of multiple Voices 
-- [Rendering] Rendering of multiple Tracks at the same time
-- [Rendering] Responsive rendering when resizing 
+- [渲染] 标准音乐记谱的渲染
+- [渲染] 吉他制表谱的渲染
+- [渲染] 鼓制表谱的渲染
+- [渲染] 多个谱表的渲染（大谱表）
+- [渲染] 多个声部的渲染
+- [渲染] 同时渲染多个音轨
+- [渲染] 调整大小时响应式渲染
 <br/>
 
-- [Audio] Audio playback via a built-in SoundFont2 Synthesizer
-- [Audio] Live Cursor display durign playback
+- [音频] 通过内置 SoundFont2 合成器进行音频播放
+- [音频] 播放期间的实时光标显示
 <br/>
 
-- [SDK] A developer friendly API to interact with alphaTab
+- [SDK] 与 alphaTab 交互的开发者友好 API
 <br/>
 
-- [JS] Live Note Highlighting during Playback
-- [JS] HTML5 Rendering Backend
-- [JS] SVG Rendering Backend
+- [JS] 播放期间的实时音符高亮
+- [JS] HTML5 渲染后端
+- [JS] SVG 渲染后端
 <br/>
 
-- [C#] GDI+ Rendering Backend
-- [C#] SkiaSharp Rendering Backend
-- [C#] WPF Control
-- [C#] WinForms Control
+- [C#] GDI+ 渲染后端
+- [C#] SkiaSharp 渲染后端
+- [C#] WPF 控件
+- [C#] WinForms 控件
