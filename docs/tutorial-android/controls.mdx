@@ -1,31 +1,30 @@
 ---
-title: More Controls
+title: 更多控件
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-In the following steps of the tutorial we will add some basic controls for the end users which 
-will allow them to:
+在教程的以下步骤中，我们将为最终用户添加一些基本控件，
+让他们能够：
 
-* Enable/Disable the count-in
-* Enable/Disable the metronome
-* Enable/Disable the looping
-* Change the zoom level 
-* Change the layout of the music sheet
+* 启用/禁用预备拍
+* 启用/禁用节拍器
+* 启用/禁用循环播放
+* 更改缩放级别
+* 更改乐谱布局
 
-The implementation will follow the same principle for all controls:
+所有控件的实现都遵循相同的原则：
 
-1. We add the UI to the popup
-2. We add new properties to the viewmodel.
-3. We add event listeners to the UI and interact with the viewmodel.
-4. In the activity we listen to the viewmodel values and map them to the alphaTab API object
+1. 将 UI 添加到弹窗中
+2. 向 ViewModel 添加新属性
+3. 为 UI 添加事件监听器并与 ViewModel 交互
+4. 在 Activity 中监听 ViewModel 的值，并将其映射到 alphaTab API 对象
 
-## Toggle Control Style
+## 切换控件样式
 
-For the toggle controls we will add a small helper which will change the colors of the icon and text according to the 
-check state. This code should not act as a reference how to properly style controls in android but is rather 
-a simplistic approach for this tutorial.
+对于切换控件，我们将添加一个小型辅助函数，根据选中状态更改图标和文本的颜色。
+这段代码不应作为 Android 中控件正确样式的参考，而只是本教程的一种简化方法。
 
 <Tabs
   defaultValue="colors"
@@ -36,7 +35,7 @@ a simplistic approach for this tutorial.
 }>
 <TabItem value="colors">
 
-In this file we add some new colors for our buttons which will toggle some features in an on/off fashion.
+在此文件中，我们为按钮添加一些新颜色，用于以开/关方式切换某些功能。
 
 ```xml
 <color name="checkedIconColor">#FF436d9d</color>
@@ -48,7 +47,7 @@ In this file we add some new colors for our buttons which will toggle some featu
 
 <TabItem value="ControlsPopupWindow">
 
-This helper takes care of handling the toggle button initializations and coloring.
+此辅助函数负责处理切换按钮的初始化和着色。
 
 ```kotlin
 private fun initToggle(
@@ -77,10 +76,10 @@ private fun updateToggleColors(buttonView: MaterialButton, isChecked: Boolean) {
 </TabItem>
 </Tabs>
 
-## Count-In
+## 预备拍
 
-The count-in will become relevant when we activate the player in the next step, but we
-can already create the control which will set the count-in volume based on the toggle button state. 
+预备拍将在下一步激活播放器时变得相关，但我们
+已经可以创建控件，根据切换按钮状态设置预备拍音量。
 
 <Tabs
   defaultValue="popup_controls"
@@ -146,10 +145,10 @@ override fun onCreate(savedInstanceState: Bundle?) {
 </TabItem>
 </Tabs>
 
-## Metronome
+## 节拍器
 
-The metronome will become relevant when we activate the player in the next step, but we
-can already create the control which will set the metronome volume based on the toggle button state. 
+节拍器将在下一步激活播放器时变得相关，但我们
+已经可以创建控件，根据切换按钮状态设置节拍器音量。
 
 <Tabs
   defaultValue="popup_controls"
@@ -214,9 +213,9 @@ override fun onCreate(savedInstanceState: Bundle?) {
 </TabItem>
 </Tabs>
 
-## Looping
+## 循环播放
 
-Again nothing new here, rinse and repeat to extend the UI and map the UI state ultimately to the API object:
+这里没有什么新内容，依样画葫芦扩展 UI，最终将 UI 状态映射到 API 对象：
 
 <Tabs
   defaultValue="popup_controls"
@@ -281,10 +280,10 @@ override fun onCreate(savedInstanceState: Bundle?) {
 </TabItem>
 </Tabs>
 
-## Zoom
+## 缩放
 
-As alphaTab can change the scale in which the music sheet is rendered, we offer the user
-a [popup menu](https://developer.android.com/develop/ui/views/components/menus#PopupMenu) to change this scale.
+由于 alphaTab 可以更改乐谱渲染的缩放比例，我们为用户提供一个
+[弹出菜单](https://developer.android.com/develop/ui/views/components/menus#PopupMenu) 来更改此比例。
 
 
 <Tabs
@@ -339,8 +338,8 @@ class MainViewModel  : ViewModel() {
 </TabItem>
 <TabItem value="ControlsPopupWindow">
 
-Here create a popup menu and inflate the pre-created menu items into it.
-As we know we labeled all menu items with `<percentage>%` we can derive the zoom level from the label.
+这里创建一个弹出菜单，并将预先创建的菜单项填充到其中。
+由于我们知道所有菜单项都标记为 `<percentage>%`，因此可以从标签中推导出缩放级别。
 
 ```kotlin
     init {
@@ -372,9 +371,9 @@ As we know we labeled all menu items with `<percentage>%` we can derive the zoom
 </TabItem>
 <TabItem value="MainActivity">
 
-Updating the zoom level is a bit more effort than the previous tasks but still not very complicated:  
-First we fill the settings with the new scale. Then we tell alphaTab to read this updated settings 
-and re-render the music sheet.
+更新缩放级别比前面的任务稍微复杂一点，但仍然不算太难：
+首先，我们用新的缩放比例填充设置。然后我们告诉 alphaTab 读取更新后的设置
+并重新渲染乐谱。
 
 
 ```kotlin
@@ -393,14 +392,13 @@ and re-render the music sheet.
 </TabItem>
 </Tabs>
 
-## Layout
+## 布局
 
-alphaTab can either render the music sheet in a page-like fashion that grows from top to bottom
-along the available width. Or it can show the music sheet in a horizontal scrolling fashion. 
+alphaTab 可以以类似页面的方式渲染乐谱，沿着可用宽度从上到下增长。
+或者它可以以水平滚动的方式显示乐谱。
 
-These options are also offered to the user via another popup menu. To actually apply the user selection 
-we will again just fill the user input into the settings object and trigger an update just like for 
-the zoom level: 
+这些选项也通过另一个弹出菜单提供给用户。为了实际应用用户的选择，
+我们将再次把用户输入填充到设置对象中，并像缩放级别一样触发更新：
 
 
 <Tabs
@@ -451,8 +449,8 @@ class MainViewModel  : ViewModel() {
 </TabItem>
 <TabItem value="ControlsPopupWindow">
 
-Similar to the zoom level we use the PopupMenu and inflate the menu from the resource into it. 
-To get the right alphaTab layout mode we match again against the labels.
+与缩放级别类似，我们使用 PopupMenu 并将资源中的菜单填充到其中。
+为了获取正确的 alphaTab 布局模式，我们再次根据标签进行匹配。
 
 ```kotlin
     init {
@@ -486,7 +484,7 @@ To get the right alphaTab layout mode we match again against the labels.
 </TabItem>
 <TabItem value="MainActivity">
 
-Changing the layout is again similar to the zoom level. Changing the setting, refreshing the settings state inside alphaTab and trigger a render.
+更改布局再次类似于缩放级别。更改设置，刷新 alphaTab 内部的设置状态，并触发渲染。
 
 ```kotlin
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -504,19 +502,19 @@ Changing the layout is again similar to the zoom level. Changing the setting, re
 </TabItem>
 </Tabs>
 
-## Result
+## 结果
 
-That was already it. As you can see now, it is typically the same task over and over to extend your app with new functionalities. 
-The biggest complexity is to identify how you want to build your UI towards your user. Using your Android development expertise
-you give the user options to change the settings as desired. After that is "only" understanding how to tell alphaTab how to respect those settings.
-Often the idea for new features start in the [Settings](https://www.alphatab.net/docs/reference/settings) and [API](https://www.alphatab.net/docs/reference/api) reference to 
-see what functionalities are offered. 
+就是这样了。正如你现在所看到的，为应用扩展新功能通常是一遍又一遍的相同任务。
+最大的复杂性在于确定如何为用户构建 UI。利用你的 Android 开发专业知识，
+让用户可以按需要更改设置。之后，"只是"理解如何告诉 alphaTab 遵循这些设置。
+新功能的灵感通常始于 [设置](https://www.alphatab.net/docs/reference/settings) 和 [API](https://www.alphatab.net/docs/reference/api) 参考文档，
+以了解提供了哪些功能。
 
 <img src="/img/tutorial-android/popup-controls.png" width="300" />
 <img src="/img/tutorial-android/popup-changed-controls.png" width="300" />
 <img src="/img/tutorial-android/changed-layout.png" width="300" />
 
-## Final Files
+## 最终文件
 
 <Tabs
   defaultValue="activity_main"

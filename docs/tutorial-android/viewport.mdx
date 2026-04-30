@@ -1,14 +1,13 @@
 ---
-title: Main Viewport
+title: 主视口
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-## Basic setup
+## 基础设置
 
-As our application will grow in this tutorial with new UI elements, we already prepare
-the rough structure according to the final solution. 
+随着本教程的推进，我们的应用将不断加入新的 UI 元素，因此我们按照最终方案预先搭建好大致的结构。
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -89,37 +88,36 @@ the rough structure according to the final solution.
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-You can already see a bit the structure of the control. 
-This step is not really specific to alphaTab but important to understand from a structural perspective. 
-We are building a layout with main viewport and a bottom toolbar. The bottom bar will hold information and main media controls.
+你已经可以看到控件的结构了。
+这一步并不特定于 alphaTab，但从结构角度理解它很重要。
+我们正在构建一个带有主视口和底部工具栏的布局。底部栏将显示信息和主要的媒体控制按钮。
 
-Further controls and the track selection we will open in an overlay/popup when a user taps on the song information.
+其他控件和音轨选择将在用户点击歌曲信息时以覆盖层/弹窗的形式打开。
 
-For your project your development and design skills will be be needed to structure the elements right. 
+对于你的项目，你需要运用开发和设计技能来正确地组织这些元素。
 
 :::tip
 
-Icons can be added to your project via right-click on the `res` folder > New > Vector Asset
+你可以通过右键点击 `res` 文件夹 > New > Vector Asset 来将图标添加到你的项目中。
 
 :::
 
-The result will looks like this: 
+结果看起来是这样的：
 
 <img src="/img/tutorial-android/viewport1.png" height="400" />
 
 
 :::note
 
-From now on the tutorial might only list small code snippets depending on the changes added to the component. 
-The final file with all changes applied, will be added at the bottom of each tutorial section.
+从现在开始，根据对组件所做的更改，本教程可能只列出小的代码片段。
+每个教程部分的底部都会附上应用了所有更改的最终文件。
 
 :::
 
 
-## Initialize alphaTab
+## 初始化 alphaTab
 
-Now let's finally bring alphaTab into the game. We add an alphaTab control to the 
-viewport. For now we will open a file picker when the user taps the song info.
+现在让我们终于把 alphaTab 引入进来。我们在视口中添加一个 alphaTab 控件。目前，当用户点击歌曲信息时，我们会打开一个文件选择器。
 
 <Tabs
   defaultValue="xml"
@@ -130,7 +128,7 @@ viewport. For now we will open a file picker when the user taps the song info.
 }>
 <TabItem value="xml">
 
-We replace the `TextView` with a `alphaTab.AlphaTabView`. 
+我们将 `TextView` 替换为 `alphaTab.AlphaTabView`。
 
 ```xml
 <alphaTab.AlphaTabView
@@ -146,11 +144,11 @@ We replace the `TextView` with a `alphaTab.AlphaTabView`.
 </TabItem>
 <TabItem value="kotlin">
 
-* First we load references to our views with `findViewById`. 
-* Then we hook up a click listener to the info control to spawn a file selector via `ActivityResultContracts.OpenDocument()`.
-* When a file is opened we first read it into memory.
-* With the raw file data available we use the [`ScoreLoader`](/docs/guides/lowlevel-apis#loading-files-via-scoreloader) to load a score from the file.
-* With the `Score` loaded we pass it into the UI to be displayed. 
+* 首先，我们使用 `findViewById` 加载对视图的引用。
+* 然后，我们为信息控件添加点击监听器，通过 `ActivityResultContracts.OpenDocument()` 启动文件选择器。
+* 当文件被打开时，我们首先将其读入内存。
+* 获取到原始文件数据后，我们使用 [`ScoreLoader`](/docs/guides/lowlevel-apis#loading-files-via-scoreloader) 从文件中加载乐谱。
+* 加载好 `Score` 后，我们将其传递给 UI 进行显示。
 
 ```kotlin
 package net.alphatab.tutorial.android
@@ -238,17 +236,17 @@ class MainActivity : AppCompatActivity() {
 </TabItem>
 </Tabs>
 
-## Result
+## 结果
 
-With this code we can launch the app and open a test file. Test files can be added to the simulator via drag&drop onto the simulator screen. 
-When running debug versions of your app the opening can be quite slow, to experience the real performace deploy a release version and test it. 
+使用这段代码，我们可以启动应用并打开一个测试文件。可以通过将文件拖放到模拟器屏幕上来将测试文件添加到模拟器中。
+在运行应用的调试版本时，打开文件可能会相当慢，要体验真实性能，请部署发布版本并进行测试。
 
 <img src="/img/tutorial-android/viewport2-launched.png" width="300" />
 <img src="/img/tutorial-android/select-file.png" width="300" />
 <img src="/img/tutorial-android/file-opened.png" width="300" />
 
 
-## Final Files
+## 最终文件
 
 <Tabs
   defaultValue="xml"

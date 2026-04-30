@@ -1,32 +1,31 @@
 ---
-title: Player
+title: 播放器
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-## Basic setup
+## 基础设置
 
-Now as we have the basic component ready, it is time to add some sound. 
-AlphaTab comes with an audio synthesis engine named AlphaSynth to play the songs
-via Midi and a SoundFont2 file. 
+现在基础组件已经准备就绪，是时候添加声音了。
+AlphaTab 内置了一个名为 AlphaSynth 的音频合成引擎，可以通过 Midi 和 SoundFont2 文件播放乐曲。
 
-To get the player configured is also quite easy as it is enabled by default in the main control. 
-alphaTab ships a free SoundFont2 file for usage on your website and it is already loaded by default.
-You can choose to load a different one using the [`loadSoundFont`](/docs/reference/api/loadsoundfont) method.
+播放器的配置也非常简单，因为它在主控件中默认就是启用的。
+alphaTab 附带了一个免费的 SoundFont2 文件，默认已经加载好了，可以直接在你的网站上使用。
+你也可以使用 [`loadSoundFont`](/docs/reference/api/loadsoundfont) 方法加载不同的 SoundFont。
 
-We just need to add some UI elements for the user to start/pause the playback and show the current position.
+我们只需要添加一些 UI 元素，让用户可以开始/暂停播放并显示当前播放位置。
 
 
- ## Main player controls
+ ## 主播放器控件
 
-Now we need to add the required controls for the users to play and pause the audio. 
-We will add one button for play/pause which will change the icon depending on the current playback state. The placeholder we already prepared earlier.
+现在我们需要添加用户播放和暂停音频所需的控件。
+我们将添加一个播放/暂停按钮，它会根据当前播放状态改变图标。这个占位符我们之前已经准备好了。
 
-We will use the [`playPause()`](/docs/reference/api/playpause) and [`stop()`](/docs/reference/api/stop) to send the right signals to alphaTab and we use the 
-[`playerStateChanged`](/docs/reference/api/playerstatechanged) event to update the button icon. To ensure that the user does not interact with the player
-before it is ready, we will keep the play button hidden until the player is ready. 
+我们将使用 [`playPause()`](/docs/reference/api/playpause) 和 [`stop()`](/docs/reference/api/stop) 向 alphaTab 发送正确的信号，并使用
+[`playerStateChanged`](/docs/reference/api/playerstatechanged) 事件来更新按钮图标。为了确保用户在播放器准备好之前不会与之交互，
+我们将保持播放按钮隐藏，直到播放器准备就绪。
 
 <Tabs
   defaultValue="activity_main"
@@ -37,7 +36,7 @@ before it is ready, we will keep the play button hidden until the player is read
 }>
 <TabItem value="activity_main">
 
-We adjust the button slightly to be invisible on start.
+我们将按钮稍作调整，使其在开始时不可见。
 
 ```xml
 ...
@@ -56,7 +55,7 @@ We adjust the button slightly to be invisible on start.
 </TabItem>
 <TabItem value="MainActivity">
 
-In the main activity we set up the click to start/pause playback and listen to the state change to change the icon and show the button.
+在主活动中，我们设置点击事件来开始/暂停播放，并监听状态变化以更改图标和显示按钮。
 
 ```kotlin
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,19 +77,18 @@ In the main activity we set up the click to start/pause playback and listen to t
 </TabItem>
 </Tabs>
 
-The result looks like this: 
+结果看起来是这样的：
 
 <img src="/img/tutorial-android/play-invisible.png" width="300" />
 <img src="/img/tutorial-android/playing.png" width="300" />
 
-## Showing the current time
+## 显示当前时间
 
-In this step we will add a textual indicator the current position of the playback. 
-You might use the provided information to also build a progress bar indicator for the users
-which could be even interactive with seeking. This tutorial will skip this part. 
+在这一步中，我们将添加一个文本指示器来显示播放的当前位置。
+你可以利用提供的信息为用户构建一个进度条指示器，甚至可以支持拖动定位。本教程将跳过这一部分。
 
-As in most other steps we will add some new UI elements and hook it up with information from alphaTab.
-In this case the alphaTab event `playerPositionChanged` provides the necessary data.
+与大多数其他步骤一样，我们将添加一些新的 UI 元素，并将其与 alphaTab 提供的信息连接起来。
+在这种情况下，alphaTab 的 `playerPositionChanged` 事件提供了必要的数据。
 
 <Tabs
   defaultValue="activity_main"
@@ -101,7 +99,7 @@ In this case the alphaTab event `playerPositionChanged` provides the necessary d
 }>
 <TabItem value="activity_main">
 
-We adjust the button slightly to be invisible on start.
+我们将按钮稍作调整，使其在开始时不可见。
 
 ```xml
 <LinearLayout
@@ -124,7 +122,7 @@ We adjust the button slightly to be invisible on start.
 </TabItem>
 <TabItem value="MainActivity">
 
-In the main activity we set up the click to start/pause playback and listen to the state change to change the icon and show the button.
+在主活动中，我们设置点击事件来开始/暂停播放，并监听状态变化以更改图标和显示按钮。
 
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,11 +152,11 @@ override fun onCreate(savedInstanceState: Bundle?) {
 </TabItem>
 </Tabs>
 
-The result looks like this: 
+结果看起来是这样的：
 
 <img src="/img/tutorial-android/time-indicator.png" width="300" />
 
-## Final Files
+## 最终文件
 
 <Tabs
   defaultValue="activity_main"
