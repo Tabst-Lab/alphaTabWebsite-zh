@@ -1,169 +1,168 @@
 ---
-title: Data Model
+title: 数据模型
 ---
 
-The core of alphaTab is the data model. It contains all the information about a music piece like the title, author, instruments contained down to the 
-individual notes and their effects. 
+alphaTab 的核心是数据模型。它包含了一首音乐作品的所有信息，从标题、作者、包含的乐器，一直到
+各个音符及其效果。
 
-Everything in alphaTab is built around this data model: 
+alphaTab 中的一切都是围绕这个数据模型构建的：
 
-- Importers fill them from the supported file formats
-- The ScoreRenderer generates a visual tree with glyphs to render the notes
-- The MidiFileGenerator produces a MidiFile from the notes for audio playback. 
+- 导入器从支持的文件格式中填充数据
+- 乐谱渲染器（ScoreRenderer）生成一个包含音符渲染符号的视觉树
+- MIDI 文件生成器（MidiFileGenerator）从音符生成 MIDI 文件以用于音频播放。
 
-The data model of alphaTab tries to avoid storing any **visual** information. It is a semantic description of the music sheet on which tracks, bars, notes etc. exist 
-and what effects they have. 
+alphaTab 的数据模型尽量避免存储任何**视觉**信息。它是一个语义化的乐谱描述，说明了哪些音轨、小节、音符等存在
+以及它们具有什么效果。
 
-This documentation will not go through all the individual properties of the data model but rather describe the rough structure and where to find what. 
-We recommend to have a look at the code documentation (TS doc, XML doc). 
+本文档不会详细介绍数据模型的所有单个属性，而是描述大致结构以及在哪里可以找到什么。
+我们建议查看代码文档（TS doc、XML doc）。
 
-Direct modification of this data model is usually not easily possible. The importers do the complicated job there to build the right structure and wrap-up 
-the consistency of the model. While some modifications might be possible and are reflected after a re-rendering, others might fully break the rendering pipeline 
-due to the inconsistencies or unexpected values. 
+直接修改此数据模型通常并不容易。导入器负责构建正确的结构并确保
+模型的一致性，这是一项复杂的工作。虽然某些修改可能是可行的，并且在重新渲染后会反映出来，但其他修改可能会由于不一致或意外的值而完全破坏渲染流程。
 
-## Main Hierarchy
+## 主要层级结构
 
-The main hierarchy of alphaTab starts of with the `alphaTab.model.Score` class. From there a hierarchical structure is going down to the indivdual note:
+alphaTab 的主要层级结构从 `alphaTab.model.Score` 类开始。从那里开始，层级结构向下延伸到单个音符：
 
 Score > Track > Staff > Bar > Voice > Beat > Note
 
-Some general facts about the data model: 
+关于数据模型的一些基本事实：
 
-* Each hierarchy level provides usually bidirectional navigation within the hierarchy. e.g. from a note you can navigate fully up to the score. 
-* Many hierarchy level provide a dual-linked-list mechanism to navigate back and forth in time. e.g. from a beat you can navigate to the next beat of the same voice and track. 
-* The score provides a `finish` method which consolidates many aspects of the data model like resolving tied notes, calculating times and linking elements.
+* 每个层级通常提供层级内的双向导航。例如，从一个音符你可以一直向上导航到乐谱（Score）。
+* 许多层级提供双向链表机制，以便在时间线上前后导航。例如，从一个节拍（Beat）你可以导航到同一声部（Voice）和音轨（Track）的下一个节拍。
+* 乐谱（Score）提供了一个 `finish` 方法，用于整合数据模型的许多方面，例如解决连音、计算时间和链接元素。
 
-### Score
+### Score（乐谱）
 
-The `Score` class contains some high-level information like the song title, artist, copyright holder and main tempo.
-It also contains a `stylesheet` property which is the only place in the data model where potentially some visual information is stored. 
-Some file formats like Guitar Pro give some additional hints on how to render the music sheet. 
+`Score` 类包含一些高级信息，如歌曲标题、艺术家、版权所有者和主要速度。
+它还包含一个 `stylesheet` 属性，这是数据模型中唯一可能存储一些视觉信息的地方。
+某些文件格式（如 Guitar Pro）会提供关于如何渲染乐谱的额外提示。
 
-**Example**
+**示例**
 
-A score is one whole file loaded (e.g. Guitar Pro or MusicXML) where all the individual instruments are inside. 
+乐谱是一个加载的完整文件（例如 Guitar Pro 或 MusicXML），其中包含所有单独的乐器。
 ![Score](/img/reference/score/score.png)
 
-### MasterBar (Score.masterBars)
+### MasterBar（主小节，Score.masterBars）
 
-The `MasterBar` items stored in `score.masterBars` contain information which is valid across all tracks for a particular bar or measure.
+存储在 `score.masterBars` 中的 `MasterBar` 项包含对特定小节（或拍子）的所有音轨都有效的信息。
 
-This includes information like time signatures, key signatures or repeats. alphaTab expects all bars of all tracks to follow the same 
-playback sequence. Pieces where maybe the first instrument is repeating the first bar 5 times while the second insturment is continuing. 
+这包括拍号、调号或重复等信息。alphaTab 期望所有音轨的所有小节都遵循相同的
+播放顺序。对于某些片段，可能第一个乐器重复第一小节 5 次，而第二个乐器继续演奏。
 
-This is needed to consistently align the music notation elements when rendering multiple tracks at the same time, or when handling the audio playback.
+这是为了在同时渲染多个音轨或处理音频播放时，能够一致地对齐音乐符号元素。
 
-**Example**
+**示例**
 
-When you have a music piece which has e.g. 5 bars (aka. measures) and 3 instruments, the master bar 1 describes the details about the first bar of all 3 instruments. 
+当你有一个音乐片段，例如有 5 个小节（又称拍子）和 3 种乐器时，主小节 1 描述了所有 3 种乐器的第一小节的详细信息。
 ![MasterBar](/img/reference/score/masterbar.png)
 
 
-### Track (Score.tracks)
+### Track（音轨，Score.tracks）
 
-A [`Track`](https://en.wikipedia.org/wiki/Part_(music)) (aka. Part) represents a single instrument of the overall music piece. Like the lead guitar or the drums. 
+一个 [`Track`](https://en.wikipedia.org/wiki/Part_(music))（又称声部）代表整个音乐作品中的一个单独乐器。例如主音吉他或鼓。
 
-The track has a name and defines some playback information via the `playbackInfo` property. 
-The `playbackInfo` of the track contains info like the midi channels and program used for playback. 
+音轨有一个名称，并通过 `playbackInfo` 属性定义一些播放信息。
+音轨的 `playbackInfo` 包含诸如用于播放的 MIDI 通道和音色程序等信息。
 
-The track contains on the next level the individual staves which contribute to the instrument. 
+音轨在下一层级包含构成该乐器的各个谱表（Staff）。
 
-**Example**
+**示例**
 
-When you have a song with vocals and guitar, the vocals are one track and the guitar is one track.
+当你有一首包含人声和吉他的歌曲时，人声是一个音轨，吉他是另一个音轨。
 ![Track](/img/reference/score/track.png)
 
-### Staff (Score.tracks[].staves)
+### Staff（谱表，Score.tracks[].staves）
 
-A [`Staff`](https://en.wikipedia.org/wiki/Staff_(music)) is the logical separation of the track into the individually played parts on the instrument. 
-Like on a piano two separate staves might indicate what notes to play on the left and right hand. 
+一个 [`Staff`](https://en.wikipedia.org/wiki/Staff_(music)) 是将音轨逻辑上划分为乐器上单独演奏部分的单位。
+例如在钢琴上，两个独立的谱表可能分别指示左右手要演奏的音符。
 
-This staff object in the data model must not be confused with a "visual" staff when the music sheet is rendered. 
-A single staff in the data model, might result in 2 visual staffs being rendered: one staff for the standard notation, a second staff for the guitar tabs. 
+数据模型中的这个谱表对象不应与乐谱渲染时的"视觉"谱表混淆。
+数据模型中的单个谱表，在渲染时可能会产生 2 个视觉谱表：一个用于标准记谱法，另一个用于吉他谱（Tab）。
 
-The staff is again just a container for the individual bars of the song. It contains some information about which visual staves to show or the string tuning for fretted instruments.
+谱表再次只是歌曲中各个小节的容器。它包含一些关于显示哪些视觉谱表或弦乐器的弦调音信息。
 
-**Example**
+**示例**
 
-In the following example you can see both kinds of staff representations visually. For the first track we have two individual staves in the data model.
-Each staff of the first track has own individual notes inside. 
-On the second track there is only one staff in the data model but still it is displayed as two visual staff representations. Both visual staves of the second
-track have the same notes, but just with a different display (standard notation or guitar tabs).
+在下面的示例中，你可以直观地看到两种谱表表示形式。对于第一个音轨，我们在数据模型中有两个独立的谱表。
+第一个音轨的每个谱表内部都有各自独立的音符。
+在第二个音轨中，数据模型中只有一个谱表，但它仍然显示为两个视觉谱表表示。第二个音轨的两个视觉谱表
+具有相同的音符，只是显示方式不同（标准记谱法或吉他谱）。
 ![Staff](/img/reference/score/staff.png)
 
-### Bar (Score.tracks[].staves[].bars)
+### Bar（小节，Score.tracks[].staves[].bars）
 
-A [`Bar`](https://en.wikipedia.org/wiki/Bar_(music)) (aka. measure) is another container to bring us closer to the individual notes.
-Bars split the staff into segments separated with vertical lines when rendered. 
+一个 [`Bar`](https://en.wikipedia.org/wiki/Bar_(music))（又称拍子）是另一个容器，让我们更接近单个音符。
+小节在渲染时将谱表分割成由垂直线分隔的段落。
 
-The bar itself defines some basics like the clef shown or if simile marks indicate a repeats. The list of bars is ordered in the timewise / indexed fashion.
+小节本身定义了一些基本内容，例如显示的谱号，或者反复记号（simile marks）是否表示重复。小节列表按时间顺序/索引排序。
 
-The bars contain voices as a next level. 
+小节在下一层级包含声部（Voice）。
 
-**Example**
+**示例**
 ![Bar](/img/reference/score/bar.png)
 
 
-### Voice (Score.tracks[].staves[].voices[])
+### Voice（声部，Score.tracks[].staves[].voices[]）
 
-A [`Voice`](https://en.wikipedia.org/wiki/Voicing_(music)) allows to have multiple independent notes placed within the same bar indicating the simultaneous playing of them with different duration.
+一个 [`Voice`](https://en.wikipedia.org/wiki/Voicing_(music)) 允许在同一小节内放置多个独立的音符，表示以不同时值同时演奏它们。
 
-The voice is again just a container for the individual beats played in it. Multiple voices are usually only used for certain types of instruments where 
-this kind of display and play type is possible and common. It is similar to the concept of multiple staves. Voices can also be seen as multiple staves squashed
-into one. 
+声部再次只是其中演奏的各个节拍的容器。多个声部通常仅用于某些类型的乐器，在这些乐器上
+这种显示和演奏方式是可能且常见的。它类似于多谱表的概念。声部也可以看作是多个谱表压缩
+成一个。
 
-This list is ordered in the fashion that the first item is the primary voice, and others are considered additional ones.
+此列表按顺序排列，第一项是主声部，其他项被视为附加声部。
 
-**Example**
+**示例**
 
-By default alphaTab renders the primary voices fully black and additional voices as semi transparent.
+默认情况下，alphaTab 将主声部渲染为完全不透明，附加声部渲染为半透明。
 ![Voice](/img/reference/score/voices.png)
 
-### Beat (Score.tracks[].staves[].voices[].beats)
+### Beat（节拍，Score.tracks[].staves[].voices[].beats）
 
-A [`Beat`](https://en.wikipedia.org/wiki/Chord_(music)) (aka. Chord) group multiple notes played at the same time with the same length. 
+一个 [`Beat`](https://en.wikipedia.org/wiki/Chord_(music))（又称和弦）将同时演奏且具有相同时值的多个音符组合在一起。
 
-This is the first level here we have a bit more information about the actual music notation like: the durations, tuplets, lyrics, whammy bar effects, chord diagrams, grace notes, etc. 
-This list is ordered in a timewise fashion from left to right. 
+这是第一个我们拥有更多关于实际音乐符号信息的层级，例如：时值、连音、歌词、摇把效果、和弦图、装饰音等。
+此列表按时间顺序从左到右排列。
 
-The notes will ultimately contain the individual notes. 
+音符最终将包含单个音符。
 
-**Example**
+**示例**
 ![Beat](/img/reference/score/beats.png)
 
-### Note (Score.tracks[].staves[].voices[].beats[].notes)
+### Note（音符，Score.tracks[].staves[].voices[].beats[].notes）
 
-A [`Note`](https://en.wikipedia.org/wiki/Note_(music)) represents a single musical sound played by the instrument. 
+一个 [`Note`](https://en.wikipedia.org/wiki/Note_(music)) 代表乐器演奏的单个音乐声音。
 
-In alphaTab there can be 3 types of notes: 
+在 alphaTab 中，音符可以有 3 种类型：
 
-1. Fretted notes where the note pitch is determined by combining the string tuning of the staff, and the fret played on a particular string of the instrument. 
-2. Piano notes where the note pitch is determined by combining an octave and the tone within this octave. 
-3. Percussion notes where the a combination of the percussion element and a variation indicate what to play.
+1. 品丝音符（Fretted notes），其音高由谱表的弦调音和乐器特定弦上按下的品丝共同决定。
+2. 钢琴音符（Piano notes），其音高由八度音和该八度音内的音调共同决定。
+3. 打击乐音符（Percussion notes），由打击乐元素和变体的组合指示要演奏什么。
 
-The note list is not ordered in any particular fashion.
+音符列表没有特定的排序。
 
-Notes have a huge set of annotations and effects which can influence the display and playback like: 
+音符具有大量可以影响显示和播放的注释和效果，例如：
 
-* Hammer-Ons/Pull-Offs
-* Harmonics
-* Accentuations
-* Bends
-* Palm Mutes / Let Rings
-* Slides
-* and much more...
+* 击弦（Hammer-Ons）/ 勾弦（Pull-Offs）
+* 泛音（Harmonics）
+* 重音（Accentuations）
+* 推弦（Bends）
+* 手掌闷音（Palm Mutes）/ 延音（Let Rings）
+* 滑音（Slides）
+* 以及更多...
 
-**Example**
+**示例**
 ![Notes](/img/reference/score/notes.png)
 
 
-## Stylesheet
+## Stylesheet（样式表）
 
-alphaTab is moving gradually to a stylesheet based configuration of how music sheets should be displayed. Many file formats provide options on what to display and how and alphaTab tries to respect this information.
-The related settings are accessible via `Score.stylesheet`.
+alphaTab 正逐步转向基于样式表的乐谱显示配置。许多文件格式提供关于显示内容和显示方式的选项，alphaTab 尝试尊重这些信息。
+相关设置可通过 `Score.stylesheet` 访问。
 
-The `Settings` related to display will me merged over time into the stylesheet. We envision to define a default stylesheet and overrides on `Settings` level.
+与显示相关的 `Settings` 将随着时间的推移合并到样式表中。我们设想定义一个默认样式表，并在 `Settings` 级别进行覆盖。
 
-The stylesheet doesn't have yet a reference documentation pages here hence the documentation on code level is the best reference:
+样式表目前还没有专门的参考文档页面，因此代码级别的文档是最佳参考：
 
 https://github.com/CoderLine/alphaTab/blob/develop/src/model/RenderStylesheet.ts
