@@ -1,54 +1,53 @@
 ---
 title: MusicXML (.musicxml)
-description: The open file format format for exchanging music notation. 
+description: 用于交换音乐记谱的开放文件格式。
 ---
 
-## Introduction 
+## 简介
 
-> The standard open format for exchanging digital sheet music.
+> 交换数字乐谱的标准开放格式。
 >
-> MusicXML was designed from the ground up for sharing sheet music files between applications, and for archiving sheet music files for use in the future. You can count on MusicXML files being readable and usable by a wide range of music notation applications, now and in the future. MusicXML complements the native file formats used by Finale and other programs, which are designed for rapid, interactive use.
+> MusicXML 从一开始就是为在应用程序之间共享乐谱文件而设计的，也是为了将乐谱文件存档以供将来使用。您可以确信 MusicXML 文件现在和将来都可以被各种音乐记谱应用程序读取和使用。MusicXML 补充了 Finale 和其他程序使用的原生文件格式，这些格式专为快速、交互式使用而设计。
 > https://www.musicxml.com/
 
 
-**Compatibility Level:** Mature, good test coverage.
+**兼容性级别：** 成熟，良好的测试覆盖。
 
-MusicXML is a very complex format allowing the same thing to be specified in multiple different ways. The format itself is very mature and supports a vast amount of 
-notation elements to be described. This also makes it quite complex to handle as applications might have to deal with elements which are not supported by the application itself.
+MusicXML 是一种非常复杂的格式，允许以多种不同方式指定同一事物。该格式本身非常成熟，支持描述大量的记谱元素。这也使得处理起来相当复杂，因为应用程序可能需要处理应用程序本身不支持的元素。
 
-Unfortunately MusicXML implies a lot of details on the visual arrangements of elements and expect applications like alphaTab to adhere to their layouting principles.  
-With alphaTab not having a strict print-page display (yet) respecting those arrangement aspects is not possible. 
+不幸的是，MusicXML 对元素的视觉排列有很多细节要求，并期望像 alphaTab 这样的应用程序遵循其布局原则。
+由于 alphaTab 目前还没有严格的打印页面显示，因此无法遵守这些排列方面。
 
-Additionally MusicXML differenciates between "displayed" music notation and the "sound" of elements which can be potentially inconsistent.
+此外，MusicXML 区分"显示"的音乐记谱和元素的"声音"，这两者可能不一致。
 
-alphaTab does its best to load any semantic information contained in the files (both in visual and sound related elements). 
-Due to this alphaTab might visually indicate some elements which are not visually described in MusicXML. This can be a benefit in some cases. 
+alphaTab 尽最大努力加载文件中包含的任何语义信息（包括视觉和声音相关元素）。
+因此，alphaTab 可能会以视觉方式指示一些在 MusicXML 中没有视觉描述的元素。在某些情况下，这可能是一个好处。
 
-Feel free to open any [improvement request discussion](https://github.com/CoderLine/alphaTab/discussions) if you have some needs in changed display.
+如果您有更改显示的需求，欢迎打开任何[改进请求讨论](https://github.com/CoderLine/alphaTab/discussions)。
 
-The table below describes in a [`<supports />`](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/supports/) style fashion which elements and attributes are supported by alphaTab. 
-Be sure to check the [MusicXML reference](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/) for details on the features.
+下表以 [`<supports />`](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/supports/) 样式描述了 alphaTab 支持哪些元素和属性。
+请务必查看 [MusicXML 参考文档](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/)以了解功能的详细信息。
 
-## Feature Table
+## 功能表
 
-**How to read the table:**
+**如何阅读表格：**
 
-* The feature table tries to describe the support matching [MusicXML 4.0 element eference](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/).
-* Every group is typically a MusicXML Element describing what attributes and sub-elements are supported.
-* Elements are listed with their exact names, attributes are prefixed with `@`. 
-* If individual attribute values are not supported they might be listed in a format like `@attribute=value`. But for keeping this docs at a managable scale not all details might be listed.
-* The sub-element support indicates whether generally the tag is considered. What parts are supported, are then listed in the dedicated group of the respective tag.
-* Some common attributes are only listed once instead on each element. Some simple elements are listed as part of their parent element, while other element are listed as own feature section.
-* Some attributes we considered not relevant at all are not even listed (e.g. `@id` of `credit`).
-* In case of doubts: 
-    * Consult the MusicXML documentation to learn where elements are used and relevant. 
-    * Consult the [alphaTab Source Code](https://github.com/CoderLine/alphaTab/blob/develop/src/importer/MusicXmlImporter.ts) to see if we are handling elements and attributes. 
-    * Consult the [notes in the MusicXML Test Suite](https://github.com/CoderLine/alphaTab/blob/develop/test/importer/MusicXmlImporterTestSuite.test.ts) to see if we marked some things as not supported or "known issue".
+* 功能表尝试描述与 [MusicXML 4.0 元素参考](https://www.w3.org/2021/06/musicxml40/musicxml-reference/elements/) 匹配的支持情况。
+* 每个组通常是一个 MusicXML 元素，描述支持哪些属性和子元素。
+* 元素以其确切名称列出，属性以 `@` 为前缀。
+* 如果个别属性值不受支持，它们可能会以 `@attribute=value` 的格式列出。但为了保持本文档的可管理规模，可能不会列出所有细节。
+* 子元素支持指示通常是否考虑该标签。支持哪些部分，则在相应标签的专用组中列出。
+* 一些常见属性只在每个元素上列出一次。一些简单元素作为其父元素的一部分列出，而其他元素则作为独立的功能部分列出。
+* 一些我们认为完全不相关的属性甚至没有列出（例如 `credit` 的 `@id`）。
+* 如有疑问：
+    * 查阅 MusicXML 文档以了解元素的使用位置和相关信息。
+    * 查阅 [alphaTab 源代码](https://github.com/CoderLine/alphaTab/blob/develop/src/importer/MusicXmlImporter.ts) 以查看我们是否处理了元素和属性。
+    * 查阅 [MusicXML 测试套件中的注释](https://github.com/CoderLine/alphaTab/blob/develop/test/importer/MusicXmlImporterTestSuite.test.ts) 以查看我们是否将某些内容标记为不受支持或"已知问题"。
 
 import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, FeatureStatus } from '@site/src/components/FileFormatFeatureTable'
 
 <FileFormatFeatureTable>
-    <FileFormatFeatureGroup title="General">
+    <FileFormatFeatureGroup title="常规">
         <FileFormatFeatureRow feature="score-partwise" 
                         model={[FeatureStatus.Supported]}
                         reading={[FeatureStatus.Supported]}
@@ -61,7 +60,7 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                         render={[FeatureStatus.Supported]}
                         audio={[FeatureStatus.Supported]}
                         tex={[FeatureStatus.Supported]} />       
-        <FileFormatFeatureRow feature="Compressed MusicXML (MXL)" 
+        <FileFormatFeatureRow feature="压缩 MusicXML (MXL)" 
                         model={[FeatureStatus.Supported]}
                         reading={[FeatureStatus.Supported]}
                         render={[FeatureStatus.Supported]}
@@ -112,13 +111,13 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                         render={[FeatureStatus.Supported]}
                         audio={[FeatureStatus.Supported]}
                         tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="part-list" 
+        <FileFormatFeatureRow feature="声部列表 (part-list)" 
                         model={[FeatureStatus.Supported]}
                         reading={[FeatureStatus.Supported]}
                         render={[FeatureStatus.Supported]}
                         audio={[FeatureStatus.Supported]}
                         tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="part" 
+        <FileFormatFeatureRow feature="声部 (part)" 
                         model={[FeatureStatus.Supported]}
                         reading={[FeatureStatus.Supported]}
                         render={[FeatureStatus.Supported]}
@@ -640,7 +639,7 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                         render={[FeatureStatus.Supported]}
                         audio={[FeatureStatus.Supported]}
                         tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="measure (partwise)" 
+        <FileFormatFeatureRow feature="小节 (partwise)" 
                         model={[FeatureStatus.Supported]}
                         reading={[FeatureStatus.Supported]}
                         render={[FeatureStatus.Supported]}
@@ -648,7 +647,7 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                         tex={[FeatureStatus.Supported]} />
     </FileFormatFeatureGroup>
 
-    <FileFormatFeatureGroup title="measure (partwise)">
+    <FileFormatFeatureGroup title="小节 (partwise)">
         <FileFormatFeatureRow feature="note" 
                         model={[FeatureStatus.Supported]}
                         reading={[FeatureStatus.Supported]}
@@ -723,7 +722,7 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                         tex={[FeatureStatus.Ignored]} />
         <FileFormatFeatureRow feature="@number" 
                         model={[FeatureStatus.Supported]}
-                        reading={[FeatureStatus.Ignored, "", "Measures are simply numbered in their sequence contained in the file"]}
+                        reading={[FeatureStatus.Ignored, "", "小节按照文件中包含的顺序简单编号"]}
                         render={[FeatureStatus.Supported]}
                         audio={[FeatureStatus.Ignored]}
                         tex={[FeatureStatus.Ignored]} />
@@ -763,7 +762,7 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                         tex={[FeatureStatus.Supported]} />
         <FileFormatFeatureRow feature="@number" 
                         model={[FeatureStatus.Supported]}
-                        reading={[FeatureStatus.Ignored, "", "Measures are simply numbered in their sequence contained in the file"]}
+                        reading={[FeatureStatus.Ignored, "", "小节按照文件中包含的顺序简单编号"]}
                         render={[FeatureStatus.Supported]}
                         audio={[FeatureStatus.Ignored]}
                         tex={[FeatureStatus.Ignored]} />

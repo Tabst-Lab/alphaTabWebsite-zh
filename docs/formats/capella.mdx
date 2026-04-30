@@ -1,47 +1,47 @@
 ---
 title: Capella/CapXML (.capx)
-description: The open file format of Capella.
+description: Capella 的开放文件格式。
 ---
 
-## Introduction
+## 简介
 
-Capella is a music notation software developed by the German company capella-software AG.
+Capella 是由德国公司 capella-software AG 开发的音乐记谱软件。
 https://www.capella.de
 
-Older versions of Capella had binary formats. alphaTab is only compatible with the XML based formats. 
-Capella files are Zip archives containing one single `score.xml` file following the [CapXML schema](https://www.capella.de/CapXML/).
+旧版本的 Capella 使用二进制格式。alphaTab 仅兼容基于 XML 的格式。
+Capella 文件是 Zip 归档，包含一个遵循 [CapXML 模式](https://www.capella.de/CapXML/) 的 `score.xml` 文件。
 
-**Compatibility Level:** Only very basic support, not well tested
+**兼容性级别：** 仅非常基本的支持，未经充分测试
 
-Capella describes a lot of notation elements rather visually through "graphical objects" than semantically. 
-This requires alphaTab to make a best-guess on which exact beats/notes what elements should be applied.
+Capella 通过"图形对象"而非语义方式来描述许多记谱元素。
+这要求 alphaTab 对哪些确切的拍子/音符应该应用哪些元素进行最佳猜测。
 
-## Feature Table
+## 功能表
 
 import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, FeatureStatus } from '@site/src/components/FileFormatFeatureTable'
 
 <FileFormatFeatureTable>
 
-    <FileFormatFeatureGroup title="Top Level">
-        <FileFormatFeatureRow feature="Score Information (info)" 
+    <FileFormatFeatureGroup title="顶层">
+        <FileFormatFeatureRow feature="乐谱信息 (info)" 
                               model={[FeatureStatus.Supported]}
-                              reading={[FeatureStatus.Supported, "", "Author and Comment"]}
+                              reading={[FeatureStatus.Supported, "", "作者和注释"]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Page Objects (pageObjects)" 
+        <FileFormatFeatureRow feature="页面对象 (pageObjects)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Bar Numbering (barCount)" 
+        <FileFormatFeatureRow feature="小节编号 (barCount)" 
                               model={[FeatureStatus.NotSupported]}
                               reading={[FeatureStatus.NotSupported]}
-                              render={[FeatureStatus.Partial, "", "Bar numbers are always rendered"]}
+                              render={[FeatureStatus.Partial, "", "小节编号始终渲染"]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.NotSupported]} />
-        <FileFormatFeatureRow feature="Gallery (gallery)" 
+        <FileFormatFeatureRow feature="图库 (gallery)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
@@ -49,56 +49,56 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                               tex={[FeatureStatus.Ignored]} />
     </FileFormatFeatureGroup>
 
-    <FileFormatFeatureGroup title="Layout">
-        <FileFormatFeatureRow feature="layout/singlePart" 
+    <FileFormatFeatureGroup title="布局">
+        <FileFormatFeatureRow feature="布局/单声部 (layout/singlePart)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Page Size (layout/pages)" 
+        <FileFormatFeatureRow feature="页面尺寸 (layout/pages)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Margins (layout/distances)" 
+        <FileFormatFeatureRow feature="边距 (layout/distances)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Score > General > Instrument Names (layout/instrumentNames)" 
+        <FileFormatFeatureRow feature="乐谱 > 常规 > 乐器名称 (layout/instrumentNames)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Note Sizes (layout/style/noteSpaces)" 
+        <FileFormatFeatureRow feature="音符尺寸 (layout/style/noteSpaces)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Notation Style & Sizes (layout/style)" 
+        <FileFormatFeatureRow feature="记谱法样式与尺寸 (layout/style)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Spacing (layout/spacing)" 
+        <FileFormatFeatureRow feature="间距 (layout/spacing)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Beam gradient (layout/beamFlattening)" 
+        <FileFormatFeatureRow feature="符杠梯度 (layout/beamFlattening)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Ignored]} />
-        <FileFormatFeatureRow feature="Automatically place new objects (layout/autoPlacement)" 
+        <FileFormatFeatureRow feature="自动放置新对象 (layout/autoPlacement)" 
                               model={[FeatureStatus.Ignored]}
                               reading={[FeatureStatus.Ignored]}
                               render={[FeatureStatus.Ignored]}
@@ -106,229 +106,229 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                               tex={[FeatureStatus.Ignored]} />
     </FileFormatFeatureGroup>
 
-    <FileFormatFeatureGroup title="Track Level">                            
-        <FileFormatFeatureRow feature="Track Name"
+    <FileFormatFeatureGroup title="音轨级别">                            
+        <FileFormatFeatureRow feature="音轨名称"
                                     model={[FeatureStatus.Supported]}
                                     reading={[FeatureStatus.Supported]}
                                     render={[FeatureStatus.Ignored]}
                                     audio={[FeatureStatus.Ignored]}
                                     tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Track Short Name"
+        <FileFormatFeatureRow feature="音轨短名称"
                                     model={[FeatureStatus.Supported]}
                                     reading={[FeatureStatus.Supported]}
                                     render={[FeatureStatus.Supported]}
                                     audio={[FeatureStatus.Ignored]}
                                     tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Stave Arrangement (layout/brackets and layout/staves)" 
+        <FileFormatFeatureRow feature="谱表排列 (layout/brackets 和 layout/staves)" 
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.Supported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Ignored]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Custom Spacings" 
+        <FileFormatFeatureRow feature="自定义间距" 
                             model={[FeatureStatus.Ignored]}
                             reading={[FeatureStatus.NotSupported]}
-                            render={[FeatureStatus.Supported, "", "Via settings.display"]}
+                            render={[FeatureStatus.Supported, "", "通过 settings.display"]}
                             audio={[FeatureStatus.Ignored]}
                             tex={[FeatureStatus.Ignored]} />
     </FileFormatFeatureGroup>
 
-    <FileFormatFeatureGroup title="Bar Level">
-        <FileFormatFeatureRow feature="Clefs" 
+    <FileFormatFeatureGroup title="小节级别">
+        <FileFormatFeatureRow feature="谱号" 
                               model={[FeatureStatus.Supported]}
                               reading={[FeatureStatus.Supported]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Supported]}
                               tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Key Signatures" 
+        <FileFormatFeatureRow feature="调号" 
                               model={[FeatureStatus.Supported]}
                               reading={[FeatureStatus.Supported]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Supported]}
                               tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Time Signatures" 
+        <FileFormatFeatureRow feature="拍号" 
                               model={[FeatureStatus.Supported]}
                               reading={[FeatureStatus.Supported]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Supported]}
                               tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Double Bar" 
+        <FileFormatFeatureRow feature="双小节线" 
                               model={[FeatureStatus.Supported]}
                               reading={[FeatureStatus.Supported]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Ignored]}
                               tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Anacrusis" 
+        <FileFormatFeatureRow feature="弱起小节" 
                               model={[FeatureStatus.Supported]}
                               reading={[FeatureStatus.Supported]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Supported]}
                               tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Repeats" 
+        <FileFormatFeatureRow feature="重复" 
                               model={[FeatureStatus.Supported]}
                               reading={[FeatureStatus.Supported]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Supported]}
                               tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Alternate Endings" 
+        <FileFormatFeatureRow feature="替代结尾" 
                               model={[FeatureStatus.Supported]}
                               reading={[FeatureStatus.Supported]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Supported]}
                               tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Free Time" 
+        <FileFormatFeatureRow feature="自由拍" 
                               model={[FeatureStatus.Supported]}
                               reading={[FeatureStatus.Supported]}
                               render={[FeatureStatus.Supported]}
                               audio={[FeatureStatus.Supported]}
                               tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Multibar Rest" 
+        <FileFormatFeatureRow feature="多小节休止" 
                               model={[FeatureStatus.NotSupported]}
                               reading={[FeatureStatus.NotSupported]}
                               render={[FeatureStatus.NotSupported]}
                               audio={[FeatureStatus.NotSupported]}
                               tex={[FeatureStatus.NotSupported]} />
 
-        <FileFormatFeatureRow feature="Simile Marks (Bar Repeats)"
+        <FileFormatFeatureRow feature="反复记号（小节重复）"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
-                            tex={[FeatureStatus.Supported]} />                              
+                            tex={[FeatureStatus.Supported]} />                             
     </FileFormatFeatureGroup>
 
 
-    <FileFormatFeatureGroup title="Beat Level">
-        <FileFormatFeatureRow feature="Chords" 
+    <FileFormatFeatureGroup title="拍子级别">
+        <FileFormatFeatureRow feature="和弦" 
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.Supported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Durations (Double Whole to 128th)" 
+        <FileFormatFeatureRow feature="时值（二全音符到一百二十八分音符）" 
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.Supported]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Durations (Dots)" 
+        <FileFormatFeatureRow feature="时值（附点）" 
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.Supported]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Durations (Tuplets)"
-                                        model={[FeatureStatus.Supported]}
-                                        reading={[FeatureStatus.Supported]}
-                                        render={[FeatureStatus.Supported]}
-                                        audio={[FeatureStatus.Supported]}
-                                        tex={[FeatureStatus.Supported]} />
-
-        <FileFormatFeatureRow feature="Stem Direction"
-                                        model={[FeatureStatus.Supported]}
-                                        reading={[FeatureStatus.Supported]}
-                                        render={[FeatureStatus.Supported]}
-                                        audio={[FeatureStatus.Supported]}
-                                        tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Beam (force/divide)"
-                                        model={[FeatureStatus.Supported]}
-                                        reading={[FeatureStatus.Supported]}
-                                        render={[FeatureStatus.Supported]}
-                                        audio={[FeatureStatus.Supported]}
-                                        tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Lyrics"
+        <FileFormatFeatureRow feature="时值（连音）"
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.Supported]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Fermata"
+        <FileFormatFeatureRow feature="符干方向"
+                                        model={[FeatureStatus.Supported]}
+                                        reading={[FeatureStatus.Supported]}
+                                        render={[FeatureStatus.Supported]}
+                                        audio={[FeatureStatus.Supported]}
+                                        tex={[FeatureStatus.Supported]} />
+        <FileFormatFeatureRow feature="符杠（强制/分割）"
+                                        model={[FeatureStatus.Supported]}
+                                        reading={[FeatureStatus.Supported]}
+                                        render={[FeatureStatus.Supported]}
+                                        audio={[FeatureStatus.Supported]}
+                                        tex={[FeatureStatus.Supported]} />
+        <FileFormatFeatureRow feature="歌词"
+                                        model={[FeatureStatus.Supported]}
+                                        reading={[FeatureStatus.Supported]}
+                                        render={[FeatureStatus.Supported]}
+                                        audio={[FeatureStatus.Supported]}
+                                        tex={[FeatureStatus.Supported]} />
+
+        <FileFormatFeatureRow feature="延长记号"
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.Partial]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Dynamics"
+        <FileFormatFeatureRow feature="力度"
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.Partial]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Text"
-                                        model={[FeatureStatus.Supported]}
-                                        reading={[FeatureStatus.Partial]}
-                                        render={[FeatureStatus.Supported]}
-                                        audio={[FeatureStatus.Supported]}
-                                        tex={[FeatureStatus.Supported]} />
-
-        <FileFormatFeatureRow feature="Vibrato"
-                                        model={[FeatureStatus.Supported]}
-                                        reading={[FeatureStatus.Supported]}
-                                        render={[FeatureStatus.Supported]}
-                                        audio={[FeatureStatus.Supported]}
-                                        tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Crescendo/Descrescendo"
-                                        model={[FeatureStatus.Supported]}
-                                        reading={[FeatureStatus.Supported]}
-                                        render={[FeatureStatus.Supported]}
-                                        audio={[FeatureStatus.Supported]}
-                                        tex={[FeatureStatus.Supported]} />
-
-        <FileFormatFeatureRow feature="Slur"
+        <FileFormatFeatureRow feature="文本"
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.Partial]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Tempo Changes"
+        <FileFormatFeatureRow feature="颤音"
+                                        model={[FeatureStatus.Supported]}
+                                        reading={[FeatureStatus.Supported]}
+                                        render={[FeatureStatus.Supported]}
+                                        audio={[FeatureStatus.Supported]}
+                                        tex={[FeatureStatus.Supported]} />
+        <FileFormatFeatureRow feature="渐强/渐弱"
+                                        model={[FeatureStatus.Supported]}
+                                        reading={[FeatureStatus.Supported]}
+                                        render={[FeatureStatus.Supported]}
+                                        audio={[FeatureStatus.Supported]}
+                                        tex={[FeatureStatus.Supported]} />
+
+        <FileFormatFeatureRow feature="连音线"
+                                        model={[FeatureStatus.Supported]}
+                                        reading={[FeatureStatus.Partial]}
+                                        render={[FeatureStatus.Supported]}
+                                        audio={[FeatureStatus.Supported]}
+                                        tex={[FeatureStatus.Supported]} />
+
+        <FileFormatFeatureRow feature="速度变化"
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.NotSupported]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Directions"
+        <FileFormatFeatureRow feature="方向"
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.NotSupported]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Ottavia"
+        <FileFormatFeatureRow feature="八度"
                                         model={[FeatureStatus.Supported]}
                                         reading={[FeatureStatus.NotSupported]}
                                         render={[FeatureStatus.Supported]}
                                         audio={[FeatureStatus.Supported]}
                                         tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Grace Notes"
+        <FileFormatFeatureRow feature="装饰音"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Pick Strokes"
+        <FileFormatFeatureRow feature="拨弦方向"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Remaining Articulations 1"
+        <FileFormatFeatureRow feature="剩余发音法 1"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Sustain Pedal"
+        <FileFormatFeatureRow feature="延音踏板"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
@@ -336,35 +336,35 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                             tex={[FeatureStatus.Supported]} />
 
 
-        <FileFormatFeatureRow feature="Arpeggios"
+        <FileFormatFeatureRow feature="琶音"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.NotSupported]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Chord Repeat"
+        <FileFormatFeatureRow feature="和弦重复"
                             model={[FeatureStatus.NotSupported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.NotSupported]}
                             audio={[FeatureStatus.NotSupported]}
                             tex={[FeatureStatus.NotSupported]} />
 
-        <FileFormatFeatureRow feature="Trills"
+        <FileFormatFeatureRow feature="颤音（trill）"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Ornaments"
+        <FileFormatFeatureRow feature="装饰音"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Chord Diagram"
+        <FileFormatFeatureRow feature="和弦图"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
@@ -372,7 +372,7 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                             tex={[FeatureStatus.Supported]} />
 
 
-        <FileFormatFeatureRow feature="Custom Shapes (lines, rectangles, circles)"
+        <FileFormatFeatureRow feature="自定义形状（线条、矩形、圆形）"
                             model={[FeatureStatus.Ignored]}
                             reading={[FeatureStatus.Ignored]}
                             render={[FeatureStatus.Ignored]}
@@ -380,40 +380,40 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                             tex={[FeatureStatus.Ignored]} />
 
 
-        <FileFormatFeatureRow feature="Tremolo Picking"
+        <FileFormatFeatureRow feature="震音拨弦"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
 </FileFormatFeatureGroup>
-    <FileFormatFeatureGroup title="Note Level">
-        <FileFormatFeatureRow feature="Rests" 
+    <FileFormatFeatureGroup title="音符级别">
+        <FileFormatFeatureRow feature="休止符" 
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.Supported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Staccato" 
+        <FileFormatFeatureRow feature="断奏" 
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.Supported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Accentuation (Normal/Heavy)" 
+        <FileFormatFeatureRow feature="重音（普通/强）" 
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.Supported]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
-        <FileFormatFeatureRow feature="Ties" 
+        <FileFormatFeatureRow feature="连音线" 
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.Partial]}
                             render={[FeatureStatus.Supported]}
                             audio={[FeatureStatus.Supported]}
                             tex={[FeatureStatus.Supported]} />
 
-        <FileFormatFeatureRow feature="Accidentals"
+        <FileFormatFeatureRow feature="变音记号"
                             model={[FeatureStatus.Supported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.Supported]}
@@ -421,14 +421,14 @@ import { FileFormatFeatureTable, FileFormatFeatureGroup, FileFormatFeatureRow, F
                             tex={[FeatureStatus.Supported]} />
 
 
-        <FileFormatFeatureRow feature="Custom note heads"
+        <FileFormatFeatureRow feature="自定义符头"
                             model={[FeatureStatus.NotSupported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.NotSupported]}
                             audio={[FeatureStatus.NotSupported]}
                             tex={[FeatureStatus.NotSupported]} />
 
-        <FileFormatFeatureRow feature="Note Colors"
+        <FileFormatFeatureRow feature="音符颜色"
                             model={[FeatureStatus.NotSupported]}
                             reading={[FeatureStatus.NotSupported]}
                             render={[FeatureStatus.NotSupported]}
