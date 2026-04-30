@@ -1,21 +1,21 @@
 ---
-title: Breaking changes on settings between 0.9.5 and 0.9.6 
+title: 0.9.5 和 0.9.6 之间设置的重大变更
 order: 100
 ---
 
 import { CodeBadge } from '@site/src/components/CodeBadge';
 
-In 0.9.6 there was a bigger settings rework introduced that very likely broke every setup beside the default one. 
-Please find all changes that were introduced below. 
+在 0.9.6 版本中，我们对设置进行了较大规模的重新设计，这很可能会破坏除默认设置以外的所有配置。
+请在下方查看所有引入的变更。
 
-## API changes
+## API 变更
 
 <table className="table table-striped table-condensed type-table">
     <thead>
         <tr>
-            <th>Before</th>
-            <th>After</th>
-            <th>Description</th>
+            <th>变更前</th>
+            <th>变更后</th>
+            <th>说明</th>
         </tr>
     </thead>    
     <tbody>    
@@ -29,8 +29,7 @@ Please find all changes that were introduced below.
                 <CodeBadge type="js" name="new alphaTab.Settings()" /><br />
             </td>
             <td>
-                The default values for all settings were moved to the constructor. Simply
-                create a new object and all default settings will be configured. 
+                所有设置的默认值已移至构造函数中。只需创建一个新对象，所有默认设置就会自动配置。
             </td> 
         </tr>
         <tr>
@@ -40,30 +39,28 @@ Please find all changes that were introduced below.
             <td>
             </td>
             <td>
-                This API was removed. Simply change the settings and call `updateSettings` and `render` to achive the same behavior. 
+                此 API 已被移除。只需更改设置并调用 `updateSettings` 和 `render` 即可实现相同的行为。
             </td>
         </tr>        
     </tbody>
 </table>
 
-## Settings changes
+## 设置变更
 
-Many settings have now a new place within the settings object, hence many settings might need adjustment in your code. The new 
-    mechanism of specifying settings is way more tolerant than the old one: settings are now case insensitive (`useWorkers` is equal to `uSeWoRkerS`) and dashes on html attributes are also
-ignored (`data-use-workers` is equal to `data-useworkers`). 
+许多设置在设置对象中的位置发生了变化，因此您代码中的许多设置可能需要调整。新的设置指定机制比旧的更加宽容：设置现在不区分大小写（`useWorkers` 等同于 `uSeWoRkerS`），HTML 属性中的连字符也会被忽略（`data-use-workers` 等同于 `data-useworkers`）。
 
-* `.net` is how the property is named on .net object level
-* `JavaScript` is how the property is named on the JavaScript object level (alphaTab.Settings instance)
-* `JSON` is how the property is named when specifying the property as input to alphaTab (usually short hand names)
-* `HTML` is how the property is named on HTML data attributes
+* `.net` 表示 .net 对象级别上的属性名称
+* `JavaScript` 表示 JavaScript 对象级别上的属性名称（alphaTab.Settings 实例）
+* `JSON` 表示作为 alphaTab 输入指定属性时的名称（通常是简写名称）
+* `HTML` 表示 HTML 数据属性上的属性名称
 
 
 <table className="table table-striped table-condensed type-table">
     <thead>
         <tr>
-            <th>Before</th>
-            <th>After</th>
-            <th>Notes</th>
+            <th>变更前</th>
+            <th>变更后</th>
+            <th>备注</th>
         </tr>
     </thead>    
     <tbody>    
@@ -197,8 +194,7 @@ ignored (`data-use-workers` is equal to `data-useworkers`).
                 <CodeBadge type="html" name="data-force-piano-fingering" /><br />            
             </td>
             <td>
-                Set it to `ScoreForcePiano` or `SingleNoteEffectBandForcePiano` to get the 
-                forced piano fingering depending on the preferred display of fingering. 
+                将其设置为 `ScoreForcePiano` 或 `SingleNoteEffectBandForcePiano`，以根据首选的指法显示方式强制使用钢琴指法。
             </td>
         </tr>
                 
@@ -435,7 +431,7 @@ ignored (`data-use-workers` is equal to `data-useworkers`).
                 <CodeBadge type="html" name="data-layout-mode" /><br />            
             </td>
             <td>
-                The display mode is now a strong typed enumeration. 
+                显示模式现在是一个强类型枚举。
             </td>    
         </tr>
         
@@ -793,8 +789,7 @@ ignored (`data-use-workers` is equal to `data-useworkers`).
                 <CodeBadge type="html" name="data-player-enableplayer" /><br />            
             </td>
             <td>
-                On JavaScript earlier the setting controlled both enabling the player and which soundfont should be loaded. 
-                Now it really only controls whether the player should be enabled. The soundfont is specified via `SoundFont` or loaded manually via API.
+                在 JavaScript 中，之前的设置同时控制播放器的启用和加载哪个音色库。现在它仅控制是否启用播放器。音色库通过 `SoundFont` 指定或通过 API 手动加载。
             </td>
         </tr>
         
@@ -1238,22 +1233,22 @@ ignored (`data-use-workers` is equal to `data-useworkers`).
             <td>
             </td>
             <td>
-                Setting was removed4 use CSS like for the other stylings to set the width of the beat cursor. 
+                该设置已被移除，请使用 CSS 来设置节拍光标的宽度，与其他样式设置保持一致。
             </td>
         </tr>
     </tbody>
 </table>
 
 
-## Side-by-side Comparison
+## 前后对比
 
-Right below you can find a side-by-side comparison between a settings object before and after the rework. 
+下方您可以找到重新设计前后设置对象的并排对比。
 
 <table className="table table-striped table-condensed type-table">
     <thead>
         <tr>
-            <th>Before</th>
-            <th>After</th>
+            <th>变更前</th>
+            <th>变更后</th>
         </tr>
     </thead>    
     <tbody>    

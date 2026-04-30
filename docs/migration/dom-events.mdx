@@ -1,25 +1,23 @@
 --- 
-title: DOM Events
+title: DOM 事件
 ---
 
 > [!WARNING]
-> Listening to alphaTab via DOM events has been deprecated in 1.5 and will be removed in 2.x. 
+> 通过 DOM 事件监听 alphaTab 已在 1.5 版本中弃用，并将在 2.x 版本中移除。
 
-DOM Events are quite a common mechanism to signal special events from JavaScript frameworks. This practice
-is quite common outside frontend frameworks like Angular or React and is known from frameworks like Bootstrap and jQuery.
+DOM 事件是一种相当常见的机制，用于从 JavaScript 框架发出特殊事件。这种做法在 Angular 或 React 等前端框架之外相当常见，并且被 Bootstrap 和 jQuery 等框架所熟知。
 
-To reduce the number of event mechanisms we need to maintain and support, and to improve performance, DOM events will be removed in 2.x as a breaking change.
-alphaTab anyhow requires a minimum degree of initialization via JavaScript (e.g. `new AlphaTabApi(element, settings)`) and therefore a migration to the JavaScript events is fairly simple.
+为了减少我们需要维护和支持的事件机制数量，并提高性能，DOM 事件将在 2.x 版本中作为破坏性变更移除。alphaTab 无论如何都需要通过 JavaScript 进行最低程度的初始化（例如 `new AlphaTabApi(element, settings)`），因此迁移到 JavaScript 事件相当简单。
 
-Until the removal we will maintain backwards compatibility but at the same time we removed any documentation from the API reference related to it. 
-^
-## Migration
+在移除之前，我们将保持向后兼容性，但同时已从 API 参考文档中删除了所有相关文档。
 
-To migrate, move any properties from the respective data attributes in the HTML DOM to a JavaScript settings object.
+## 迁移
 
-### Before
+要进行迁移，请将 HTML DOM 中相应数据属性的所有属性移动到 JavaScript 设置对象中。
 
-The event listeners are registered on the DOM element via `alphaTab.eventName`. The event data is contained in `e.detail`.
+### 变更前
+
+事件监听器通过 `alphaTab.eventName` 注册到 DOM 元素上。事件数据包含在 `e.detail` 中。
 
 ```html
 <div id="alphaTab"></div>
@@ -37,9 +35,9 @@ const api = new alphaTab.AlphaTabApi(element);
 </script>
 ```
 
-### After
+### 变更后
 
-The event listeners are registered via `api.eventName.on(listener)`. The event data is directly passed to the listener.
+事件监听器通过 `api.eventName.on(listener)` 注册。事件数据直接传递给监听器。
 
 ```html
 <div id="alphaTab"></div>

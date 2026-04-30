@@ -1,47 +1,42 @@
 ---
-title: Breaking changes on settings between 0.9.7 and 0.9.8 
+title: 0.9.7 和 0.9.8 之间设置的重大变更
 order: 101
 ---
 
 import { CodeBadge } from '@site/src/components/CodeBadge';
 
-With the version 0.9.8 alphaTab moved from the C# codebase to a TypeScript codebase. In preparation of the 1.0.0 release a lot of cleanups 
-happened and many things on the API were reviewed and changed. Goal of this (again) breaking changes is to have a future proof API surface
-that can survive a few releases without the need of again some reworks. 
+在 0.9.8 版本中，alphaTab 从 C# 代码库迁移到了 TypeScript 代码库。在为 1.0.0 版本做准备的过程中，进行了大量的清理工作，并对 API 的许多方面进行了审查和更改。此次（再次）破坏性变更的目标是提供一个面向未来的 API 接口，使其能够在多个版本中保持稳定，无需再次进行大规模重构。
 
-While this version comes with a lot of new benefits this guide only focuses on the breaking changes and how to upgrade your application. 
+虽然此版本带来了许多新优势，但本指南仅聚焦于破坏性变更以及如何升级您的应用程序。
 
-## Web
+## Web 版本
 
-For the web version we tried to maintain compatiblity as good as possible while not sacrificing the changes we want to
-introduce. 
+对于 Web 版本，我们尽可能保持了兼容性，同时不放弃我们想要引入的更改。
 
-### Quick Migration
+### 快速迁移
 
-In most cases developers weren't in the need to use all the exposed classes of alphaTab and rather could stick to the main API surface
-and just access the properties. Property names did not change on this version. The main changes can be summarized as: 
+在大多数情况下，开发者无需使用 alphaTab 暴露的所有类，而是可以坚持使用主 API 接口并仅访问属性。此版本的属性名称没有变化。主要变更可以总结如下：
 
-* The main API class was moved from `alphaTab.AlphaTabApi` to `alphaTab.alphaTabApi`
-* Enums have now clean names like `alphaTab.LayoutMode`
-* Interfaces have been removed
-* The `AlphaTexExporter` was fully removed. 
-* Check for changed event names that were used.
-* Check for new settings on hiding notation elements.
-* Use the new `on/off` event subscription if you used API object events. 
+* 主 API 类从 `alphaTab.AlphaTabApi` 移动到了 `alphaTab.alphaTabApi`
+* 枚举现在有了简洁的名称，如 `alphaTab.LayoutMode`
+* 接口已被移除
+* `AlphaTexExporter` 被完全移除
+* 检查已使用的事件名称是否有变更
+* 检查隐藏乐谱元素的新设置
+* 如果您使用了 API 对象事件，请使用新的 `on/off` 事件订阅方式
 
-In case you used various classes from the `alphaTab` module directly, you can find fhe full changes can be found below for migration. 
+如果您直接使用了 `alphaTab` 模块中的各种类，可以在下方找到完整的变更列表以供迁移参考。
 
-### New Event System
+### 新的事件系统
 
-One of the bigger changes on this version is the event system. There are 3 ways to subscribe to events in alphaTab and each event might 
-be affected in a way: 
+此版本最大的变更之一是事件系统。在 alphaTab 中有 3 种订阅事件的方式，每种事件可能都会受到影响：
 
-1. **DOM Events:** 
-2. **jQuery Events:** 
+1. **DOM 事件：**
+2. **jQuery 事件：**
 
-Some events have been renamed and need update.
+某些事件已被重命名，需要进行更新。
 
-| Before                        |   After           |
+| 变更前                        |   变更后           |
 |-------------------------------|-------------------|
 | `alphaTab.playedBeatChanged`  |  `alphaTab.playedBeatChanged`
 | `alphaTab.beatMouseDown`      |  `alphaTab.beatMouseDown`    
@@ -61,13 +56,13 @@ Some events have been renamed and need update.
 | `alphaTab.positionChanged`    |  `alphaTab.playerPositionChanged`  
 | `alphaTab.soundFontLoad`      |  `alphaTab.soundFontLoad`    
 
-3. **Direct API events:** 
+3. **直接 API 事件：**
 
-The registration system for the events was completely changed and some events have been renamed. 
-Before events were registered via `addEventName(handler)` and unregistered via `removeEventName(handler)`. 
-Now events are registered via `eventName.on(handler)` and unregistered via `eventName.off(handler)`.
+事件的注册系统已完全更改，某些事件已被重命名。
+以前事件通过 `addEventName(handler)` 注册，通过 `removeEventName(handler)` 注销。
+现在事件通过 `eventName.on(handler)` 注册，通过 `eventName.off(handler)` 注销。
 
-| Before                              |   After                               |
+| 变更前                              |   变更后                               |
 |-------------------------------------|---------------------------------------|
 | `<add/remove>PlayedBeatChanged`     |  `playedBeatChanged.<on/off>`         |
 | `<add/remove>BeatMouseDown`         |  `beatMouseDown.<on/off>`             |
@@ -87,45 +82,42 @@ Now events are registered via `eventName.on(handler)` and unregistered via `even
 | `<add/remove>PlayerPositionChanged` |  `playerPositionChanged.<on/off>`     |
 | `<add/remove>SoundFontLoad`         |  `soundFontLoad.<on/off>`             |
 
-### Error Handling
+### 错误处理
 
-The `error` event previously included 2 parameters. One for the error type another for the error details. 
-The error type was now moved into the error details itself. Internally the errors are extending the default 
-`Error` type but due to serialization this information might get lost. The `error.type` property contains
-one of the values of `alphaTab.AlphaTabErrorType` specifying some details about which kind of error was raised. 
+`error` 事件以前包含 2 个参数：一个用于错误类型，另一个用于错误详情。
+现在错误类型已移至错误详情本身。内部错误扩展了默认的 `Error` 类型，但由于序列化，这些信息可能会丢失。`error.type` 属性包含 `alphaTab.AlphaTabErrorType` 中的一个值，用于指定引发的错误类型。
 
-**Before**
+**变更前**
 
 ```js
 api.addError(function(type, error) {
     if(type === 'import') {
-        alert('The input file has an invalid format: ' + error.message);
+        alert('输入文件格式无效：' + error.message);
     }
 })
 ```
 
-**After**
+**变更后**
 
 ```js
 api.error.on(function(error) {
     if(error.type === alphaTab.AlphaTabErrorType.Format) {
-        alert('The input file has an invalid format: ' + error.message);
+        alert('输入文件格式无效：' + error.message);
     }
 })
 ```
 
-### New Structure
+### 新结构
 
-One big change is the structure within the main `alphaTab` module. While the old hierarchy was quite nested, the 
-new structure aims for a rather flat hierarchy. 
+一个重大变更是主 `alphaTab` 模块内部的结构。虽然旧的层次结构相当嵌套，但新的结构追求更扁平的层次。
 
-**Legend**
+**图例**
 
-All members are prefixed with `alphaTab.` as module name. In the table this prefix was omitted. 
+所有成员都以 `alphaTab.` 作为模块名前缀。在表格中省略此前缀。
 
-| Before                                                        | After                      | Comment                                                         |
+| 变更前                                                        | 变更后                      | 说明                                                         |
 |---------------------------------------------------------------|----------------------------|-----------------------------------------------------------------|
-| `AlphaTabApi`                                                 | `AlphaTabApi`              | Same name but was replaced by `platform.javaScript.AlphaTabApi` |
+| `AlphaTabApi`                                                 | `AlphaTabApi`              | 名称相同，但被 `platform.javaScript.AlphaTabApi` 替代 |
 | `AlphaTabException`                                           | `AlphaTabError`            
 | `CoreSettings`                                                | `CoreSettings`             
 | `DisplaySettings`                                             | `DisplaySettings`          
@@ -150,38 +142,38 @@ All members are prefixed with `alphaTab.` as module name. In the table this pref
 | `audio.MidiTickLookupFindBeatResult`                          | `midi.MidiTickLookupFindBeatResult`
 |                                                               |
 | `audio.generator.AlphaSynthMidiFileHandler`                   | `midi.AlphaSynthMidiFileHandler`
-| `audio.generator.IMidiFileHandler`                            | _removed_
+| `audio.generator.IMidiFileHandler`                            | _已移除_
 | `audio.generator.MidiFileGenerator`                           | `midi.MidiFileGenerator`
 |                                                               |
 | `audio.synth.AlphaSynth`                                      | `synth.AlphaSynth`
-| `audio.synth.IAlphaSynth`                                     | _removed_
-| `audio.synth.ISynthOutput`                                    | _removed_
+| `audio.synth.IAlphaSynth`                                     | _已移除_
+| `audio.synth.ISynthOutput`                                    | _已移除_
 | `audio.synth.PlaybackRange`                                   | `synth.PlaybackRange`
 | `audio.synth.PlayerStateChangedEventArgs`                     | `synth.PlayerStateChangedEventArgs`
 | `audio.synth.PositionChangedEventArgs`                        | `synth.PositionChangedEventArgs`
 | `audio.synth._PlayerState.PlayerState_Impl_`                  | `synth.PlayerState`
-| `audio.synth.ds.CircularSampleBuffer`                         | _removed_
+| `audio.synth.ds.CircularSampleBuffer`                         | _已移除_
 | `audio.synth.midi.MidiFile`                                   | `midi.MidiFile`
 | `audio.synth.midi.event.MidiEvent`                            | `midi.MidiEvent`
 | `audio.synth.midi.event._ControllerType.ControllerType_Impl_` | `midi.ControllerType`
 | `audio.synth.midi.event._MidiEventType.MidiEventType_Impl_`   | `midi.MidiEventType`
-| `audio.synth.synthesis._OutputMode.OutputMode_Impl_`          | _removed_
+| `audio.synth.synthesis._OutputMode.OutputMode_Impl_`          | _已移除_
 |                                                               |
-| `collections._FastDictionary.FastDictionary_Impl_`            | _removed_
-| `collections._FastList.FastList_Impl_`                        | _removed_
+| `collections._FastDictionary.FastDictionary_Impl_`            | _已移除_
+| `collections._FastList.FastList_Impl_`                        | _已移除_
 |                                                               |
-| `exporter.AlphaTexExporter`                                   | _removed_                                 | The alphaTab exporter feature was fully removed. 
+| `exporter.AlphaTexExporter`                                   | _已移除_                                 | alphaTab 导出功能已完全移除。
 |                                                               |
 | `importer.FileLoadException`                                  | `FileLoadException`
 | `importer.NoCompatibleReaderFoundException`                   | `importer.UnsupportedFormatError`
-| `importer.PartConfiguration_Part`                             | _removed_
-| `importer.PartConfiguration_TrackConfiguration`               | _removed_
+| `importer.PartConfiguration_Part`                             | _已移除_
+| `importer.PartConfiguration_TrackConfiguration`               | _已移除_
 | `importer.ScoreImporter`                                      | `importer.ScoreImporter`
 | `importer.ScoreLoader`                                        | `importer.SCoreLoader`
 | `importer.UnsupportedFormatException`                         | `importer.UnsupportedFormatError`
 |                                                               |
-| `io.IReadable`                                                | _removed_
-| `io.IWriteable`                                               | _removed_
+| `io.IReadable`                                                | _已移除_
+| `io.IWriteable`                                               | _已移除_
 |                                                               |
 | `model.Automation`                                            | `model.Automation`         
 | `model.Bar`                                                   | `model.Bar`                
@@ -212,13 +204,13 @@ All members are prefixed with `alphaTab.` as module name. In the table this pref
 | `model._Duration.Duration_Impl_`                              | `model.Duration`                        
 | `model._DynamicValue.DynamicValue_Impl_`                      | `model.DynamicValue`                
 | `model._FermataType.FermataType_Impl_`                        | `model.FermataType`                  
-| `model._Fingers.Fingers_Impl_`                                | `model.Fingers`                          
+| `model._Fingers.Fingers_Impl_`                                | `model.Fingers`                           
 | `model._GraceType.GraceType_Impl_`                            | `model.GraceType`                      
 | `model._HarmonicType.HarmonicType_Impl_`                      | `model.HarmonicType`                
 | `model._KeySignature.KeySignature_Impl_`                      | `model.KeySignature`                
 | `model._KeySignatureType.KeySignatureType_Impl_`              | `model.KeySignatureType`        
 | `model._NoteAccidentalMode.NoteAccidentalMode_Impl_`          | `model.NoteAccidentalMode`    
-| `model._Ottavia.Ottavia_Impl_`                                | `model.Ottavia`                          
+| `model._Ottavia.Ottavia_Impl_`                                | `model.Ottavia`                           
 | `model._PickStroke.PickStroke_Impl_`                          | `model.PickStroke`                    
 | `model._SimileMark.SimileMark_Impl_`                          | `model.SimileMark`                    
 | `model._SlideInType.SlideInType_Impl_`                        | `model.SlideInType`                  
@@ -227,14 +219,14 @@ All members are prefixed with `alphaTab.` as module name. In the table this pref
 | `model._VibratoType.VibratoType_Impl_`                        | `model.VibratoType`                  
 | `model._WhammyType.WhammyType_Impl_`                          | `model.WhammyType`                    
 |                                                               | 
-| `platform.javaScript.AlphaTabApi`                             | _moved to_ `alphaTab.AlphaTabApi`
+| `platform.javaScript.AlphaTabApi`                             | _移动至_ `alphaTab.AlphaTabApi`
 | `platform.model.Color`                                        | `model.Color`
 | `platform.model.Font`                                         | `model.Font`
 | `platform.model._FontStyle.FontStyle`                         | `model.FontStyle`
-| `platform.model._TextAlign.TextAlign`                         | _removed_
-| `platform.model._TextBaseline.TextBaseline`                   | _removed_
+| `platform.model._TextAlign.TextAlign`                         | _已移除_
+| `platform.model._TextBaseline.TextBaseline`                   | _已移除_
 |                                                               |
-| `rendering.IScoreRenderer`                                    | _removed_
+| `rendering.IScoreRenderer`                                    | _已移除_
 | `rendering.RenderFinishedEventArgs`                           | `rendering.RenderFinishedEventArgs`
 | `rendering.ScoreRenderer`                                     | `rendering.ScoreRenderer`
 | `rendering.utils.BarBounds`                                   | `rendering.BarBounds`        
@@ -245,39 +237,34 @@ All members are prefixed with `alphaTab.` as module name. In the table this pref
 | `rendering.utils.NoteBounds`                                  | `rendering.NoteBounds`      
 | `rendering.utils.StaveGroupBounds`                            | `rendering.StaveGroupBounds`
 |                                                               |
-| `ui.Cursors`                                                  | _removed_
-| `ui.IContainer`                                               | _removed_
-| `ui.IMouseEventArgs`                                          | _removed_
-| `ui.IUiFacade`                                                | _removed_
+| `ui.Cursors`                                                  | _已移除_
+| `ui.IContainer`                                               | _已移除_
+| `ui.IMouseEventArgs`                                          | _已移除_
+| `ui.IUiFacade`                                                | _已移除_
 |                                                               |
 | `util._LogLevel.LogLevel_Impl_`                               | `LogLevel`
 | `utils.SerializationException`                                | `FormatError`
 
 
-## .net 
+## .net 版本
 
-For .net the change on the code is way bigger than it is for the Web version. The .net version is now auto generated
-via the Web Version via a TypeScript to C# compiler. Due to the nature of TypeScript being a superset of JavaScript the 
-available data types are reduced. Due to this alphaTab is now heavily based on double values where earlier float and int values
-might have been used. This can result in a higher memory consumption and major breaking changes. 
+对于 .net 版本，代码变更比 Web 版本大得多。.net 版本现在通过 TypeScript 到 C# 编译器从 Web 版本自动生成。由于 TypeScript 是 JavaScript 的超集，可用的数据类型减少了。因此，alphaTab 现在大量基于 double 值，而早期可能使用了 float 和 int 值。这可能导致更高的内存消耗和重大的破坏性变更。
 
-### New Packages and Namespaces
+### 新的包和命名空间
 
-The first change is about the new packages and namespaces. The .net version of alphaTab was restructured to come in 2 individual 
-NuGet packages: 
+第一个变更是关于新的包和命名空间。alphaTab 的 .net 版本被重组为两个独立的 NuGet 包：
 
-1. **AlphaTab** is a package targeting .net standard 2.0 containing only the main alphaTab modules without UI specific components
-2. **AlphaTab.Windows** is a package targeting .net core 3.1 containing the WinForms and WPF specific UI components. 
+1. **AlphaTab** 是一个面向 .net standard 2.0 的包，仅包含主 alphaTab 模块，不含 UI 特定组件
+2. **AlphaTab.Windows** 是一个面向 .net core 3.1 的包，包含 WinForms 和 WPF 特定的 UI 组件。
 
-As the .net Framework 4.x is deprecated and .net core 3.x and later .net 5 is the future. If you really need a .net 4.x package 
-feel free to contact us. 
+由于 .net Framework 4.x 已弃用，而 .net core 3.x 及后来的 .net 5 是未来方向。如果您确实需要 .net 4.x 包，请随时联系我们。
 
-### New Event System
+### 新的事件系统
 
-Just like the Web version the .net version is affected from the event system rework. The .net version does not use the C# built-in event system anymore.
-Subscribe to events via the `.On(handler)` and unsubscribe via the `.Off(handler)` method on the event object. 
+与 Web 版本一样，.net 版本也受到事件系统重构的影响。.net 版本不再使用 C# 内置的事件系统。
+通过事件对象的 `.On(handler)` 方法订阅事件，通过 `.Off(handler)` 方法取消订阅。
 
-| Before                        |   After                               |
+| 变更前                        |   变更后                               |
 |-------------------------------|---------------------------------------|
 | `PlayedBeatChanged += -=`     |  `PlayedBeatChanged.On/Off()`         |
 | `BeatMouseDown += -=`         |  `BeatMouseDown.On/Off()`             |
@@ -297,33 +284,29 @@ Subscribe to events via the `.On(handler)` and unsubscribe via the `.Off(handler
 | `PlayerPositionChanged += -=` |  `PlayerPositionChanged.On/Off()`     |
 | `SoundFontLoad += -=`         |  `SoundFontLoad.On/Off()`             |
 
-### Double based Type System
+### 基于 Double 的类型系统
 
-At many places where you would likely expect an `int` value you will now find `double` values. This does not necessarily mean that 
-decimal values should be filled or are supported but it is rather a side effect that we do not know from the TypeScript codebase whether
-a property, parameter or variable would be an integer. We plan to improve the situation on the types in future but for now we 
-advise developers to be careful when passing in values to alphaTab and report potential errors that are not handled. 
+在许多您可能期望使用 `int` 值的地方，您现在会发现 `double` 值。这并不一定意味着应该填写或支持小数值，而是因为我们从 TypeScript 代码库中无法确定属性、参数或变量是否为整数。我们计划在未来改进类型情况，但目前建议开发者在向 alphaTab 传递值时要小心，并报告未处理的潜在错误。
 
-Internally alphaTab will try to cut off decimal parts of values where they are not needed but there might be places where this is missed. 
+内部 alphaTab 会尝试在不需要的地方截断值的小数部分，但可能会有遗漏的地方。
 
-### Error Handling
+### 错误处理
 
-The new error reporting system is fully based on `Exceptions` and you should use the corresponding exception types to determine the type of error. 
-For a higher level categorization also the `AlphaTabError.Type` property can be checked. The previous string value identifying the category has been removed. 
+新的错误报告系统完全基于 `Exceptions`，您应该使用相应的异常类型来确定错误类型。对于更高级别的分类，也可以检查 `AlphaTabError.Type` 属性。以前用于标识类别的字符串值已被移除。
 
-## New options for hiding elements
+## 隐藏元素的新选项
 
-This version also changes some options on hiding/showing individual notation elements. 
+此版本还更改了一些用于隐藏/显示单个乐谱元素的选项。
 
-Previously the `NotationSettings` had following settings: 
+以前 `NotationSettings` 有以下设置：
 
-- `hideInfo` - To hide the general song info
-- `hideTuning` - To hide the guitar tuning
-- `hideTrackNames` - To hide the track names in the accolade
-- `hideChordDiagrams` - To hide the chord diagrams
-- `showParenthesisForTiedBends` - To show parenthesis for note heads on tied bends
-- `showTabNoteOnTiedBends` - To show the tab note number on tied bends
-- `showZeroOnDiveWhammy` - To show the number 0 on dive whammy effects. 
+- `hideInfo` - 隐藏常规歌曲信息
+- `hideTuning` - 隐藏吉他调弦
+- `hideTrackNames` - 隐藏连谱号中的音轨名称
+- `hideChordDiagrams` - 隐藏和弦图
+- `showParenthesisForTiedBends` - 对连音推弦的音符头显示括号
+- `showTabNoteOnTiedBends` - 在连音推弦上显示制表符音符数字
+- `showZeroOnDiveWhammy` - 在俯冲摇把效果上显示数字 0
 
-All these settings have been unified under the new setting [`NotationSettings.elements`](/docs/reference/settings/notation/elements). 
-Please check the docs there on how to show or hide the elements. 
+所有这些设置都已统一到新的设置 [`NotationSettings.elements`](/docs/reference/settings/notation/elements) 下。
+请查看相关文档了解如何显示或隐藏这些元素。

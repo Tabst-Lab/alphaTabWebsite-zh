@@ -1,26 +1,23 @@
 --- 
-title: Data Attributes
+title: 数据属性
 ---
 
 > [!WARNING]
-> Configuring alphaTab via data attributes has been deprecated in 1.5 and will be removed in 2.x. 
+> 通过数据属性配置 alphaTab 已在 1.5 版本中弃用，并将在 2.x 版本中移除。
 
-HTML Data Attributes are quite a common mechanism to pass configurations from the DOM to JavaScript frameworks. This practice
-is quite common outside frontend frameworks like Angular or React and is known from frameworks like Bootstrap and jQuery.
+HTML 数据属性是一种相当常见的机制，用于将配置从 DOM 传递到 JavaScript 框架。这种做法在 Angular 或 React 等前端框架之外相当常见，并且被 Bootstrap 和 jQuery 等框架所熟知。
 
-To reduce the number of configuration mechanisms we need to maintain and support, the configuration with data attributes will be removed in 2.x as a breaking change. 
-alphaTab anyhow requires a minimum degree of initialization via JavaScript (e.g. `new AlphaTabApi(element, settings)`) and therefore a migration to the settings object is fairly simple.
-Developers can still decide to fill a settings object based on custom attribute needs.
+为了减少我们需要维护和支持的配置机制数量，数据属性配置将在 2.x 版本中作为破坏性变更移除。alphaTab 无论如何都需要通过 JavaScript 进行最低程度的初始化（例如 `new AlphaTabApi(element, settings)`），因此迁移到设置对象相当简单。开发者仍然可以根据自定义属性需求来填充设置对象。
 
-Until the removal we will maintain backwards compatibility but at the same time we removed any documentation from the API reference related to it. 
+在移除之前，我们将保持向后兼容性，但同时已从 API 参考文档中删除了所有相关文档。
 
-## Migration
+## 迁移
 
-To migrate, move any properties from the respective data attributes in the HTML DOM to a JavaScript settings object.
+要进行迁移，请将 HTML DOM 中相应数据属性的所有属性移动到 JavaScript 设置对象中。
 
-### Before
+### 变更前
 
-The data attributes are added as `data-category-setting` to the DOM element. 
+数据属性以 `data-category-setting` 的形式添加到 DOM 元素上。
 
 ```html
 <div id="alphaTab" 
@@ -34,10 +31,10 @@ const api = new alphaTab.AlphaTabApi(element);
 </script>
 ```
 
-### After (JSON object)
+### 变更后（JSON 对象）
 
-The settings are defined in a plain JSON object (we have type definitions for it) according to the reference docs. 
-The JSON object will be converted internally to the real settings object. Later motifications have to be done on `api.settings`.
+设置根据参考文档定义在一个纯 JSON 对象中（我们有类型定义）。
+JSON 对象将在内部转换为真正的设置对象。后续的修改需要在 `api.settings` 上进行。
 
 ```html
 <div id="alphaTab"></div>
@@ -47,10 +44,10 @@ const element = document.querySelector('#alphaTab');
 /** @type {alphaTab.json.SettingsJson} */
 const settings = {
     core: {
-        file: element.dataset.file // you could still load data attributes yourself
+        file: element.dataset.file // 您仍然可以自行加载数据属性
     },
     display: {
-        layoutMode: "horizontal" // or better: alphaTab.LayoutMode.Horizontal
+        layoutMode: "horizontal" // 或者更好：alphaTab.LayoutMode.Horizontal
     },
     player: {
         enablePlayer: true
@@ -60,11 +57,10 @@ const api = new alphaTab.AlphaTabApi(element, settings);
 </script>
 ```
 
-### After (Settings object)
+### 变更后（Settings 对象）
 
-A new `Settings` instance is created and filled with the respective values on the defined properties. 
-This is useful to make decisions based on default values or if you want to share the same object across 
-multiple alphaTab instances.
+创建一个新的 `Settings` 实例，并在定义的属性上填充相应的值。
+如果您需要基于默认值做出决策，或者想在多个 alphaTab 实例之间共享同一个对象，这将非常有用。
 
 ```html
 <div id="alphaTab"></div>
