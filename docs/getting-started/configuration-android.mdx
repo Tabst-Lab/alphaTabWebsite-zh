@@ -1,24 +1,22 @@
 ---
-title: Configuration (Android)
+title: 配置 (Android)
 ---
 
-Now with alphaTab [being part](/docs/getting-started/installation-android) of your project it is time for customization.
-alphaTab has quite a list of settings, events and API methods to interact with.
+现在 alphaTab 已经[成为您项目的一部分](/docs/getting-started/installation-android)，是时候进行自定义配置了。
+alphaTab 拥有相当多的设置项、事件和 API 方法可供交互。
 
-## Setup
+## 设置
 
-On the installation guide you already saw that the setup of alphaTab depends on the UI framework you're using. 
+在安装指南中，您已经看到 alphaTab 的设置取决于您使用的 UI 框架。
 
-### Background Workers or Custom Controls
+### 后台工作线程或自定义控件
 
-For non-UI usage there is not much more to say than: Use the classes available. This usage might be a bit more complicated
-than relying on the pre-built UI components and will need some reading. Feel free to contact us if you need assistance on 
-getting certain things to run.
-Beside that, it might be the easiest to [check on how alphaTab is used](https://github.com/CoderLine/alphaTab/tree/develop/src.kontrol) to build the controls provided.
+对于非 UI 用途，没有太多要说的：使用可用的类即可。这种用法可能比依赖预构建的 UI 组件稍微复杂一些，需要阅读一些文档。如果您在运行某些功能时需要帮助，请随时联系我们。
+除此之外，最简单的方式可能是[查看 alphaTab 是如何被使用的](https://github.com/CoderLine/alphaTab/tree/develop/src.kontrol)来构建所提供的控件。
 
-### Android Control
+### Android 控件
 
-For normal Android UIs we provide a control with the main functionality out of the box. Just embed the control to your Layout XMLs and get hold of a reference to it. 
+对于普通的 Android UI，我们提供了一个开箱即用、具备主要功能的控件。只需将该控件嵌入到您的布局 XML 中并获取其引用即可。
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -42,7 +40,7 @@ For normal Android UIs we provide a control with the main functionality out of t
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-In your activity code you can then interact with alphaTab by obtaining the reference to this control:
+在您的 Activity 代码中，您可以通过获取该控件的引用来与 alphaTab 交互：
 
 ```kotlin
 class MainActivity : ComponentActivity() {
@@ -55,38 +53,36 @@ class MainActivity : ComponentActivity() {
         _alphaTabView = findViewById(R.id.alphatab_view)
 
         val api = _alphaTabView.api;
-        // use alphaTab
+        // 使用 alphaTab
     }
 }
 
 ```
 
-## Settings
+## 设置项
 
-The settings are important to configure the display of alphaTab as you prefer it. 
+设置项对于按您的偏好配置 alphaTab 的显示非常重要。
 
-The UI control exposes a `settings` property which can be used to change any desired configuration. 
-Changes on the settings object itself are not automatically detected. It is required to call `_alphaTabView.api.updateSettings()` to trigger
-an update of alphaTab. 
+UI 控件暴露了一个 `settings` 属性，可用于更改任何所需的配置。
+设置对象本身的更改不会自动被检测到。需要调用 `_alphaTabView.api.updateSettings()` 来触发 alphaTab 的更新。
 
-Additionally, a `tracks` property which can be filled to change the tracks being rendered by alphaTab.
+此外，还有一个 `tracks` 属性，可以填充该属性来更改 alphaTab 渲染的音轨。
 
 
 ## API
 
-The main alphaTab API is available only on the UI controls via the `api` property. It provides a 
-handy set of methods, properties and events to control alphaTab. 
+主要的 alphaTab API 只能通过 UI 控件上的 `api` 属性访问。它提供了一组方便的方法、属性和事件来控制 alphaTab。
 
 ```csharp
 _alphaTabView.api.tex("\\title \"Hello AlphaTab\" . 3.3*4");
 ```
 
-## Events
+## 事件
 
-Event registration happens on the alphaTab classes. You can get an access to the main `AlphaTabApi` object via the `Api` property.
-From there you use any APIs and methods exposed by alphaTab.
+事件注册在 alphaTab 类上进行。您可以通过 `Api` 属性访问主要的 `AlphaTabApi` 对象。
+从那里，您可以使用 alphaTab 暴露的任何 API 和方法。
 
-Events are subscribed and unsubscribed to via `eventName.on(handler)` and `eventName.off(handler)`. 
+事件通过 `eventName.on(handler)` 和 `eventName.off(handler)` 进行订阅和取消订阅。
 
 ```kotlin
 _alphaTabView.api.playedBeatChanged.on { beat -> {

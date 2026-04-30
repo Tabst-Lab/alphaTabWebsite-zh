@@ -1,43 +1,42 @@
 ---
-title: Installation (.net)
+title: 安装 (.net)
 ---
 
-The .net version of alphaTab can be used to render music notation either on servers, command line tools or on 
-Windows desktop applications. AlphaTab comes with a .net version for either .net standard 2.0 or .net 8.0.  
+alphaTab 的 .net 版本可用于在服务器、命令行工具或 Windows 桌面应用程序上渲染乐谱。AlphaTab 提供适用于 .net standard 2.0 或 .net 8.0 的 .net 版本。
 
-## Grab your Copy
+## 获取您的副本
 
 ### NuGet.org
 
-We provide NuGet packages based on the latest development version via NuGet.org.
-Install packages like usual:  
+我们通过 NuGet.org 提供基于最新开发版本的 NuGet 包。
+像往常一样安装包：
 
-**Core Package (.net standard 2.0)**
+**核心包 (.net standard 2.0)**
 
 > https://www.nuget.org/packages/AlphaTab/
 
-**Windows Package (.net core 8.0 - WPF/WinForms)**
+**Windows 包 (.net core 8.0 - WPF/WinForms)**
 
 > https://www.nuget.org/packages/AlphaTab.Windows/
 
-### Local Copy
+### 本地副本
 
-While not recommended, you can grab the latest DLLs by downloading the Nupkg and unzipping it to your local folder. 
-Afterwards you can reference the DLLs from this folder. 
+虽然不推荐，但您可以通过下载 Nupkg 并将其解压到本地文件夹来获取最新的 DLL。
+之后，您可以从该文件夹引用这些 DLL。
 
-## Initializing alphaTab
+## 初始化 alphaTab
 
-### Console
+### 控制台
 
-For console applications you would start using the low level API of alphaTab like the `ScoreLoader` and `ScoreRenderer`.
-Usually, alphaTab provides controls UI platforms based on the `AlphaTabApi`. But for platforms where no UI is available,
-just start using the normal classes that alphaTab provides. You can refer to the samples in the GitHub repository for some kick-starter code.
+对于控制台应用程序，您将开始使用 alphaTab 的底层 API，如 `ScoreLoader` 和 `ScoreRenderer`。
+通常，alphaTab 基于 `AlphaTabApi` 为 UI 平台提供控件。但对于没有 UI 的平台，
+只需开始使用 alphaTab 提供的普通类即可。您可以参考 GitHub 仓库中的示例代码来快速入门。
 
 ```cs
-// load score
+// 加载乐谱
 var score = AlphaTab.Importer.ScoreLoader.LoadScoreFromBytes(File.ReadAllBytes(args[0]));
 
-// render score with svg engine and desired rendering width
+// 使用 svg 引擎和所需的渲染宽度渲染乐谱
 var settings = new AlphaTab.Settings();
 settings.Core.Engine = "skia";
 var renderer = new AlphaTab.Rendering.ScoreRenderer(settings)
@@ -58,13 +57,13 @@ renderer.RenderScore(score, new double[] { track.Index });
 
 ### WPF
 
-For WPF we provide a UI control with the core functionality of alphaTab:
+对于 WPF，我们提供了一个具备 alphaTab 核心功能的 UI 控件：
 
 ```xml
 <Window x:Class="AlphaTab.Samples.Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:wpf="clr-namespace:AlphaTab.Wpf;assembly=AlphaTab.Windows"
+        xmlns:wpf="clr-namespace:AlphaTab.Wpf;assembly:AlphaTab.Windows"
         Title="AlphaTab" Height="800" Width="600" WindowState="Maximized">
     <wpf:AlphaTab Tracks="{Binding TracksToDisplay}">
     </wpf:AlphaTab>
@@ -77,7 +76,7 @@ public IEnumerable<AlphaTab.Model.Track> TracksToDisplay { get; }
 
 ### WinForms
 
-There is also a WinForms control that you can start using:
+还有一个 WinForms 控件可供您使用：
 
 ```cs
 var control = new AlphaTab.WinForms.AlphaTabControl();
@@ -86,19 +85,16 @@ this.Controls.Add(control);
 control.Tracks = new []{ score.Tracks[0] };
 ```
 
-### Additional Notes
+### 附加说明
 
-You might want to check out the samples at https://github.com/CoderLine/alphaTabSamplesDotNet/ to get a small impression
-how to hook up things. 
+您可能想查看 https://github.com/CoderLine/alphaTabSamplesDotNet/ 上的示例，以了解如何连接各个部分。
 
-## Dependencies
+## 依赖项
 
-For the .net Version alphaTab needs to rely on some 3rd party libraries to do certain operations. 
+对于 .net 版本，alphaTab 需要依赖一些第三方库来执行某些操作。
 
-1. For rendering, either the built-in graphics library GDI+ can be used or alphaTab comes with a dependency to AlphaSkia for modern
-cross platform rendering of images. Skia is the graphics engine used in Chrome and is proven to be fast and reliable.
-We recommend using Skia as rendering engine over GDI+. 
+1. 对于渲染，可以使用内置的图形库 GDI+，或者 alphaTab 依赖于 AlphaSkia 来进行现代跨平台图像渲染。Skia 是 Chrome 中使用的图形引擎，已被证明快速且可靠。我们建议使用 Skia 作为渲染引擎，而不是 GDI+。
 
-2. For audio playback alphaTab comes with a dependency to NAudio which is used to play the synthesized sound. 
+2. 对于音频播放，alphaTab 依赖于 NAudio，用于播放合成的声音。
 
-If you want to get support for other UI frameworks or audio libraries feel free to reach out to us. 
+如果您希望获得对其他 UI 框架或音频库的支持，请随时联系我们。

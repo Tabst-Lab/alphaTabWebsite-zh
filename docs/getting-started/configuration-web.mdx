@@ -1,20 +1,17 @@
 ---
-title: Configuration (Web)
+title: 配置 (Web)
 ---
 
-Now with alphaTab [being part](/docs/getting-started/installation-web) of your project it is time for customization.
-alphaTab has quite a list of settings, events and API methods to interact with.
+现在 alphaTab 已经[成为您项目的一部分](/docs/getting-started/installation-web)，是时候进行自定义配置了。
+alphaTab 拥有相当多的设置项、事件和 API 方法可供交互。
 
-## Setup
+## 设置
 
-On the installation guide you already saw that alphaTab initializes itself to a given div element. 
+在安装指南中，您已经看到 alphaTab 会初始化到一个给定的 div 元素上。
 
-Simply create a div container where you want alphaTab to be located on your page. alphaTab will dynamically resize
-to the available width of the div when using the page layout. If you prefer a fixed layout simply set a fixed width on the div via CSS
-and no resizes to alphaTab will happen either. 
+只需创建一个 div 容器，放在您希望 alphaTab 位于页面上的位置。当使用页面布局时，alphaTab 会动态调整大小以适应 div 的可用宽度。如果您更喜欢固定布局，只需通过 CSS 在 div 上设置固定宽度，alphaTab 也不会再调整大小。
 
-The main namespace `alphaTab` and its sub-namespaces like `model` or `midi` contain all types and functionalities by alphaTab. The main api is the `alphaTab.AlphaTabApi`
-class which can be used to initialize and interface with alphaTab:
+主命名空间 `alphaTab` 及其子命名空间（如 `model` 或 `midi`）包含 alphaTab 的所有类型和功能。主要的 API 是 `alphaTab.AlphaTabApi` 类，可用于初始化和与 alphaTab 交互：
 
 ```html
 <div id="alphaTab"></div>
@@ -24,35 +21,35 @@ const element = document.getElementById('alphaTab');
 const api = new alphaTab.AlphaTabApi(element);
 ```
 
-## Settings
+## 设置项
 
-The settings object is passed to the constructor of the API object as second parameter: 
+设置对象作为第二个参数传递给 API 对象的构造函数：
 
 ```js
 const api = new alphaTab.AlphaTabApi(element, {
-    // any settings go here    
+    // 任何设置项放在这里    
 });
 
 ```
 
-## Events
+## 事件
 
-Events of alphaTab should be either subscribed on the API object.
-Please refer to the [API Reference](/docs/reference/api) to find a full list of events available.
+alphaTab 的事件应该在 API 对象上订阅。
+请参阅 [API 参考](/docs/reference/api) 以查找可用事件的完整列表。
 
-Each event has an `.on(handler)` and `.off(handler)` function to subscribe or unsubscribe. 
+每个事件都有 `.on(handler)` 和 `.off(handler)` 函数用于订阅或取消订阅。
 
 ```js
 const api = new alphaTab.AlphaTabApi(element);
 api.scoreLoaded.on( (score) => {
-    console.log('Score was loaded!', score);
+    console.log('乐谱已加载！', score);
 });
 ```
 
 ## API
 
-The main interaction with alphaTab happens through the API object. 
-Simply use any [available API](/docs/reference/api) to get/set details or trigger actions. 
+与 alphaTab 的主要交互通过 API 对象进行。
+只需使用任何[可用的 API](/docs/reference/api) 来获取/设置详细信息或触发操作。
 
 ```js
 const api = new alphaTab.AlphaTabApi(element);

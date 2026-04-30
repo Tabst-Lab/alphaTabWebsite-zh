@@ -1,42 +1,41 @@
 ---
-title: Installation (Web)
+title: 安装 (Web)
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import {InitDemo} from '@site/src/components/GettingStartedInitDemo'
 
-The web version of alphaTab is suitable for building websites displaying and playing musicsheets in different fashions. 
-You can create websites that offer Guitar Tabs for download, provide lessons to students or just if you want to share your 
-composed music with others. It's up to you what you make out of alphaTab. 
+alphaTab 的网页版本适用于构建以各种方式显示和播放乐谱的网站。
+您可以创建提供吉他谱下载的网站、为学生提供课程，或者只是想与他人分享您创作的音乐。您可以用 alphaTab 做什么，完全取决于您。
 
-You can either install alphaTab wia NPM or just download the package manually and place it in your project. So far we do not offer a CDN.
+您可以通过 NPM 安装 alphaTab，也可以手动下载包并将其放入您的项目中。目前我们不提供 CDN。
 
-## Grab your Copy
+## 获取您的副本
 
 <Tabs defaultValue="npm" values={[
    { label: "NPM", value: "npm"},
    { label: "CDN", value: "cdn"},
-   { label: "Local Copy", value: "local"},
+   { label: "本地副本", value: "local"},
 ]}>
 
 <TabItem value="npm">
 
-We provide [NPM packages via npmjs.com](https://www.npmjs.com/package/@coderline/alphaskia). Just install the package via: 
+我们通过 [npmjs.com 提供 NPM 包](https://www.npmjs.com/package/@coderline/alphaskia)。只需通过以下命令安装：
 
 ```
 npm install @coderline/alphatab
 ```
 
-And alphaTab is downloaded to your node_modules for usage in your application. 
+然后 alphaTab 就会被下载到您的 node_modules 中，以便在您的应用程序中使用。
 
 
 </TabItem>
 
 <TabItem value="cdn">
 
-We do not provide a CDN on our own but there are various CDNs on top of NPM. 
-You can use one of these to integrate alphaTab to your installation.
+我们自己不提供 CDN，但有许多基于 NPM 的 CDN 可用。
+您可以使用其中之一将 alphaTab 集成到您的安装中。
 
 > https://www.jsdelivr.com/package/npm/@coderline/alphatab
 >
@@ -47,31 +46,30 @@ You can use one of these to integrate alphaTab to your installation.
 
 <TabItem value="local">
 
-The easiest way to obtain a local copy is to use the download button over at jsdelivr.com. 
-Select the version you want to have and press the download button on the top right side. 
+获取本地副本最简单的方法是使用 jsdelivr.com 上的下载按钮。
+选择您想要的版本，然后点击右上角的下载按钮。
 
 > https://www.jsdelivr.com/package/npm/@coderline/alphatab
 
-Then unpack the assets to your project and you're all set to start developing. 
+然后将资源解压到您的项目中，您就可以开始开发了。
 
 </TabItem>
 
 </Tabs>
 
-# Using AlphaTab
+# 使用 AlphaTab
 
-Once you have alphaTab in your project simply include it and start using it. The next pages will explain you how to configure 
-alphaTab and use it. You can also check out our [tutorials](/docs/tutorials) to learn in a more stepwise approach how to continue.
+一旦您的项目中有了 alphaTab，只需引入它并开始使用即可。接下来的页面将解释如何配置 alphaTab 并使用它。您也可以查看我们的[教程](/docs/tutorials)，以更有步骤的方式学习如何继续。
 
-You can also find various sample projects for different usage types over at: 
+您还可以在以下位置找到针对不同使用类型的各种示例项目：
 
 > https://github.com/CoderLine/alphaTabSamplesWeb/
 
 
-<Tabs defaultValue="browser-esm" 
+<Tabs defaultValue="browser-esm"
    values={[
-      { label: "Browser (ESM)", value: "browser-esm"},
-      { label: "Browser (Classic)", value: "browser-classic"},
+      { label: "浏览器 (ESM)", value: "browser-esm"},
+      { label: "浏览器 (经典)", value: "browser-classic"},
       { label: "Node.js", value: "node-js"},
       { label: "Angular", value: "angular"},
       { label: "React", value: "react"},
@@ -80,9 +78,8 @@ You can also find various sample projects for different usage types over at:
 
    <TabItem value="browser-esm">
 
-   You can `import` alphaTab from within the browser as JavaScript Module (ESM). 
-   The following code illustrates the setup in a script tag but you can also use imports
-   from within any other JavaScript module file. 
+   您可以在浏览器中将 alphaTab 作为 JavaScript 模块 (ESM) `import`。
+   以下代码演示了在 script 标签中的设置，但您也可以在任何其他 JavaScript 模块文件中使用导入。
 
    ```html
    <div id="alphaTab">
@@ -93,9 +90,9 @@ You can also find various sample projects for different usage types over at:
          3.1.1
    </div>
    <script type="module">
-        // here we use JsDelivr as source (notice the .mjs extension which indicates the module variant)
+        // 这里我们使用 JsDelivr 作为来源（注意 .mjs 扩展名表示模块变体）
         import * as alphaTab from 'https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/alphaTab.min.mjs'
-        // initialize alphaTab on the prepared element
+        // 在准备好的元素上初始化 alphaTab
         const element = document.getElementById('alphaTab');
         const api = new alphaTab.AlphaTabApi(element, {
          tex: true
@@ -103,17 +100,16 @@ You can also find various sample projects for different usage types over at:
     </script>
    ```
 
-   The output of this is: 
+   其输出如下：
 
    <InitDemo />
 
-   </TabItem>   
+   </TabItem>
 
    <TabItem value="browser-classic">
 
-   If you are not yet using JavaScript modules you can also import alphaTab 
-   as global variable into your browser via the [Universal Module Definition](https://github.com/umdjs/umd)
-   flavor.
+   如果您尚未使用 JavaScript 模块，您也可以通过 [通用模块定义](https://github.com/umdjs/umd)
+   方式将 alphaTab 作为全局变量导入到您的浏览器中。
 
    ```html
    <div id="alphaTab">
@@ -125,7 +121,7 @@ You can also find various sample projects for different usage types over at:
    </div>
    <script src="https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/alphaTab.min.js"></script>
    <script type="text/javascript">
-        // initialize alphaTab on the prepared element
+        // 在准备好的元素上初始化 alphaTab
         const element = document.getElementById('alphaTab');
         const api = new alphaTab.AlphaTabApi(element, {
          tex: true
@@ -133,84 +129,76 @@ You can also find various sample projects for different usage types over at:
     </script>
    ```
 
-   The output of this is: 
+   其输出如下：
 
-   <InitDemo />   
+   <InitDemo />
 
    </TabItem>
 
    <TabItem value="node-js">
 
-   For usage in Node.js refer to [this guide](/docs/guides/nodejs). Generally alphaTab can be added in Node.js via both `require` and `import`
-   of the NPM package:
+   要在 Node.js 中使用，请参阅[本指南](/docs/guides/nodejs)。一般来说，alphaTab 可以通过 NPM 包的 `require` 和 `import` 两种方式添加到 Node.js 中：
 
    ```js
-   // alphaTab via CJS
+   // 通过 CJS 使用 alphaTab
    const alphaTab = require("@coderline/alphatab");
-   // alphaTab via modules
+   // 通过模块使用 alphaTab
    import * as alphaTab from '@coderline/alphatab';
    ```
 
-   For Node.js currently only low-level APIs are available but we also plan to improve the usage to render music sheets on a "virtual UI" producing 
-   images via [alphaSkia](https://github.com/CoderLine/alphaSkia). 
+   对于 Node.js，目前只有底层 API 可用，但我们也计划改进其使用方式，通过 [alphaSkia](https://github.com/CoderLine/alphaSkia) 在"虚拟 UI"上渲染乐谱并生成图像。
 
    </TabItem>
 
    <TabItem value="angular">
 
-   alphaTab doesn't provide yet an out-of-the box Angular control and integration which would take care of all bindings and UI hooks.
-   Therefore developers are expected to do the low level DOM mapping and Angular integration as part of their application. 
-   Through Angular means of creating DOM elements (e.g. ElementRef), alphaTab can be started into them. Then you can take care of bindings according to your needs
-   using the alphaTab APIs to update. 
+   alphaTab 目前尚未提供开箱即用的 Angular 控件和集成，无法自动处理所有绑定和 UI 钩子。
+   因此，开发人员需要在其应用程序中自行完成底层 DOM 映射和 Angular 集成。
+   通过 Angular 创建 DOM 元素的方式（例如 ElementRef），可以将 alphaTab 启动到其中。然后您可以根据需要使用 alphaTab API 来更新绑定。
 
-   AlphaTab is sensitive to bundling as it spawns background WebWorkers and AudioWorklets. AlphaTab comes with plugins for various bundlers which takes care
-   of the right configurations and bundling logic so that alphaTab can operate. 
+   AlphaTab 对打包很敏感，因为它会生成后台 WebWorkers 和 AudioWorklets。AlphaTab 为各种打包器提供了插件，负责正确的配置和打包逻辑，以便 alphaTab 能够正常运行。
 
-   * WebPack: [Installation (WebPack)](installation-webpack) 
-   * Vite: [Installation (Vite)](installation-vite) 
+   * WebPack: [安装 (WebPack)](installation-webpack)
+   * Vite: [安装 (Vite)](installation-vite)
 
    </TabItem>
 
    <TabItem value="react">
 
-   alphaTab doesn't provide yet an out-of-the box React control and integration which would take care of all bindings and UI hooks.
-   Therefore developers are expected to do the low level DOM mapping and React integration as part of their application. 
-   Through React means of creating DOM elements (e.g. Refs), alphaTab can be started into them. Then you can take care of bindings according to your needs
-   using the alphaTab APIs to update. 
+   alphaTab 目前尚未提供开箱即用的 React 控件和集成，无法自动处理所有绑定和 UI 钩子。
+   因此，开发人员需要在其应用程序中自行完成底层 DOM 映射和 React 集成。
+   通过 React 创建 DOM 元素的方式（例如 Refs），可以将 alphaTab 启动到其中。然后您可以根据需要使用 alphaTab API 来更新绑定。
 
-   AlphaTab is sensitive to bundling as it spawns background WebWorkers and AudioWorklets. AlphaTab comes with plugins for various bundlers which takes care
-   of the right configurations and bundling logic so that alphaTab can operate. 
+   AlphaTab 对打包很敏感，因为它会生成后台 WebWorkers 和 AudioWorklets。AlphaTab 为各种打包器提供了插件，负责正确的配置和打包逻辑，以便 alphaTab 能够正常运行。
 
-   * WebPack: [Installation (WebPack)](installation-webpack) 
-   * Vite: [Installation (Vite)](installation-vite) 
+   * WebPack: [安装 (WebPack)](installation-webpack)
+   * Vite: [安装 (Vite)](installation-vite)
 
 
    </TabItem>
 
    <TabItem value="vue">
 
-   alphaTab doesn't provide yet an out-of-the box Vue control and integration which would take care of all bindings and UI hooks.
-   Therefore developers are expected to do the low level DOM mapping and React integration as part of their application. 
-   Through React means of creating DOM elements (e.g. Refs), alphaTab can be started into them. Then you can take care of bindings according to your needs
-   using the alphaTab APIs to update. 
+   alphaTab 目前尚未提供开箱即用的 Vue 控件和集成，无法自动处理所有绑定和 UI 钩子。
+   因此，开发人员需要在其应用程序中自行完成底层 DOM 映射和 Vue 集成。
+   通过 Vue 创建 DOM 元素的方式（例如 Refs），可以将 alphaTab 启动到其中。然后您可以根据需要使用 alphaTab API 来更新绑定。
 
-   AlphaTab is sensitive to bundling as it spawns background WebWorkers and AudioWorklets. AlphaTab comes with plugins for various bundlers which takes care
-   of the right configurations and bundling logic so that alphaTab can operate. 
+   AlphaTab 对打包很敏感，因为它会生成后台 WebWorkers 和 AudioWorklets。AlphaTab 为各种打包器提供了插件，负责正确的配置和打包逻辑，以便 alphaTab 能够正常运行。
 
-   * WebPack: [Installation (WebPack)](installation-webpack) 
-   * Vite: [Installation (Vite)](installation-vite) 
+   * WebPack: [安装 (WebPack)](installation-webpack)
+   * Vite: [安装 (Vite)](installation-vite)
 
    </TabItem>
 </Tabs>
 
-## Additional Notes
+## 附加说明
 
-### Dependencies
+### 依赖项
 
-AlphaTab does not need any other libraries as dependency. It ships with everything it needs out of the box. 
-But to operate alphaTab in the web with all features there are still 2 dependencies involved: 
+AlphaTab 不需要任何其他库作为依赖项。它自带了所需的一切。
+但是要在网页中运行 alphaTab 并使用所有功能，仍然涉及 2 个依赖项：
 
-- [Bravura](https://github.com/steinbergmedia/bravura) is the Music Font of our choice. It is a free font containing [music notation symbols](https://www.smufl.org/). 
-AlphaTab bundles this font and it is placed right beside the script files.  
-- To play audio a [SoundFont2](https://en.wikipedia.org/wiki/SoundFont) file is needed. It contains the audio samples for the instruments to be played via the midi synthesizer of alphaTab. 
-AlphaTab comes with a copy of a SONiVOX based SoundFont which is part of the Android Open Source Project and available for free under [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+- [Bravura](https://github.com/steinbergmedia/bravura) 是我们选择的音乐字体。它是一种免费字体，包含[音乐符号](https://www.smufl.org/)。
+AlphaTab 捆绑了这种字体，并将其放在脚本文件旁边。
+- 要播放音频，需要一个 [SoundFont2](https://en.wikipedia.org/wiki/SoundFont) 文件。它包含要通过 alphaTab 的 MIDI 合成器播放的乐器音频采样。
+AlphaTab 附带了一份基于 SONiVOX 的 SoundFont 副本，它是 Android 开源项目的一部分，可在 [Apache 许可证](https://www.apache.org/licenses/LICENSE-2.0)下免费使用。

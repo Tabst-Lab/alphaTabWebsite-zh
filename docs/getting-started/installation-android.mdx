@@ -1,19 +1,19 @@
 ---
-title: Installation (Android)
+title: 安装 (Android)
 ---
 
-The Kotlin for Android version of alphaTab can be used to render music notation in native Android Apps. 
+alphaTab 的 Kotlin for Android 版本可用于在原生 Android 应用中渲染乐谱。
 
-## Grab your Copy
+## 获取您的副本
 
 ### Maven Central
 
-We provide Maven packages based on the latest development version via Maven Central and Sonatype OSSRH.
+我们通过 Maven Central 和 Sonatype OSSRH 提供基于最新开发版本的 Maven 包。
 
-* Pre-Release Snapshots: https://central.sonatype.com/repository/maven-snapshots/ 
-* Release Versions: https://central.sonatype.com/artifact/net.alphatab/alphaTab
+* 预发布快照：https://central.sonatype.com/repository/maven-snapshots/
+* 发布版本：https://central.sonatype.com/artifact/net.alphatab/alphaTab
 
-Install packages like usual by adding it as a dependency to your build System
+像往常一样安装包，将其作为依赖项添加到您的构建系统中
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -31,13 +31,13 @@ import TabItem from '@theme/TabItem';
 ```kotlin
 repositories {
     google()
-    mavenCentral() // release versions
-    // pre-release snapshots: maven("https://central.sonatype.com/repository/maven-snapshots/") 
+    mavenCentral() // 发布版本
+    // 预发布快照：maven("https://central.sonatype.com/repository/maven-snapshots/")
 }
 
 dependencies {
     implementation("net.alphatab:alphaTab:1.6.1")
-    // pre-release snapshots: implementation("net.alphatab:alphaTab:1.7.0-SNAPSHOT") 
+    // 预发布快照：implementation("net.alphatab:alphaTab:1.7.0-SNAPSHOT")
 }
 ```
 
@@ -47,8 +47,8 @@ dependencies {
 ```groovy
 repositories {
     google()
-    mavenCentral() // release versions
-    // pre-release snapshots: 
+    mavenCentral() // 发布版本
+    // 预发布快照：
     // maven {
     //     url = "https://central.sonatype.com/repository/maven-snapshots/"
     // }
@@ -56,7 +56,7 @@ repositories {
 
 dependencies {
     implementation "net.alphatab:alphaTab:1.6.1"
-    // pre-release snapshots: implementation "net.alphatab:alphaTab:1.7.0-SNAPSHOT"
+    // 预发布快照：implementation "net.alphatab:alphaTab:1.7.0-SNAPSHOT"
 }
 ```
 
@@ -71,7 +71,7 @@ dependencies {
         <groupId>net.alphatab</groupId>
         <artifactId>alphaTab</artifactId>
         <version>1.6.1<>
-        <!--  pre-release snapshots -->
+        <!--  预发布快照 -->
         <!--  <version>1.7.0-SNAPSHOT</version> -->
         <scope>runtime</scope>
         </dependency>
@@ -82,13 +82,13 @@ dependencies {
 </TabItem>
 </Tabs>
 
-## Initializing alphaTab
+## 初始化 alphaTab
 
-After adding alphaTab as a dependency to your project, you can add the alphaTab control `alphaTab.AlphaTabView` to any layout.
+将 alphaTab 作为依赖项添加到您的项目后，您可以将 alphaTab 控件 `alphaTab.AlphaTabView` 添加到任何布局中。
 
 :::info
 
-Important: We currently only ship a classical "view" based control. If you have interest in a Jetpack Compose control, vote for [this issue](https://github.com/CoderLine/alphaTab/issues/1475) on our roadmap or try to [wrap the classical control](https://developer.android.com/develop/ui/compose/libraries).
+重要提示：我们目前只提供经典的基于"视图"的控件。如果您对 Jetpack Compose 控件感兴趣，请在我们的路线图中为[此问题](https://github.com/CoderLine/alphaTab/issues/1475)投票，或尝试[包装经典控件](https://developer.android.com/develop/ui/compose/libraries)。
 
 :::
 
@@ -114,7 +114,7 @@ Important: We currently only ship a classical "view" based control. If you have 
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-In your activity code you can then interact with alphaTab by obtaining the reference to this control:
+在您的 Activity 代码中，您可以通过获取该控件的引用来与 alphaTab 交互：
 
 ```kotlin
 class MainActivity : ComponentActivity() {
@@ -127,25 +127,22 @@ class MainActivity : ComponentActivity() {
         _alphaTabView = findViewById(R.id.alphatab_view)
 
         val api = _alphaTabView.api;
-        // use alphaTab
+        // 使用 alphaTab
     }
 }
 
 ```
 
-### Additional Notes
+### 附加说明
 
-You might want to check out the samples at https://github.com/CoderLine/alphaTabSamplesAndroid/ to get a small impression
-how to hook up things. 
+您可能想查看 https://github.com/CoderLine/alphaTabSamplesAndroid/ 上的示例，以了解如何连接各个部分。
 
-## Dependencies
+## 依赖项
 
-For the Kotlin for Android Version alphaTab needs to rely on some 3rd party libraries to do certain operations.
+对于 Kotlin for Android 版本，alphaTab 需要依赖一些第三方库来执行某些操作。
 
-1. For rendering, either the built-in Android Canvas can be used or alphaTab comes with a dependency to AlphaSkia for modern
-cross platform rendering of images. Skia is the graphics engine used in Chrome and is proven to be fast and reliable.
-We recommend using Skia as rendering engine over Android Canvas. 
+1. 对于渲染，可以使用内置的 Android Canvas，或者 alphaTab 依赖于 AlphaSkia 来进行现代跨平台图像渲染。Skia 是 Chrome 中使用的图形引擎，已被证明快速且可靠。我们建议使用 Skia 作为渲染引擎，而不是 Android Canvas。
 
-2. For asynchronous operations `org.jetbrains.kotlinx:kotlinx-coroutines-core` is used. 
+2. 对于异步操作，使用 `org.jetbrains.kotlinx:kotlinx-coroutines-core`。
 
-If you want to get support for other UI frameworks or audio libraries feel free to reach out to us.
+如果您希望获得对其他 UI 框架或音频库的支持，请随时联系我们。
