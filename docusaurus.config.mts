@@ -86,11 +86,14 @@ function getSortValue(
   return undefined;
 }
 
+const githubPagesUrl = process.env.DOCUSAURUS_URL;
+const githubPagesBaseUrl = process.env.DOCUSAURUS_BASE_URL;
+
 const config: Config = {
   title: "alphaTab",
   tagline: "为 Web、桌面和移动端构建现代乐谱应用",
-  url: "https://alphatab.net",
-  baseUrl: "/",
+  url: githubPagesUrl || "https://alphatab.net",
+  baseUrl: githubPagesBaseUrl || "/",
   favicon: "img/favicon.ico",
   organizationName: "CoderLine",
   projectName: "alphaTab",
